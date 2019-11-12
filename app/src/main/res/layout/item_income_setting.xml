@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="20dp"
+    android:background="@drawable/corner_layout">
+    <ImageView
+        android:id="@+id/btnDel"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:src="@mipmap/delete"/>
+    <ImageView
+        android:id="@+id/icon"
+        android:layout_toRightOf="@id/btnDel"
+        android:layout_marginHorizontal="20dp"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:scaleType="centerCrop"
+        android:src="@mipmap/awards"/>
+    <TextView
+        android:id="@+id/type"
+        android:layout_toRightOf="@id/icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:text="Awards"
+        android:textSize="18dp"
+        android:textColor="#000"/>
+    <ImageView
+        android:id="@+id/menu"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/menu2"/>
+</RelativeLayout>
