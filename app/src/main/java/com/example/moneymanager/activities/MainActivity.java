@@ -12,11 +12,19 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.avast.android.dialogs.fragment.DatePickerDialogFragment;
 import com.example.moneymanager.R;
+import com.example.moneymanager.adapters.HistoryAdapter;
+import com.example.moneymanager.adapters.SpendAdapter;
+import com.example.moneymanager.models.History;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+
+import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -25,6 +33,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView btnMenu;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+
+    private RecyclerView recyclerView;
+    private ArrayList<History>mListHistory;
+    private HistoryAdapter mAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,10 +46,37 @@ public class MainActivity extends AppCompatActivity {
         drawer = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
 
+        recyclerView = findViewById(R.id.recycleView);
+        mListHistory = new ArrayList<>();
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+
+        mListHistory.add(new History("Car", "Oto", "2000"));
+
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+        mListHistory.add(new History("Car", "Oto", "2000"));
+
+
+
+        recyclerView = findViewById(R.id.recycleView);
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        recyclerView.setLayoutManager(layoutManager1);
+        recyclerView.setNestedScrollingEnabled(false);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        mAdapter = new HistoryAdapter(this, mListHistory);
+        recyclerView.setAdapter(mAdapter);
+
         btnAdd= findViewById(R.id.btnAdd);
         btnExpense = findViewById(R.id.btnExpense);
         btnIncome = findViewById(R.id.btnIncome);
         btnMenu = findViewById(R.id.btnMenu);
+
         btnMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
+import com.example.moneymanager.adapters.AddItemsAdapter;
 import com.example.moneymanager.adapters.ShowItemsAdapter;
 import com.example.moneymanager.models.Item;
 
@@ -21,6 +22,7 @@ public class AddIncomeActivity extends AppCompatActivity {
     private ImageView btnBack;
     private TextView title1, title2, title3;
     private RecyclerView mRecyclerView1, mRecyclerView2, mRecyclerView3;
+    private ImageView icon;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,7 +36,7 @@ public class AddIncomeActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
+        icon = findViewById(R.id.icon);
         title1 =findViewById(R.id.title1);
         title2 =findViewById(R.id.title2);
         title3 =findViewById(R.id.title3);
@@ -78,7 +80,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         recyclerItems.setLayoutManager(layoutManager);
         recyclerItems.setNestedScrollingEnabled(false);
         recyclerItems.setItemAnimator(new DefaultItemAnimator());
-        ShowItemsAdapter adapter = new ShowItemsAdapter(AddIncomeActivity.this, mListItem);
+        AddItemsAdapter adapter = new AddItemsAdapter(AddIncomeActivity.this, mListItem, icon);
         recyclerItems.setAdapter(adapter);
     }
 

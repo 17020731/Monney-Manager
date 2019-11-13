@@ -9,7 +9,7 @@
 
     <RelativeLayout
         android:id="@+id/header"
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/corner_layout">

@@ -9,6 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activities.DetailItemActivity"/>
+        <activity android:name=".activities.ProfileActivity"/>
         <activity android:name=".activities.AddExpenseActivity"/>
         <activity android:name=".activities.AddIncomeActivity"/>
         <activity android:name=".activities.LoginActivity"/>

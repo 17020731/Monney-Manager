@@ -24,11 +24,15 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
 
     Context mContext;
     private ArrayList<Item> mListItem;
-
     private App app;
-    public ShowItemsAdapter(Context mContext, ArrayList<Item>mListItem){
+    private ImageView icons;
+    private LinearLayout keyboard;
+
+    public ShowItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons, LinearLayout keyboard){
         this.mContext = mContext;
         this.mListItem = mListItem;
+        this.icons = icons;
+        this.keyboard = keyboard;
     }
     @NonNull
     @Override
@@ -40,22 +44,26 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         app = new App();
-        final Item item = mListItem.get(position);
+        final Item an_item = mListItem.get(position);
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                if(item.getType().equals("Add") && item.isExpense()){
+                if(an_item.getType().equals("Add") && an_item.isExpense()){
                     Intent intent = new Intent(mContext, AddExpenseActivity.class);
                     mContext.startActivity(intent);
-                } else if(item.getType().equals("Add") && !item.isExpense()){
+                } else if(an_item.getType().equals("Add") && !an_item.isExpense()){
                     Intent intent = new Intent(mContext, AddIncomeActivity.class);
                     mContext.startActivity(intent);
                 }
+                else{
+                    keyboard.setVisibility(View.VISIBLE);
+                    icons.setImageResource(app.getICons(an_item.getType()));
+                    icons.setTag(R.string.key, an_item.getType());
+                }
             }
         });
-        holder.icon.setImageResource(app.getICons(item.getType()));
-        holder.type.setText(item.getType());
+        holder.icon.setImageResource(app.getICons(an_item.getType()));
+        holder.type.setText(an_item.getType());
     }
 
     @Override
@@ -77,7 +85,6 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
             icon = itemView.findViewById(R.id.icon);
 
             type = itemView.findViewById(R.id.type);
-
         }
     }
 }

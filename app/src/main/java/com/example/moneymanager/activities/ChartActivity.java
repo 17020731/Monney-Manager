@@ -45,9 +45,15 @@ public class ChartActivity extends AppCompatActivity {
         mListData.add(new Data("Car", 100, 60000));
         mListData.add(new Data("Car", 100, 60000));
         mListData.add(new Data("Car", 100, 60000));
+        mListData.add(new Data("Car", 100, 60000));
+        mListData.add(new Data("Car", 100, 60000));
+        mListData.add(new Data("Car", 100, 60000));
+        mListData.add(new Data("Car", 100, 60000));
+
         recyclerView = findViewById(R.id.recycleView);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager1);
+        recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mSendAdapter = new SpendAdapter(this, mListData);
@@ -65,12 +71,9 @@ public class ChartActivity extends AppCompatActivity {
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawEntryLabels(false);
-//        pieChart.setExtraOffsets(5,10,5,5);
 
         pieChart.setCenterText("Expenses\n62000");
-//        pieChart.setTransparentCircleColor(Color.WHITE);
-//        pieChart.setTransparentCircleAlpha(255);
-//        pieChart.setExtraOffsets(1,1,1,1);  //Set tọa độ cho chú giải
+
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setDrawHoleEnabled(true);
         pieChart.setHoleColor(Color.WHITE);

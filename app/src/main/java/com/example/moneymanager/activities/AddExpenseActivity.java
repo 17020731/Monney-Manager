@@ -2,6 +2,7 @@ package com.example.moneymanager.activities;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -12,6 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
+import com.example.moneymanager.adapters.AddItemsAdapter;
 import com.example.moneymanager.adapters.ShowItemsAdapter;
 import com.example.moneymanager.models.Item;
 
@@ -21,11 +23,17 @@ public class AddExpenseActivity extends AppCompatActivity {
     private ImageView btnBack;
     private TextView title1, title2, title3;
     private RecyclerView mRecyclerView1, mRecyclerView2, mRecyclerView3;
+
+    private ImageView icon;
+    private EditText type_name;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         getSupportActionBar().hide();
+
+        icon = findViewById(R.id.icon);
+        type_name = findViewById(R.id.type_name);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -78,7 +86,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         recyclerItems.setLayoutManager(layoutManager);
         recyclerItems.setNestedScrollingEnabled(false);
         recyclerItems.setItemAnimator(new DefaultItemAnimator());
-        ShowItemsAdapter adapter = new ShowItemsAdapter(AddExpenseActivity.this, mListItem);
+        AddItemsAdapter adapter = new AddItemsAdapter(AddExpenseActivity.this, mListItem, icon);
         recyclerItems.setAdapter(adapter);
     }
 

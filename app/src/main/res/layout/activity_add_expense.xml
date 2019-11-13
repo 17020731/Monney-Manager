@@ -7,7 +7,7 @@
 
     <RelativeLayout
         android:id="@+id/header"
-        android:padding="5dp"
+        android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:background="@drawable/corner_layout">
@@ -25,31 +25,39 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add expense category"
-            android:textSize="20dp"/>
+            android:textSize="14dp"
+            android:textColor="#000"/>
         <ImageView
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@mipmap/check"/>
     </RelativeLayout>
     <LinearLayout
         android:padding="10dp"
         android:gravity="center"
         android:orientation="horizontal"
+        android:focusableInTouchMode="true"
+        android:clickable="true"
+        android:focusable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/corner_layout">
         <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/icon"
+            android:layout_marginHorizontal="10dp"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
             android:src="@mipmap/food"/>
         <EditText
+            android:id="@+id/type_name"
             android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Category Name"
+            android:textSize="14dp"
             android:inputType="text"/>
     </LinearLayout>
 
@@ -63,6 +71,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -73,13 +82,15 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:text="Food"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mRecycleView1"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -90,13 +101,15 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:text="Food"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mRecycleView2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent" />
             </LinearLayout>
             <LinearLayout
+                android:layout_marginTop="20dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -107,7 +120,8 @@
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
                     android:text="Food"
-                    android:textSize="18dp"/>
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/mRecycleView3"
                     android:layout_width="match_parent"
