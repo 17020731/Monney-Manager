@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -18,26 +19,36 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.adapters.ShowItemsAdapter;
+import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
-public class ShowItemActivity extends AppCompatActivity implements View.OnClickListener{
+public class ShowItemActivity extends AppCompatActivity implements View.OnClickListener,
+        DatePickerDialog.OnDateSetListener {
     private RecyclerView recyclerItems;
     private ShowItemsAdapter mAdapter;
-    private ArrayList<Item>mListExpenseItem;
-    private ArrayList<Item>mListIncomeItem;
+
 
     private ImageView btnBack;
     private NiceSpinner spinner;
 
-    private LinearLayout keyboard;
+    private LinearLayout keyboard, bgIcon;
     private TextView amount;
     private EditText edName;
     private ImageView icon;
@@ -45,18 +56,27 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     private Button minus, plus, today, dot;
     private ImageButton backspace, result;
     private static String AMOUNT = "0";
+
+    private Calendar now = Calendar.getInstance();;
+    private DatabaseReference mDatabase;
+    private static String uID = "0945455387test";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_item);
         getSupportActionBar().hide();
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
         btnBack = findViewById(R.id.btnBack);
         recyclerItems = findViewById(R.id.recycleItems);
         spinner = findViewById(R.id.spinner);
         keyboard = findViewById(R.id.keyboard);
+        bgIcon = findViewById(R.id.bgIcon);
 
         icon = findViewById(R.id.icon);
+        icon.setTag(R.string.key, "food");
+
         amount = findViewById(R.id.amount);
         amount.setOnClickListener(this);
         edName = findViewById(R.id.edName);
@@ -64,18 +84,16 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         setUpKeyboard();
 
-        showItems(recyclerItems, getListExpense());
+        showItems(recyclerItems, "expense");
         List<String> dataset = new LinkedList<>(Arrays.asList("Expense", "Income"));
         spinner.attachDataSource(dataset);
         spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
             public void onItemSelected(NiceSpinner parent, View view, int position, long id) {
                 if(position == 0){
-                    mListExpenseItem = getListExpense();
-                    showItems(recyclerItems, mListExpenseItem);
+                    showItems(recyclerItems, "expense");
                 }else{
-                    mListIncomeItem = getListIncome();
-                    showItems(recyclerItems, mListIncomeItem);
+                    showItems(recyclerItems, "income");
                 }
             }
         });
@@ -84,7 +102,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
             @Override
             public void onClick(View v) {
                 onBackPressed();
-//                keyboard.setVisibility(View.VISIBLE);
             }
         });
     }
@@ -99,50 +116,34 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private ArrayList<Item> getListExpense(){
-        ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("Home"));
-        mListItem.add(new Item("Bills"));
-        mListItem.add(new Item("Transportation"));
-        mListItem.add(new Item("Home"));
-        mListItem.add(new Item("Car"));
-        mListItem.add(new Item("Entertainment"));
-        mListItem.add(new Item("Shopping"));
-        mListItem.add(new Item("Clothing"));
-        mListItem.add(new Item("Insurance"));
-        mListItem.add(new Item("Tax"));
-        mListItem.add(new Item("Telephone"));
-        mListItem.add(new Item("Cigarette"));
-        mListItem.add(new Item("Health"));
-        mListItem.add(new Item("Sport"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Pet"));
-        mListItem.add(new Item("Add", true));
-        return mListItem;
-    }
-    private ArrayList<Item> getListIncome(){
-        ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("Food"));
-        mListItem.add(new Item("Car"));
-        mListItem.add(new Item("Sport"));
-        mListItem.add(new Item("Health"));
-        mListItem.add(new Item("Add", false));
-        return mListItem;
-    }
-    private void showItems(RecyclerView recyclerItems, ArrayList<Item>mListItem){
+    private void showItems(final RecyclerView recyclerItems, final String category){
+        final ArrayList<Item>mListItem = new ArrayList<>();
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         recyclerItems.setLayoutManager(layoutManager);
         recyclerItems.setItemAnimator(new DefaultItemAnimator());
-        ShowItemsAdapter adapter = new ShowItemsAdapter(ShowItemActivity.this, mListItem, icon, keyboard);
-        recyclerItems.setAdapter(adapter);
+        mDatabase.child("categories").child(uID).child(category).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    mListItem.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
+                }
+                if(category.equals("expense")) {
+                    mListItem.add(new Item("add", "Add", true));
+                }else{
+                    mListItem.add(new Item("add", "Add", false));
+                }
+                mAdapter = new ShowItemsAdapter(ShowItemActivity.this, mListItem, icon, keyboard, bgIcon);
+                mAdapter.notifyDataSetChanged();
+                recyclerItems.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
     }
 
     /**
@@ -174,6 +175,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         //Todo:
         today = findViewById(R.id.today);
+        today.setText("Today\n"+now.get(Calendar.DAY_OF_MONTH)+"/"+now.get(Calendar.MONTH));
         today.setOnClickListener(this);
         minus = findViewById(R.id.minus);
         minus.setOnClickListener(this);
@@ -296,6 +298,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     amount.setText(AMOUNT);
                 }
                 break;
+
             case R.id.dot:
                 AMOUNT = amount.getText().toString();
                 AMOUNT += ".";
@@ -311,7 +314,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     else if(AMOUNT.contains("+")){
                         String number1 = AMOUNT.substring(0, AMOUNT.indexOf("+"));
                         String number2 = AMOUNT.substring(AMOUNT.indexOf("+")+1);
-//                        System.out.println(number1 +"" +number2);
                         Double num1 = Double.parseDouble(number1);
                         Double num2 = Double.parseDouble(number2);
                         amount.setText(String.valueOf(num1+num2)+"+");
@@ -354,7 +356,13 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.today:
                 AMOUNT = amount.getText().toString();
-
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        ShowItemActivity.this,
+                        now.get(Calendar.YEAR), // Initial year selection
+                        now.get(Calendar.MONTH), // Initial month selection
+                        now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                );
+                dpd.show(getSupportFragmentManager(), "DatePicker");
                 break;
             case R.id.backspace:
                 AMOUNT = amount.getText().toString();
@@ -386,12 +394,39 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 //                    System.out.println("Number Format");
 //                }
 
-                Intent intent = new Intent(ShowItemActivity.this, MainActivity.class);
-                startActivity(intent);
+                if(Long.parseLong(amount.getText().toString().trim()) != 0) {
+                    long timestamp = System.currentTimeMillis();
+                    convertTimes(timestamp);
+                    String month_year = convertTimes(timestamp);
+                    String type = (String) icon.getTag(R.string.key);
+                    String category = spinner.getText().toString().toLowerCase();
+                    String name = edName.getText().toString().trim();
+                    long _amount = Long.parseLong(amount.getText().toString().trim());
+                    HistoryChild his = new HistoryChild(category, type, name, _amount);
+                    mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).setValue(his);
+                    Intent intent = new Intent(ShowItemActivity.this, MainActivity.class);
+                    startActivity(intent);
+                }
                 break;
             default:
                 break;
         }
     }
+
+    private String  convertTimes (long timestamp){
+        Date date = new java.util.Date(timestamp);
+
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM-yyyy");
+        String formattedDate = sdf.format(date);
+        System.out.println(formattedDate);
+
+        return formattedDate;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        today.setText("Today\n"+dayOfMonth+"/"+monthOfYear);
+    }
+
 
 }

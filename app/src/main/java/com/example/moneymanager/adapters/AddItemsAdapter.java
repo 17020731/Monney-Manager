@@ -1,6 +1,7 @@
 package com.example.moneymanager.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,11 +23,15 @@ public class AddItemsAdapter extends RecyclerView.Adapter<AddItemsAdapter.ViewHo
     private ArrayList<Item> mListItem;
     private App app;
     private ImageView icons;
+    private LinearLayout bgIcons;
+    private ImageView preIcons;
+    private LinearLayout preBgIcons;
 
-    public AddItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons){
+    public AddItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons, LinearLayout bgIcons){
         this.mContext = mContext;
         this.mListItem = mListItem;
         this.icons = icons;
+        this.bgIcons = bgIcons;
     }
     @NonNull
     @Override
@@ -37,14 +42,31 @@ public class AddItemsAdapter extends RecyclerView.Adapter<AddItemsAdapter.ViewHo
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
         app = new App();
         final Item an_item = mListItem.get(position);
-        holder.icon.setImageResource(app.getICons(an_item.getType()));
+
+        final int bg_select = app.getICons(an_item.getType()).second;
+
+        holder.icon.setImageResource(app.getICons(an_item.getType()).first);
+        holder.icon.setTag(R.string.key, an_item.getType());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                icons.setImageResource(app.getICons(an_item.getType()));
+                icons.setTag(R.string.key, an_item.getType());
+                if(preBgIcons!=null && preIcons!=null && !preIcons.equals(holder.icon) && !preBgIcons.equals(holder.bgIcon)){
+                    preIcons.setColorFilter(Color.parseColor("#000000"));
+                    preBgIcons.setBackgroundResource(R.drawable.circle_image_unselect);
+                }
+                bgIcons.setBackgroundResource(bg_select);
+                icons.setColorFilter(Color.parseColor("#ffffff"));
+                icons.setImageResource(app.getICons(an_item.getType()).first);
+
+                holder.bgIcon.setBackgroundResource(bg_select);
+                holder.icon.setColorFilter(Color.parseColor("#ffffff"));
+                preBgIcons = holder.bgIcon;
+                preIcons = holder.icon;
+
             }
         });
     }
@@ -56,10 +78,11 @@ public class AddItemsAdapter extends RecyclerView.Adapter<AddItemsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
-        private LinearLayout item;
+        private LinearLayout item, bgIcon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.item);
+            bgIcon = itemView.findViewById(R.id.bgIcon);
             icon = itemView.findViewById(R.id.icon);
         }
     }

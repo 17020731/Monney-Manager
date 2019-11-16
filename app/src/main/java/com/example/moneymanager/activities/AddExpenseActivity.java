@@ -4,8 +4,11 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -16,6 +19,11 @@ import com.example.moneymanager.R;
 import com.example.moneymanager.adapters.AddItemsAdapter;
 import com.example.moneymanager.adapters.ShowItemsAdapter;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -24,16 +32,26 @@ public class AddExpenseActivity extends AppCompatActivity {
     private TextView title1, title2, title3;
     private RecyclerView mRecyclerView1, mRecyclerView2, mRecyclerView3;
 
-    private ImageView icon;
-    private EditText type_name;
+    private LinearLayout bgIcon;
+    private ImageView icon, btnSubmit;
+    private EditText edName;
+
+    private DatabaseReference mDatabase;
+    private static String uID = "0945455387test";
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         getSupportActionBar().hide();
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        bgIcon = findViewById(R.id.bgIcon);
         icon = findViewById(R.id.icon);
-        type_name = findViewById(R.id.type_name);
+        icon.setTag(R.string.key, "food");
+        edName = findViewById(R.id.edName);
+        btnSubmit = findViewById(R.id.btnSubmit);
 
         btnBack = findViewById(R.id.btnBack);
         btnBack.setOnClickListener(new View.OnClickListener() {
@@ -43,9 +61,9 @@ public class AddExpenseActivity extends AppCompatActivity {
             }
         });
 
-        title1 =findViewById(R.id.title1);
-        title2 =findViewById(R.id.title2);
-        title3 =findViewById(R.id.title3);
+        title1 = findViewById(R.id.title1);
+        title2 = findViewById(R.id.title2);
+        title3 = findViewById(R.id.title3);
 
         mRecyclerView1 = findViewById(R.id.mRecycleView1);
         mRecyclerView2 = findViewById(R.id.mRecycleView2);
@@ -55,6 +73,32 @@ public class AddExpenseActivity extends AppCompatActivity {
         showItemsByTopic("Health", title2, mRecyclerView2, getListExpense());
         showItemsByTopic("Shopping", title3, mRecyclerView3, getListExpense());
 
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                final String name = edName.getText().toString().trim();
+                if(!name.isEmpty()){
+                    mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            edName.setText("");
+                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                if(snapshot.getKey().equals(name)){
+                                    return;
+                                }
+                            }
+                            mDatabase.child("categories").child(uID).child("expense").child(name).setValue(icon.getTag(R.string.key));
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     private void showItemsByTopic(String topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
@@ -63,22 +107,21 @@ public class AddExpenseActivity extends AppCompatActivity {
     }
     private ArrayList<Item> getListExpense(){
         ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("Home"));
-        mListItem.add(new Item("Bills"));
-        mListItem.add(new Item("Transportation"));
-        mListItem.add(new Item("Home"));
-        mListItem.add(new Item("Car"));
-        mListItem.add(new Item("Entertainment"));
-        mListItem.add(new Item("Shopping"));
-        mListItem.add(new Item("Clothing"));
-        mListItem.add(new Item("Insurance"));
-        mListItem.add(new Item("Tax"));
-        mListItem.add(new Item("Telephone"));
-        mListItem.add(new Item("Cigarette"));
-        mListItem.add(new Item("Health"));
-        mListItem.add(new Item("Sport"));
-        mListItem.add(new Item("Baby"));
-        mListItem.add(new Item("Pet"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+        mListItem.add(new Item("home"));
+
         return mListItem;
     }
     private void showItems(RecyclerView recyclerItems, ArrayList<Item> mListItem){
@@ -86,7 +129,7 @@ public class AddExpenseActivity extends AppCompatActivity {
         recyclerItems.setLayoutManager(layoutManager);
         recyclerItems.setNestedScrollingEnabled(false);
         recyclerItems.setItemAnimator(new DefaultItemAnimator());
-        AddItemsAdapter adapter = new AddItemsAdapter(AddExpenseActivity.this, mListItem, icon);
+        AddItemsAdapter adapter = new AddItemsAdapter(AddExpenseActivity.this, mListItem, icon, bgIcon);
         recyclerItems.setAdapter(adapter);
     }
 

@@ -1,20 +1,19 @@
 package com.example.moneymanager.adapters;
 
 import android.content.Context;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.History;
+import com.example.moneymanager.models.HistoryChild;
 
 import java.util.ArrayList;
 
@@ -22,7 +21,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     Context mContext;
     private ArrayList<History> mListHistory;
-    private App app;
+    private RecyclerView.RecycledViewPool viewPool = new RecyclerView.RecycledViewPool();
 
     public HistoryAdapter(Context mContext, ArrayList<History>mListHistory){
         this.mContext = mContext;
@@ -37,17 +36,26 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        app = new App();
-        History history = mListHistory.get(position);
-        holder.icon.setImageResource(app.getICons(history.getType()));
-        holder.name.setText(history.getName());
-        holder.amount.setText(history.getAmount());
-        holder.container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
+        History his = mListHistory.get(position);
+        holder.date.setText(his.getDate());
+        long income = 0, expense = 0;
+        for(HistoryChild child : his.getmListChild()){
+            if(child.getCategory().equals("income")){
+                income += child.getAmount();
+            }else if(child.getCategory().equals("expense")){
+                expense += child.getAmount();
             }
-        });
+        }
+        holder.analyze.setText("Income: "+ income+"  Expense: "+ expense);
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, true);
+        holder.recyclerView.setLayoutManager(layoutManager1);
+        holder.recyclerView.setNestedScrollingEnabled(false);
+        holder.recyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        HistoryChildAdapter mAdapter = new HistoryChildAdapter(mContext, his.getmListChild());
+        holder.recyclerView.setAdapter(mAdapter);
+        holder.recyclerView.setRecycledViewPool(viewPool);
+
     }
 
     @Override
@@ -56,15 +64,15 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private RelativeLayout container;
-        private ImageView icon;
-        private TextView name, amount;
+        private TextView date;
+        private TextView analyze;
+        private RecyclerView recyclerView;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            container = itemView.findViewById(R.id.container);
-            icon = itemView.findViewById(R.id.icon);
-            name = itemView.findViewById(R.id.name);
-            amount = itemView.findViewById(R.id.amount);
+            date = itemView.findViewById(R.id.date);
+            analyze = itemView.findViewById(R.id.analyze);
+            recyclerView = itemView.findViewById(R.id.recycleView);
         }
     }
 }

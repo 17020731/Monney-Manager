@@ -15,6 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moneymanager.R;
 import com.example.moneymanager.adapters.IncomeSettingAdapter;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -22,6 +27,8 @@ public class IncomeFragment extends Fragment {
     private RecyclerView recyclerIncome;
     private IncomeSettingAdapter mAdapter;
     private ArrayList<Item> mListIncome;
+    private DatabaseReference mDatabase;
+    private static String uID = "0945455387test";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,13 +38,26 @@ public class IncomeFragment extends Fragment {
         recyclerIncome.setLayoutManager(layoutManager1);
         recyclerIncome.setItemAnimator(new DefaultItemAnimator());
 
-        mListIncome = new ArrayList<>();
-        mListIncome.add(new Item("Food"));
-        mListIncome.add(new Item("Car"));
-        mListIncome.add(new Item("Sport"));
-        mListIncome.add(new Item("Health"));
 
+        mListIncome = new ArrayList<>();
         mAdapter = new IncomeSettingAdapter(getContext(), mListIncome);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mDatabase.child("categories").child(uID).child("income").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    mListIncome.add(new Item((String) snapshot.getValue(),snapshot.getKey()));
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         recyclerIncome.setAdapter(mAdapter);
         return v;
     }

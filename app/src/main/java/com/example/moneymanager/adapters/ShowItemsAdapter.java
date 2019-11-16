@@ -2,6 +2,7 @@ package com.example.moneymanager.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,12 +28,17 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
     private App app;
     private ImageView icons;
     private LinearLayout keyboard;
+    private LinearLayout bgIcons;
 
-    public ShowItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons, LinearLayout keyboard){
+    private ImageView preIcon;
+    private LinearLayout preBgIcon;
+
+    public ShowItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons, LinearLayout keyboard, LinearLayout bgIcons){
         this.mContext = mContext;
         this.mListItem = mListItem;
         this.icons = icons;
         this.keyboard = keyboard;
+        this.bgIcons = bgIcons;
     }
     @NonNull
     @Override
@@ -42,28 +48,45 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+    public void onBindViewHolder(@NonNull final ViewHolder holder, final int position) {
         app = new App();
         final Item an_item = mListItem.get(position);
+        final int bg_select = app.getICons(an_item.getType()).second;
+        holder.icon.setTag(R.string.key, an_item.getType());
         holder.item.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(an_item.getType().equals("Add") && an_item.isExpense()){
+                icons.setTag(R.string.key, an_item.getType());
+
+                if(position == mListItem.size()-1 && an_item.isExpense()){
                     Intent intent = new Intent(mContext, AddExpenseActivity.class);
                     mContext.startActivity(intent);
-                } else if(an_item.getType().equals("Add") && !an_item.isExpense()){
+                    return;
+                } else if(position == mListItem.size()-1 && !an_item.isExpense()){
                     Intent intent = new Intent(mContext, AddIncomeActivity.class);
                     mContext.startActivity(intent);
+                    return;
                 }
-                else{
+                if(preIcon != null && preBgIcon!=null && !preBgIcon.equals(holder.bgIcon) && !preIcon.equals(holder.icon)){
+                    preBgIcon.setBackgroundResource(R.drawable.circle_image_unselect);
+                    preIcon.setColorFilter(Color.parseColor("#000000"));
+                }
+                if(true) {
                     keyboard.setVisibility(View.VISIBLE);
-                    icons.setImageResource(app.getICons(an_item.getType()));
-                    icons.setTag(R.string.key, an_item.getType());
+                    icons.setImageResource(app.getICons(an_item.getType()).first);
+                    bgIcons.setBackgroundResource(bg_select);
+                    icons.setColorFilter(Color.parseColor("#ffffff"));
+
+                    holder.bgIcon.setBackgroundResource(bg_select);
+                    holder.icon.setColorFilter(Color.parseColor("#ffffff"));
+
+                    preBgIcon = holder.bgIcon;
+                    preIcon = holder.icon;
                 }
             }
         });
-        holder.icon.setImageResource(app.getICons(an_item.getType()));
-        holder.type.setText(an_item.getType());
+        holder.icon.setImageResource(app.getICons(an_item.getType()).first);
+        holder.name.setText(an_item.getName());
     }
 
     @Override
@@ -72,19 +95,16 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private LinearLayout item;
-
+        private LinearLayout item, bgIcon;
         private ImageView icon;
-
-        private TextView type;
-
+        private TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             item = itemView.findViewById(R.id.item);
+            bgIcon = itemView.findViewById(R.id.bgIcon);
             icon = itemView.findViewById(R.id.icon);
-
-            type = itemView.findViewById(R.id.type);
+            name = itemView.findViewById(R.id.name);
         }
     }
 }

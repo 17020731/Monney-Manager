@@ -8,7 +8,7 @@
         android:id="@+id/header"
         android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:background="@drawable/corner_layout">
         <ImageView
             android:id="@+id/btnBack"
@@ -27,6 +27,7 @@
             android:textSize="16dp"
             android:textColor="#000"/>
         <ImageView
+            android:id="@+id/btnSubmit"
             android:layout_centerVertical="true"
             android:layout_alignParentRight="true"
             android:layout_marginRight="10dp"
@@ -35,7 +36,8 @@
             android:src="@mipmap/check"/>
     </RelativeLayout>
     <LinearLayout
-        android:padding="10dp"
+        android:paddingHorizontal="15dp"
+        android:paddingVertical="10dp"
         android:gravity="center"
         android:focusableInTouchMode="true"
         android:clickable="true"
@@ -43,14 +45,22 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#fff">
-        <ImageView
-            android:id="@+id/icon"
-            android:layout_marginHorizontal="10dp"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/food"/>
+        android:background="@drawable/shadow_his_item">
+        <LinearLayout
+            android:id="@+id/bgIcon"
+            android:padding="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/circle_image_unselect">
+            <ImageView
+                android:id="@+id/icon"
+                android:tag="food"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/food"/>
+        </LinearLayout>
         <EditText
+            android:id="@+id/edName"
             android:layout_marginHorizontal="20dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

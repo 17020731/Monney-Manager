@@ -14,15 +14,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
     <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/avatar"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@mipmap/avatar"/>
     <TextView
+        android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Thế Hiệp Đinh"
         android:textColor="#fff"/>
     <TextView
+        android:id="@+id/email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="dinhhiepxtb@gmail.com"

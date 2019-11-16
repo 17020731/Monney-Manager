@@ -1,37 +1,31 @@
 package com.example.moneymanager.models;
 
+
+import java.util.ArrayList;
+
 public class History {
-    private String type;
-    private String name;
-    private String amount;
+    private String date;
+    private ArrayList<HistoryChild>mListChild;
 
-    public History(String type, String name, String amount) {
-        this.type = type;
-        this.name = name;
-        this.amount = amount;
+    public History(String date,ArrayList<HistoryChild> mListChild) {
+        this.date = date;
+
+        this.mListChild = mListChild;
     }
 
-    public String getType() {
-        return type;
+    public String getDate() {
+        return date;
     }
 
-    public void setType(String type) {
-        this.type = type;
+    public void setDate(String date) {
+        this.date = date;
     }
 
-    public String getName() {
-        return name;
+    public ArrayList<HistoryChild> getmListChild() {
+        return mListChild;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getAmount() {
-        return amount;
-    }
-
-    public void setAmount(String amount) {
-        this.amount = amount;
+    public void setmListChild(ArrayList<HistoryChild> mListChild) {
+        this.mListChild = mListChild;
     }
 }

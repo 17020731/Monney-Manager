@@ -45,8 +45,8 @@ public class IncomeSettingAdapter extends RecyclerView.Adapter<IncomeSettingAdap
                 notifyDataSetChanged();
             }
         });
-        holder.icon.setImageResource(app.getICons(incomeSetting.getType()));
-        holder.type.setText(incomeSetting.getType());
+        holder.icon.setImageResource(app.getICons(incomeSetting.getType()).first);
+        holder.name.setText(incomeSetting.getName());
     }
 
     @Override
@@ -58,13 +58,13 @@ public class IncomeSettingAdapter extends RecyclerView.Adapter<IncomeSettingAdap
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView btnDel;
         private ImageView icon;
-        private TextView type;
+        private TextView name;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             btnDel = itemView.findViewById(R.id.btnDel);
             icon = itemView.findViewById(R.id.icon);
-            type = itemView.findViewById(R.id.type);
+            name = itemView.findViewById(R.id.name);
         }
     }
 

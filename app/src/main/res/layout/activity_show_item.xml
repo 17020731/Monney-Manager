@@ -46,7 +46,7 @@
     <!--  Keyboard  -->
     <LinearLayout
         android:id="@+id/keyboard"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -62,11 +62,19 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
-                <ImageView
-                    android:id="@+id/icon"
-                    android:layout_width="25dp"
-                    android:layout_height="25dp"
-                    android:src="@mipmap/food"/>
+                <LinearLayout
+                    android:id="@+id/bgIcon"
+                    android:padding="10dp"
+                    android:background="@drawable/circle_image_unselect"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+                    <ImageView
+                        android:id="@+id/icon"
+                        android:tag="food"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:src="@mipmap/food"/>
+                </LinearLayout>
             </LinearLayout>
             <EditText
                 android:id="@+id/edName"
@@ -74,7 +82,7 @@
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="4"
-                android:text="Note"
+                android:hint="Note"
                 android:textSize="12dp"/>
             <TextView
                 android:id="@+id/amount"

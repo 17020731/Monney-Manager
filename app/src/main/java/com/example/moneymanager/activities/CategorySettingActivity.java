@@ -16,6 +16,8 @@ import com.example.moneymanager.fragments.IncomeFragment;
 import com.example.moneymanager.R;
 import com.example.moneymanager.adapters.ViewPagerAdapter;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -27,6 +29,9 @@ public class CategorySettingActivity extends AppCompatActivity {
 
     private ImageView btnBack;
     private LinearLayout footer;
+
+    private DatabaseReference mDatabase;
+    private static String uID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -38,6 +43,9 @@ public class CategorySettingActivity extends AppCompatActivity {
 
         btnBack = findViewById(R.id.btnBack);
         footer = findViewById(R.id.footer);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        uID = "0945455387test";
 
         mListFragment = new ArrayList<>();
         ExpenseFragment expenseFragment = new ExpenseFragment();

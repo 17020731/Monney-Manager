@@ -1,44 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:id="@+id/container"
+    android:paddingVertical="8dp"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    android:background="@drawable/corner_layout">
-    <ImageView
-        android:id="@+id/btnDel"
-        android:layout_centerVertical="true"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:src="@mipmap/delete"/>
+    android:background="@drawable/shadow_his_item">
     <LinearLayout
         android:id="@+id/bgIcon"
-        android:layout_toRightOf="@id/btnDel"
-        android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circle_image_unselect">
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/awards"/>
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/sport"/>
     </LinearLayout>
     <TextView
         android:id="@+id/name"
         android:layout_toRightOf="@id/bgIcon"
+        android:layout_marginLeft="15dp"
+        android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:text="Awards"
-        android:textSize="16dp"
-        android:textColor="#000"/>
-    <ImageView
-        android:id="@+id/menu"
+        android:textColor="#000"
+        android:textSize="14dp"
+        android:text="Car"/>
+    <TextView
+        android:id="@+id/amount"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@mipmap/menu2"/>
+        android:text="-20000"
+        android:textSize="14dp"/>
 </RelativeLayout>

@@ -15,13 +15,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moneymanager.R;
 import com.example.moneymanager.adapters.ExpenseSettingAdapter;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.List;
 
 public class ExpenseFragment extends Fragment {
     private RecyclerView recyclerExpense;
@@ -29,6 +31,9 @@ public class ExpenseFragment extends Fragment {
     private ArrayList<Item> mListExpense;
 
     private NiceSpinner spinner;
+
+    private DatabaseReference mDatabase;
+    private static String uID = "0945455387test";
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -40,26 +45,27 @@ public class ExpenseFragment extends Fragment {
         recyclerExpense.setItemAnimator(new DefaultItemAnimator());
 
         mListExpense = new ArrayList<>();
-        mListExpense.add(new Item("Home"));
-        mListExpense.add(new Item("Bills"));
-        mListExpense.add(new Item("Transportation"));
-        mListExpense.add(new Item("Home"));
-        mListExpense.add(new Item("Car"));
-        mListExpense.add(new Item("Entertainment"));
-        mListExpense.add(new Item("Shopping"));
-        mListExpense.add(new Item("Clothing"));
-        mListExpense.add(new Item("Insurance"));
-        mListExpense.add(new Item("Tax"));
-        mListExpense.add(new Item("Telephone"));
-        mListExpense.add(new Item("Cigarette"));
-        mListExpense.add(new Item("Health"));
-        mListExpense.add(new Item("Sport"));
-        mListExpense.add(new Item("Baby"));
-        mListExpense.add(new Item("Pet"));
-
         mAdapter = new ExpenseSettingAdapter(getContext(), mListExpense);
-        recyclerExpense.setAdapter(mAdapter);
 
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+//                    System.out.println(snapshot.getKey());
+                    mListExpense.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
+                    mAdapter.notifyDataSetChanged();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        recyclerExpense.setAdapter(mAdapter);
         return v;
     }
 }

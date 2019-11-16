@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -19,6 +20,11 @@ import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.utils.ColorTemplate;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
@@ -30,6 +36,11 @@ public class ChartActivity extends AppCompatActivity {
     private ArrayList<Data>mListData;
 
     private ImageView btnBack;
+
+    private String CATEGORY = "expense";
+
+    private DatabaseReference mDatabase;
+    private static String uID = "0945455387test";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,8 +48,12 @@ public class ChartActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         btnBack = findViewById(R.id.btnBack);
+
         pieChart = findViewById(R.id.pieChart);
-        setUpPieChart(pieChart);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+
+        setUpPieChart(pieChart, "expense", "11-2019");
 
         mListData = new ArrayList<>();
         mListData.add(new Data("Car", 100, 60000));
@@ -67,7 +82,7 @@ public class ChartActivity extends AppCompatActivity {
         });
     }
 
-    private void setUpPieChart(PieChart pieChart){
+    private void setUpPieChart(final PieChart pieChart, final String category, String month){
         pieChart.setUsePercentValues(true);
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawEntryLabels(false);
@@ -79,26 +94,47 @@ public class ChartActivity extends AppCompatActivity {
         pieChart.setHoleColor(Color.WHITE);
         pieChart.setHoleRadius(80f);
         pieChart.setTransparentCircleRadius(85f);//Set độ dày của đường tròn bên trong
-        ArrayList<PieEntry> yValues = new ArrayList<>();
+        final ArrayList<PieEntry> yValues = new ArrayList<>();
 
-        yValues.add(new PieEntry(10f, "party1"));  //20f là phần được chia
-        yValues.add(new PieEntry(40f, "party2"));
-        yValues.add(new PieEntry(60f, "party3"));
-        yValues.add(new PieEntry(20f, "party4"));
-        yValues.add(new PieEntry(20f, "party5"));
+        mDatabase.child("histories").child(uID).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int count = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if(count == 3){
+                        break;
+                    }
+                    if(snapshot.child("category").getValue().equals(category)){
+                        yValues.add(new PieEntry(1f, snapshot.child("name").getValue()));
+                        count++;
+                    }
+                }
+                //Todo: Chú thích
+                PieDataSet dataSet = new PieDataSet(yValues, "");
+                dataSet.setSliceSpace(3f);
+                dataSet.setSelectionShift(5f);
+                dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
 
-        //Todo: Chú thích
-        PieDataSet dataSet = new PieDataSet(yValues, "");
-        dataSet.setSliceSpace(3f);
-        dataSet.setSelectionShift(5f);
-        dataSet.setColors(ColorTemplate.JOYFUL_COLORS);
+                PieData data = new PieData(dataSet);
+                data.setValueTextSize(10f);
+                data.setValueTextColor(Color.RED);
+                data.setDrawValues(false);
 
-        PieData data = new PieData(dataSet);
-        data.setValueTextSize(10f);
-        data.setValueTextColor(Color.RED);
-        data.setDrawValues(false);
+                pieChart.setData(data);
+            }
 
-        pieChart.setData(data);
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+//        yValues.add(new PieEntry(10f, "party1"));  //20f là phần được chia
+//        yValues.add(new PieEntry(40f, "party2"));
+//        yValues.add(new PieEntry(60f, "party3"));
+//        yValues.add(new PieEntry(20f, "party4"));
+//        yValues.add(new PieEntry(20f, "party5"));
+
+
 
     }
 }

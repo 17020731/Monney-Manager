@@ -35,7 +35,7 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
-        Item Item = mListItem.get(position);
+        Item expenseSetting = mListItem.get(position);
         app = new App();
         holder.btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,8 +45,8 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
                 notifyDataSetChanged();
             }
         });
-        holder.icon.setImageResource(app.getICons(Item.getType()));
-        holder.type.setText(Item.getType());
+        holder.icon.setImageResource(app.getICons(expenseSetting.getType()).first);
+        holder.name.setText(expenseSetting.getName());
 
     }
 
@@ -58,12 +58,12 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
     public class ViewHolder extends RecyclerView.ViewHolder{
         private ImageView btnDel;
         private ImageView icon;
-        private TextView type;
+        private TextView name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             btnDel = itemView.findViewById(R.id.btnDel);
             icon = itemView.findViewById(R.id.icon);
-            type = itemView.findViewById(R.id.type);
+            name = itemView.findViewById(R.id.name);
         }
     }
 }

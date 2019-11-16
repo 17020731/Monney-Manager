@@ -3,29 +3,37 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="20dp"
+    android:padding="10dp"
     android:background="@drawable/corner_layout">
     <ImageView
         android:id="@+id/btnDel"
         android:layout_centerVertical="true"
-        android:layout_width="25dp"
-        android:layout_height="25dp"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
         android:src="@mipmap/delete"/>
-    <ImageView
-        android:id="@+id/icon"
+    <LinearLayout
+        android:id="@+id/bgIcon"
         android:layout_toRightOf="@id/btnDel"
         android:layout_marginHorizontal="20dp"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:src="@mipmap/home"/>
+        android:padding="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_image_unselect">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:src="@mipmap/home"/>
+    </LinearLayout>
+
     <TextView
-        android:id="@+id/type"
-        android:layout_toRightOf="@id/icon"
+        android:id="@+id/name"
+        android:layout_toRightOf="@id/bgIcon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="Home"
-        android:textSize="18dp"
+        android:textSize="16dp"
         android:textColor="#000"/>
     <ImageView
         android:id="@+id/menu"

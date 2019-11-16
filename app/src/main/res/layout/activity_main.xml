@@ -5,6 +5,7 @@
     android:id="@+id/drawer"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#f9feff"
     tools:context=".activities.MainActivity">
 
     <RelativeLayout
@@ -30,7 +31,7 @@
                 android:layout_toRightOf="@id/btnMenu"
                 android:layout_marginLeft="10dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <ImageView
                 android:layout_marginRight="15dp"
@@ -41,16 +42,18 @@
                 android:layout_height="25dp"
                 android:src="@mipmap/reload"/>
         </RelativeLayout>
+
         <ScrollView
+            android:id="@+id/scrollView"
             android:layout_below="@id/header"
             android:layout_width="fill_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
             <LinearLayout
                 android:layout_margin="15dp"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent">
+                android:layout_height="wrap_content">
                 <!--Income and Expense-->
                 <LinearLayout
                     android:padding="10dp"
@@ -70,13 +73,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Income"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:textColor="#000"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:textColor="#000"/>
                     </LinearLayout>
                     <View
@@ -95,13 +98,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Expenses"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:textColor="#000"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                             android:textColor="#000"/>
                     </LinearLayout>
                     <View
@@ -119,13 +122,13 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Balance"
-                            android:textSize="20dp"
+                            android:textSize="16dp"
                             android:textColor="#000"/>
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
-                            android:textSize="20dp"
+                            android:textSize="18dp"
                              android:textColor="#000"/>
                     </LinearLayout>
 
@@ -135,13 +138,146 @@
                     android:id="@+id/recycleView"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="#fff"/>
+                    android:layout_height="match_parent" />
             </LinearLayout>
-
         </ScrollView>
-
         <LinearLayout
+            android:visibility="invisible"
+            android:id="@+id/monthPicker"
+            android:layout_below="@id/header"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#fff">
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="10">
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@mipmap/left"/>
+                <TextView
+                    android:layout_gravity="center"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="2019"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <ImageButton
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="4"
+                    android:backgroundTint="@android:color/transparent"
+                    android:src="@mipmap/right"/>
+            </LinearLayout>
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jan"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Feb"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Mar"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Apr"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="May"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Jun"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+
+            </LinearLayout>
+            <LinearLayout
+                android:padding="8dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="6">
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="July"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Aug"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Sep"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Oct"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Nov"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Dec"
+                    android:textAlignment="center"
+                    android:textColor="#000"/>
+
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/emptyLinear"
+            android:visibility="invisible"
             android:gravity="center_horizontal"
             android:orientation="vertical"
             android:layout_centerInParent="true"
