@@ -1,4 +1,4 @@
-package com.example.moneymanager.adapters;
+package com.example.moneymanager.additem;
 
 import android.content.Context;
 import android.content.Intent;
@@ -14,8 +14,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.activities.AddExpenseActivity;
-import com.example.moneymanager.activities.AddIncomeActivity;
+import com.example.moneymanager.setting.AddExpenseActivity;
+import com.example.moneymanager.setting.AddIncomeActivity;
 import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.Item;
 
@@ -57,7 +57,6 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
             @Override
             public void onClick(View v) {
                 icons.setTag(R.string.key, an_item.getType());
-
                 if(position == mListItem.size()-1 && an_item.isExpense()){
                     Intent intent = new Intent(mContext, AddExpenseActivity.class);
                     mContext.startActivity(intent);

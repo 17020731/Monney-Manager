@@ -1,6 +1,7 @@
-package com.example.moneymanager.adapters;
+package com.example.moneymanager.main;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,13 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
         holder.container.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(mContext, DetailItemActivity.class);
+                intent.putExtra("timestamp", history.getTimestamp());
+                intent.putExtra("category", history.getCategory());
+                intent.putExtra("type", history.getType());
+                intent.putExtra("name", history.getName());
+                intent.putExtra("amount", history.getAmount());
+                mContext.startActivity(intent);
             }
         });
     }

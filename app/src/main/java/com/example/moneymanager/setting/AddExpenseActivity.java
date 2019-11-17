@@ -1,4 +1,4 @@
-package com.example.moneymanager.activities;
+package com.example.moneymanager.setting;
 
 import android.os.Bundle;
 import android.view.View;
@@ -6,7 +6,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -16,8 +15,6 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.adapters.AddItemsAdapter;
-import com.example.moneymanager.adapters.ShowItemsAdapter;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

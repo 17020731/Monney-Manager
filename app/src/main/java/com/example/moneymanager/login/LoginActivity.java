@@ -1,4 +1,4 @@
-package com.example.moneymanager.activities;
+package com.example.moneymanager.login;
 
 import android.os.Bundle;
 

@@ -1,4 +1,4 @@
-package com.example.moneymanager.adapters;
+package com.example.moneymanager.setting;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

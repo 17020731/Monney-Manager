@@ -3,12 +3,21 @@
     android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp">
-    <ImageView
-        android:layout_gravity="center_vertical"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:src="@mipmap/food"/>
+    android:padding="5dp">
+    <LinearLayout
+        android:id="@+id/bgIcon"
+        android:padding="5dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/circle_image_unselect">
+        <ImageView
+            android:id="@+id/icon"
+            android:layout_gravity="center_vertical"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@mipmap/food"/>
+    </LinearLayout>
+
     <LinearLayout
         android:orientation="vertical"
         android:layout_marginLeft="20dp"
@@ -46,13 +55,12 @@
                 android:layout_alignParentRight="true"/>
         </RelativeLayout>
         <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/progress_bar"
             android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="5dp"
-                android:background="#FFEB3B"/>
+            android:layout_height="5dp"
+            android:background="#FFEB3B">
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

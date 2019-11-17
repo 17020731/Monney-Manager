@@ -4,11 +4,12 @@ import com.google.firebase.database.IgnoreExtraProperties;
 
 @IgnoreExtraProperties
 public class HistoryChild {
+    private String timestamp;
     private String category;
     private String type;
     private String name;
     private long amount;
-
+    private double percent;
     public HistoryChild(){
 
     }
@@ -18,6 +19,7 @@ public class HistoryChild {
         this.name = name;
         this.amount = amount;
     }
+
 
     public String getCategory() {
         return category;
@@ -49,5 +51,20 @@ public class HistoryChild {
 
     public void setAmount(long amount) {
         this.amount = amount;
+    }
+
+    public double getPercent() {
+        return percent;
+    }
+
+    public void setPercent(double percent) {
+        this.percent = percent;
+    }
+
+    public String getTimestamp() {
+        return timestamp;
+    }
+    public void setTimestamp(String timestamp) {
+        this.timestamp = timestamp;
     }
 }

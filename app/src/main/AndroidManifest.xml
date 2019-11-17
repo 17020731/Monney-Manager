@@ -9,15 +9,15 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.DetailItemActivity"/>
-        <activity android:name=".activities.ProfileActivity"/>
-        <activity android:name=".activities.AddExpenseActivity"/>
-        <activity android:name=".activities.AddIncomeActivity"/>
-        <activity android:name=".activities.LoginActivity"/>
-        <activity android:name=".activities.ShowItemActivity"/>
-        <activity android:name=".activities.ChartActivity"/>
-        <activity android:name=".activities.CategorySettingActivity"/>
-        <activity android:name=".activities.MainActivity">
+        <activity android:name=".main.DetailItemActivity"/>
+        <activity android:name=".profile.ProfileActivity"/>
+        <activity android:name=".setting.AddExpenseActivity"/>
+        <activity android:name=".setting.AddIncomeActivity"/>
+        <activity android:name=".login.LoginActivity"/>
+        <activity android:name=".additem.ShowItemActivity" />
+        <activity android:name=".chart.ChartActivity"/>
+        <activity android:name=".setting.CategorySettingActivity"/>
+        <activity android:name=".main.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -1,4 +1,4 @@
-package com.example.moneymanager.fragments;
+package com.example.moneymanager.setting;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.adapters.ExpenseSettingAdapter;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;

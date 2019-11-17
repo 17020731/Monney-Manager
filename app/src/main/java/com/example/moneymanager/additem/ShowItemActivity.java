@@ -1,4 +1,4 @@
-package com.example.moneymanager.activities;
+package com.example.moneymanager.additem;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,7 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.adapters.ShowItemsAdapter;
+import com.example.moneymanager.main.MainActivity;
 import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.database.DataSnapshot;
@@ -48,6 +48,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     private ImageView btnBack;
     private NiceSpinner spinner;
 
+    private LinearLayout numberKb;
+
     private LinearLayout keyboard, bgIcon;
     private TextView amount;
     private EditText edName;
@@ -73,6 +75,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         spinner = findViewById(R.id.spinner);
         keyboard = findViewById(R.id.keyboard);
         bgIcon = findViewById(R.id.bgIcon);
+        numberKb = findViewById(R.id.numberKb);
 
         icon = findViewById(R.id.icon);
         icon.setTag(R.string.key, "food");
@@ -192,6 +195,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
+            case R.id.edName:
+                numberKb.setVisibility(View.GONE);
             case R.id.num0:
                 AMOUNT = amount.getText().toString();
                 if(AMOUNT.charAt(0) != '0'){

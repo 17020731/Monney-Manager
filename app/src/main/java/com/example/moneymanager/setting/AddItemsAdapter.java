@@ -1,4 +1,4 @@
-package com.example.moneymanager.adapters;
+package com.example.moneymanager.setting;
 
 import android.content.Context;
 import android.graphics.Color;

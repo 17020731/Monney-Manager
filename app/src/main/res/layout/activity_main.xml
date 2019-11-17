@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#f9feff"
-    tools:context=".activities.MainActivity">
+    tools:context=".main.MainActivity">
 
     <RelativeLayout
         android:orientation="vertical"
@@ -26,20 +26,25 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@mipmap/menu"/>
-            <org.angmarch.views.NiceSpinner
+            <TextView
                 android:id="@+id/spinner"
                 android:layout_toRightOf="@id/btnMenu"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="15dp"
+                android:layout_centerVertical="true"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:text="Nov"
+                android:textSize="14dp"
+                android:background="#fff"/>
 
             <ImageView
                 android:layout_marginRight="15dp"
                 android:layout_centerVertical="true"
                 android:layout_alignParentRight="true"
                 android:id="@+id/btnReload"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:src="@mipmap/reload"/>
         </RelativeLayout>
 

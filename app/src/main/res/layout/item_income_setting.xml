@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:padding="10dp"
-    android:background="@drawable/corner_layout">
+    android:background="@drawable/border_setting">
     <ImageView
         android:id="@+id/btnDel"
         android:layout_centerVertical="true"
@@ -15,14 +15,14 @@
         android:id="@+id/bgIcon"
         android:layout_toRightOf="@id/btnDel"
         android:layout_marginHorizontal="20dp"
-        android:padding="10dp"
+        android:padding="5dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/circle_image_unselect">
         <ImageView
             android:id="@+id/icon"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
             android:src="@mipmap/awards"/>
     </LinearLayout>
     <TextView
@@ -32,7 +32,7 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="Awards"
-        android:textSize="16dp"
+        android:textSize="14dp"
         android:textColor="#000"/>
     <ImageView
         android:id="@+id/menu"

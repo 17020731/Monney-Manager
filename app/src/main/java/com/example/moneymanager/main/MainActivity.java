@@ -1,4 +1,4 @@
-package com.example.moneymanager.activities;
+package com.example.moneymanager.main;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,10 +18,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.adapters.HistoryAdapter;
-import com.example.moneymanager.adapters.HistoryChildAdapter;
+import com.example.moneymanager.chart.ChartActivity;
+import com.example.moneymanager.profile.ProfileActivity;
+import com.example.moneymanager.additem.ShowItemActivity;
 import com.example.moneymanager.models.History;
 import com.example.moneymanager.models.HistoryChild;
+import com.example.moneymanager.setting.CategorySettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.database.DataSnapshot;
@@ -29,8 +31,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.angmarch.views.NiceSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private ImageView btnMenu, btnReload;
     private DrawerLayout drawer;
     private NavigationView navigationView;
+    private ImageView avatar;
 
     private RecyclerView recyclerView;
     private ArrayList<History>mListHistory;
@@ -54,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
     private ScrollView scrollView;
 
 
-    private NiceSpinner spinner;
     private LinearLayout monthPicker;
     private LinearLayout emptyLinear;
     private DatabaseReference mDatabase;
@@ -65,14 +65,23 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
-        spinner = findViewById(R.id.spinner);
         monthPicker = findViewById(R.id.monthPicker);
+
         emptyLinear = findViewById(R.id.emptyLinear);
+        emptyLinear.setVisibility(View.VISIBLE);
         mDatabase = FirebaseDatabase.getInstance().getReference();
         drawer = findViewById(R.id.drawer);
 
         navigationView = findViewById(R.id.navigationView);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
+        avatar = navigationView.getHeaderView(0).findViewById(R.id.avatar);
+        avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                startActivity(intent);
+            }
+        });
 
         scrollView = findViewById(R.id.scrollView);
 
@@ -92,9 +101,12 @@ public class MainActivity extends AppCompatActivity {
                 ArrayList<HistoryChild>mListHistoryChild = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     times.add(snapshot.getKey());
-                    mListHistoryChild.add(snapshot.getValue(HistoryChild.class));
 
+                    HistoryChild child = new HistoryChild();
+                    child = snapshot.getValue(HistoryChild.class);
+                    child.setTimestamp(snapshot.getKey());
 
+                    mListHistoryChild.add(child);
                 }
 
                 for (int i = 0; i < times.size(); i++){
@@ -117,6 +129,11 @@ public class MainActivity extends AppCompatActivity {
                     mListHistory.add(new History(date, list));
                 }
 
+                if(mListHistory.size() == 0){
+                    emptyLinear.setVisibility(View.VISIBLE);
+                }else {
+                    emptyLinear.setVisibility(View.INVISIBLE);
+                }
                 mAdapter = new HistoryAdapter(MainActivity.this, mListHistory);
                 recyclerView = findViewById(R.id.recycleView);
 
@@ -130,12 +147,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-        spinner.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                monthPicker.setVisibility(View.VISIBLE);
-            }
-        });
+
         monthPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -159,6 +171,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+                intent.putExtra("category", "expense");
                 startActivity(intent);
             }
         });
@@ -166,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+                intent.putExtra("category", "income");
                 startActivity(intent);
             }
         });
@@ -193,6 +207,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (id){
                     case R.id.chart:
                         intent = new Intent(MainActivity.this, ChartActivity.class);
+                        intent.putExtra("category", "expense");
                         startActivity(intent);
                         break;
 
