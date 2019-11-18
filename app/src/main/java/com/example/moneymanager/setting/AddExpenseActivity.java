@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -34,6 +35,7 @@ public class AddExpenseActivity extends AppCompatActivity {
     private EditText edName;
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID = "0945455387test";
 
     @Override
@@ -43,6 +45,8 @@ public class AddExpenseActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         bgIcon = findViewById(R.id.bgIcon);
         icon = findViewById(R.id.icon);

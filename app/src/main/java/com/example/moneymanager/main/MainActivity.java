@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.bumptech.glide.Glide;
 import com.example.moneymanager.R;
 import com.example.moneymanager.chart.ChartActivity;
 import com.example.moneymanager.profile.ProfileActivity;
@@ -26,6 +27,7 @@ import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.setting.CategorySettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -57,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
     private LinearLayout monthPicker;
     private LinearLayout emptyLinear;
+
+
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID = "0945455387test";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,12 +74,18 @@ public class MainActivity extends AppCompatActivity {
 
         emptyLinear = findViewById(R.id.emptyLinear);
         emptyLinear.setVisibility(View.VISIBLE);
-        mDatabase = FirebaseDatabase.getInstance().getReference();
         drawer = findViewById(R.id.drawer);
+
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         navigationView = findViewById(R.id.navigationView);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
+        name.setText(mAuth.getCurrentUser().getDisplayName());
         avatar = navigationView.getHeaderView(0).findViewById(R.id.avatar);
+        Glide.with(avatar).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(avatar);
+
         avatar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -97,6 +108,8 @@ public class MainActivity extends AppCompatActivity {
         mDatabase.child("histories").child(uID).child("11-2019").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(!dataSnapshot.exists())
+                    return;
                 ArrayList<String>times = new ArrayList<>();
                 ArrayList<HistoryChild>mListHistoryChild = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){

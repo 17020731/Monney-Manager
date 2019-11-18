@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,6 +33,7 @@ public class ExpenseFragment extends Fragment {
     private NiceSpinner spinner;
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID = "0945455387test";
     @Nullable
     @Override
@@ -47,6 +49,8 @@ public class ExpenseFragment extends Fragment {
         mAdapter = new ExpenseSettingAdapter(getContext(), mListExpense);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override

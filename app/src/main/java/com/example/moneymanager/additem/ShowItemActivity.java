@@ -21,6 +21,7 @@ import com.example.moneymanager.R;
 import com.example.moneymanager.main.MainActivity;
 import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -61,6 +62,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
     private Calendar now = Calendar.getInstance();;
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID = "0945455387test";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -69,6 +71,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         getSupportActionBar().hide();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         btnBack = findViewById(R.id.btnBack);
         recyclerItems = findViewById(R.id.recycleItems);

@@ -20,6 +20,7 @@ import com.github.mikephil.charting.components.Legend;
 import com.github.mikephil.charting.data.PieData;
 import com.github.mikephil.charting.data.PieDataSet;
 import com.github.mikephil.charting.data.PieEntry;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -46,6 +47,7 @@ public class ChartActivity extends AppCompatActivity {
     private String CATEGORY = "expense";
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID = "0945455387test";
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -63,6 +65,8 @@ public class ChartActivity extends AppCompatActivity {
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         mListData = new ArrayList<>();
 

@@ -13,6 +13,7 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.example.moneymanager.R;
 import com.google.android.material.tabs.TabLayout;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -28,6 +29,7 @@ public class CategorySettingActivity extends AppCompatActivity {
     private LinearLayout footer;
 
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
     private static String uID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -42,7 +44,8 @@ public class CategorySettingActivity extends AppCompatActivity {
         footer = findViewById(R.id.footer);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
-        uID = "0945455387test";
+        mAuth = FirebaseAuth.getInstance();
+//        uID = mAuth.getCurrentUser().getUid();
 
         mListFragment = new ArrayList<>();
         ExpenseFragment expenseFragment = new ExpenseFragment();

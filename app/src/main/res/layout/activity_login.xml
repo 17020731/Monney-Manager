@@ -30,15 +30,17 @@
         android:layout_height="0dp"
         android:layout_weight="3">
         <Button
+            android:id="@+id/btnFace"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
             android:text="Login with Facebook"/>
         <Button
+            android:id="@+id/btnGoogle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginHorizontal="20dp"
-            android:text="Login with Phone Number"/>
+            android:text="Login with Google"/>
     </LinearLayout>
 
 </LinearLayout>
