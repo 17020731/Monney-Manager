@@ -1,17 +1,22 @@
 package com.example.moneymanager.main;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.recyclerview.widget.DefaultItemAnimator;
@@ -34,22 +39,32 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+
+import org.angmarch.views.NiceSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
 
     private TextView name;
     private LinearLayout btnIncome, btnExpense;
     private FloatingActionButton btnAdd;
     private ImageView btnMenu, btnReload;
+
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private ImageView avatar;
+    private TextView email;
+
     private LinearLayout btnMonthPicker;
     private TextView tvMonthPicker;
 
@@ -104,6 +119,8 @@ public class MainActivity extends AppCompatActivity {
         navigationView = findViewById(R.id.navigationView);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         name.setText(mAuth.getCurrentUser().getDisplayName());
+        email = navigationView.getHeaderView(0).findViewById(R.id.email);
+        email.setText(mAuth.getCurrentUser().getEmail());
         avatar = navigationView.getHeaderView(0).findViewById(R.id.avatar);
         Glide.with(avatar).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(avatar);
 
@@ -209,6 +226,57 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.categories:
                         intent = new Intent(MainActivity.this, CategorySettingActivity.class);
                         startActivity(intent);
+                        break;
+                    case R.id.export:
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                        View viewInflated = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_export, navigationView, false);
+                        TextView tvStart = viewInflated.findViewById(R.id.tvStart);
+                        Calendar now = Calendar.getInstance();
+                        tvStart.setOnClickListener( v-> {
+
+                            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                                    MainActivity.this,
+                                    now.get(Calendar.YEAR), // Initial year selection
+                                    now.get(Calendar.MONTH), // Initial month selection
+                                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                            );
+                            dpd.show(getSupportFragmentManager(), "DatePicker");
+                        });
+                        TextView tvEnd = viewInflated.findViewById(R.id.tvEnd);
+                        tvEnd.setOnClickListener( v -> {
+                            DatePickerDialog dpd = DatePickerDialog.newInstance(
+                                    MainActivity.this,
+                                    now.get(Calendar.YEAR), // Initial year selection
+                                    now.get(Calendar.MONTH), // Initial month selection
+                                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                            );
+                            dpd.show(getSupportFragmentManager(), "DatePicker");
+                        });
+                        NiceSpinner spinnerFormat = viewInflated.findViewById(R.id.spinnerFormat);
+                        List<String> dataset = new LinkedList<>(Arrays.asList("CSV", "Excel"));
+                        spinnerFormat.attachDataSource(dataset);
+                        builder.setView(viewInflated);
+
+                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.cancel();
+                            }
+                        });
+                        builder.show();
+                        break;
+                    case R.id.about:
+                        new AlertDialog.Builder(MainActivity.this)
+                                .setTitle("Money Manager")
+                                .setMessage("Version: 1.0.0\nVersion code: 9")
+                                .setPositiveButton("OK", null)
+                                .show();
                         break;
                 }
                 return false;
@@ -394,5 +462,10 @@ public class MainActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM EEE");
         String formattedDate = sdf.format(date);
         return formattedDate;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+
     }
 }

@@ -1,6 +1,7 @@
 package com.example.moneymanager.additem;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -9,7 +10,6 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -20,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.main.MainActivity;
+import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
@@ -29,10 +30,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
 
+import java.sql.Time;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,34 +49,41 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 public class ShowItemActivity extends AppCompatActivity implements View.OnClickListener,
-        DatePickerDialog.OnDateSetListener {
-    private RecyclerView recyclerItems;
-    private ShowItemsAdapter mAdapter;
+        DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
-
+    //------------Variable Header----------//
     private ImageView btnBack;
     private NiceSpinner spinner;
-
-    private LinearLayout numberKb;
-
+    //------------Variable Body----------//
+    private RecyclerView recyclerItems;
+    private ShowItemsAdapter mAdapter;
+    //-----------Variable for Keyboard---------------//
     private LinearLayout keyboard, bgIcon;
+    private LinearLayout numberKb;
     private TextView amount;
     private EditText edName;
     private ImageView icon;
     private Button num0, num1, num2, num3, num4, num5, num6, num7, num8, num9;
     private Button minus, plus, today, dot;
     private ImageButton backspace, result;
-    private static String AMOUNT = "0";
-
-    private Calendar now = Calendar.getInstance();
+    //-------------Database---------------------//
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID;
+    //----------------Other--------------------//
+    private Calendar now = Calendar.getInstance();
+    private static String AMOUNT = "0";
+    private static String FULL_DATETIME;
+    private static String DATE;
+    private static String TIME;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_item);
         getSupportActionBar().hide();
+
+        DATE = convertTimestampToDate(System.currentTimeMillis(), "dd/MM");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -95,6 +107,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         setUpKeyboard();
 
         showItems(recyclerItems, "expense");
+
+        editHistory();
         List<String> dataset = new LinkedList<>(Arrays.asList("Expense", "Income"));
         spinner.attachDataSource(dataset);
         spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
@@ -116,6 +130,23 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
+    private void editHistory(){
+        if(getIntent().getExtras() != null) {
+            String timestamp = getIntent().getExtras().getString("timestamp");
+            String category = getIntent().getExtras().getString("category");
+            String type = getIntent().getExtras().getString("type");
+            String name = getIntent().getExtras().getString("name");
+            long _amount = getIntent().getExtras().getLong("amount");
+
+            keyboard.setVisibility(View.VISIBLE);
+            today.setText("Today\n"+convertTimestampToDate(Long.parseLong(timestamp), "dd/MM"));
+            amount.setText(String.valueOf(_amount));
+            edName.setText(name);
+            icon.setImageResource(new App().getICons(type).first);
+            icon.setColorFilter(Color.parseColor("#ffffff"));
+            bgIcon.setBackgroundResource(new App().getICons(type).second);
+        }
+    }
     @Override
     public void onBackPressed() {
         if(keyboard.getVisibility() == View.VISIBLE){
@@ -156,7 +187,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         });
 
     }
-
     /**
      * Keyboard
      */
@@ -186,7 +216,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         //Todo:
         today = findViewById(R.id.today);
-        today.setText("Today\n"+now.get(Calendar.DAY_OF_MONTH)+"/"+now.get(Calendar.MONTH));
+        today.setText("Today\n"+DATE);
         today.setOnClickListener(this);
         minus = findViewById(R.id.minus);
         minus.setOnClickListener(this);
@@ -199,7 +229,27 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         result = findViewById(R.id.result);
         result.setOnClickListener(this);
     }
+    private String convertTimestampToDate(long timestamp, String format){
+        Date date = new java.util.Date(timestamp);
 
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
+        String formattedDate = sdf.format(date);
+        System.out.println(formattedDate);
+
+        return formattedDate;
+    }
+    private long convertDateToTimestamp(String time){
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+//        String dateInString = "23-11-2019 10:15:55";
+        Date date = null;
+        try {
+            date = formatter.parse(time);
+//            System.out.println(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
@@ -390,8 +440,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
             case R.id.result:
                 try {
                     if(Long.parseLong(amount.getText().toString().trim()) != 0) {
-                    long timestamp = System.currentTimeMillis();
-                    String month_year = convertTimes(timestamp);
+                    long timestamp = convertDateToTimestamp(DATE+" "+TIME);
+                    String month_year = convertTimestampToDate(timestamp, "MM-yyyy");
                     String type = (String) icon.getTag(R.string.key);
                     String category = spinner.getText().toString().toLowerCase();
                     
@@ -424,20 +474,19 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-    private String  convertTimes (long timestamp){
-        Date date = new java.util.Date(timestamp);
-
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM-yyyy");
-        String formattedDate = sdf.format(date);
-        System.out.println(formattedDate);
-
-        return formattedDate;
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;
+        today.setText("Today\n"+dayOfMonth+"/"+(monthOfYear+1));
+        TimePickerDialog tpd = TimePickerDialog.newInstance(
+                ShowItemActivity.this,
+                9, 0, true
+        );
+        tpd.show(getSupportFragmentManager(), "TimePicker");
     }
 
     @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        today.setText("Today\n"+dayOfMonth+"/"+(monthOfYear+1));
+    public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
+        TIME = hourOfDay+":"+minute+":"+second;
     }
-
-
 }

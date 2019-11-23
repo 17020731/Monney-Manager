@@ -34,11 +34,4 @@
         android:text="Awards"
         android:textSize="14dp"
         android:textColor="#000"/>
-    <ImageView
-        android:id="@+id/menu"
-        android:layout_alignParentRight="true"
-        android:layout_centerVertical="true"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@mipmap/menu2"/>
 </RelativeLayout>

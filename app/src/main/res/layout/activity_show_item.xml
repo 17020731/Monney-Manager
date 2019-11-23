@@ -12,6 +12,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+        <!--Header-->
         <RelativeLayout
             android:id="@+id/header"
             android:paddingHorizontal="10dp"
@@ -53,6 +54,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/border_container">
+        <!--Name Category and Amount-->
         <LinearLayout
             android:orientation="horizontal"
             android:layout_width="match_parent"
@@ -110,6 +112,7 @@
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+                <!--Button 7, 8, 9, Today-->
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -148,6 +151,7 @@
                         android:text="today"
                         android:textSize="12dp"/>
                 </LinearLayout>
+                <!--Button 4, 5, 6, + -->
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -187,6 +191,7 @@
                         android:text="+"
                         android:textSize="20dp"/>
                 </LinearLayout>
+                <!--Button 1, 2, 3, - -->
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
@@ -226,6 +231,7 @@
                         android:text="-"
                         android:textSize="20dp"/>
                 </LinearLayout>
+                <!--Button ., 0, backspace, result-->
                 <LinearLayout
                     android:orientation="horizontal"
                     android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.example.moneymanager.main;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -13,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.moneymanager.R;
+import com.example.moneymanager.additem.ShowItemActivity;
 import com.example.moneymanager.models.App;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +85,15 @@ public class DetailItemActivity extends AppCompatActivity {
             }
         });
 
+        btnEdit.setOnClickListener( v -> {
+            Intent intent = new Intent(DetailItemActivity.this, ShowItemActivity.class);
+            intent.putExtra("timestamp", timestamp);
+            intent.putExtra("name", name);
+            intent.putExtra("type", type);
+            intent.putExtra("category", category);
+            intent.putExtra("amount", amount);
+            startActivity(intent);
+        });
         btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
