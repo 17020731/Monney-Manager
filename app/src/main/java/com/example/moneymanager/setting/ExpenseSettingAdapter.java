@@ -1,18 +1,24 @@
 package com.example.moneymanager.setting;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
 import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.Item;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.ArrayList;
 
@@ -22,6 +28,9 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
     private ArrayList<Item> mListItem;
     private App app;
 
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private static String uID;
     public ExpenseSettingAdapter (Context mContext, ArrayList<Item>mListItem){
         this.mContext = mContext;
         this.mListItem = mListItem;
@@ -35,14 +44,30 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+        mAuth = FirebaseAuth.getInstance();
+        uID = mAuth.getCurrentUser().getUid();
         Item expenseSetting = mListItem.get(position);
         app = new App();
+
         holder.btnDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mListItem.remove(position);
-                notifyItemChanged(position);
-                notifyDataSetChanged();
+                new AlertDialog.Builder(mContext)
+                        .setTitle("Delete")
+                        .setMessage("Are you sure to delete item?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                mListItem.remove(position);
+                                mDatabase.child("categories").child(uID).child("expense").child(expenseSetting.getName()).setValue(null);
+                                notifyItemChanged(position);
+                                notifyDataSetChanged();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
             }
         });
         holder.icon.setImageResource(app.getICons(expenseSetting.getType()).first);
@@ -61,6 +86,7 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
         private TextView name;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+
             btnDel = itemView.findViewById(R.id.btnDel);
             icon = itemView.findViewById(R.id.icon);
             name = itemView.findViewById(R.id.name);

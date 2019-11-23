@@ -19,16 +19,24 @@
             android:layout_width="20dp"
             android:layout_height="20dp"
             android:src="@mipmap/back"/>
-        <TextView
-            android:id="@+id/btnMonPicker"
-            android:layout_marginLeft="10dp"
+        <LinearLayout
+            android:id="@+id/btnMonthPicker"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="30dp"
             android:layout_toRightOf="@id/btnBack"
+            android:gravity="center"
+            android:orientation="horizontal"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Nov"
-            android:textSize="16dp"
-            android:textColor="#000"/>
+            android:layout_height="match_parent">
+            <TextView
+                android:id="@+id/tvMonthPicker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Nov"
+                android:textSize="16dp"
+                android:textColor="#000"/>
+        </LinearLayout>
+
     </RelativeLayout>
     <ScrollView
         android:layout_width="fill_parent"
@@ -67,11 +75,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <RelativeLayout
-                            android:paddingHorizontal="20dp"
+                            android:paddingHorizontal="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/icon1"
+                                android:visibility="invisible"
                                 android:layout_centerVertical="true"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
@@ -82,9 +91,10 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxWidth="70dp"
-                                android:text="Salary"
-                                android:textSize="14dp"
+                                android:maxWidth="50dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="12dp"
                                 android:textColor="#b9b9b9"/>
                             <TextView
                                 android:id="@+id/percent1"
@@ -92,15 +102,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000"
-                                android:textSize="14dp"
-                                android:text="90.9%"/>
+                                android:textSize="12dp" />
                         </RelativeLayout>
                         <RelativeLayout
-                            android:paddingHorizontal="20dp"
+                            android:paddingHorizontal="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/icon2"
+                                android:visibility="invisible"
                                 android:layout_centerVertical="true"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
@@ -111,9 +121,10 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxWidth="70dp"
-                                android:text="Salary"
-                                android:textSize="14dp"
+                                android:maxWidth="50dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="12dp"
                                 android:textColor="#b9b9b9"/>
                             <TextView
                                 android:id="@+id/percent2"
@@ -121,15 +132,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000"
-                                android:textSize="14dp"
-                                android:text="90.9%"/>
+                                android:textSize="12dp" />
                         </RelativeLayout>
                         <RelativeLayout
-                            android:paddingHorizontal="20dp"
+                            android:paddingHorizontal="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/icon3"
+                                android:visibility="invisible"
                                 android:layout_centerVertical="true"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
@@ -140,9 +151,10 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxWidth="70dp"
-                                android:text="Salary"
-                                android:textSize="14dp"
+                                android:maxWidth="50dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="12dp"
                                 android:textColor="#b9b9b9"/>
                             <TextView
                                 android:id="@+id/percent3"
@@ -150,15 +162,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000"
-                                android:textSize="14dp"
-                                android:text="90.9%"/>
+                                android:textSize="12dp"/>
                         </RelativeLayout>
                         <RelativeLayout
-                            android:paddingHorizontal="20dp"
+                            android:paddingHorizontal="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/icon4"
+                                android:visibility="invisible"
                                 android:layout_centerVertical="true"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
@@ -169,9 +181,10 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxWidth="70dp"
-                                android:text="Salary"
-                                android:textSize="14dp"
+                                android:maxWidth="50dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="12dp"
                                 android:textColor="#b9b9b9"/>
                             <TextView
                                 android:id="@+id/percent4"
@@ -179,15 +192,15 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000"
-                                android:textSize="14dp"
-                                android:text="90.9%"/>
+                                android:textSize="12dp" />
                         </RelativeLayout>
                         <RelativeLayout
-                            android:paddingHorizontal="20dp"
+                            android:paddingHorizontal="10dp"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
                             <ImageView
                                 android:id="@+id/icon5"
+                                android:visibility="invisible"
                                 android:layout_centerVertical="true"
                                 android:layout_width="10dp"
                                 android:layout_height="10dp"
@@ -198,9 +211,10 @@
                                 android:layout_marginLeft="10dp"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:maxWidth="70dp"
-                                android:text="Salary"
-                                android:textSize="14dp"
+                                android:maxWidth="50dp"
+                                android:ellipsize="end"
+                                android:maxLines="1"
+                                android:textSize="12dp"
                                 android:textColor="#b9b9b9"/>
                             <TextView
                                 android:id="@+id/percent5"
@@ -208,8 +222,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:textColor="#000"
-                                android:textSize="14dp"
-                                android:text="90.9%"/>
+                                android:textSize="12dp" />
                         </RelativeLayout>
                     </LinearLayout>
                     </LinearLayout>

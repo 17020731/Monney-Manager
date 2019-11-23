@@ -1,11 +1,14 @@
 package com.example.moneymanager.setting;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -25,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
+
 public class AddIncomeActivity extends AppCompatActivity {
     private ImageView btnBack;
     private TextView title1, title2, title3;
@@ -43,12 +48,11 @@ public class AddIncomeActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
         bgIcon = findViewById(R.id.bgIcon);
         icon = findViewById(R.id.icon);
-        icon.setTag(R.string.key, "food");
-
+        icon.setColorFilter(Color.parseColor("#ffffff"));
         edName = findViewById(R.id.edName);
         btnSubmit = findViewById(R.id.btnSubmit);
 
@@ -77,18 +81,23 @@ public class AddIncomeActivity extends AppCompatActivity {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = edName.getText().toString().trim();
+                String name = edName.getText().toString().trim();
                 if(!name.isEmpty()){
+                    String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
                     mDatabase.child("categories").child(uID).child("income").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             edName.setText("");
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                if(snapshot.getKey().equals(name)){
+                                if(snapshot.getKey().equals(capName)){
+                                    Toasty.warning(AddIncomeActivity.this, "Category exists!!", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }
-                            mDatabase.child("categories").child(uID).child("income").child(name).setValue(icon.getTag(R.string.key));
+                            mDatabase.child("categories").child(uID).child("income").child(capName).setValue(icon.getTag(R.string.key));
+                            Toasty.success(AddIncomeActivity.this, "Add success!!", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(AddIncomeActivity.this, CategorySettingActivity.class);
+                            startActivity(intent);
                         }
 
                         @Override
@@ -96,6 +105,8 @@ public class AddIncomeActivity extends AppCompatActivity {
 
                         }
                     });
+                } else{
+                    Toasty.error(AddIncomeActivity.this, "Please enter name!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -107,21 +118,18 @@ public class AddIncomeActivity extends AppCompatActivity {
     }
     private ArrayList<Item> getListIncome(){
         ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("food"));
-        mListItem.add(new Item("health"));
-        mListItem.add(new Item("car"));
-        mListItem.add(new Item("transportation"));
-        mListItem.add(new Item("sport"));
-        mListItem.add(new Item("award"));
-        mListItem.add(new Item("shopping"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-
+        mListItem.add(new Item("hamburger"));
+        mListItem.add(new Item("potato"));
+        mListItem.add(new Item("noodle"));
+        mListItem.add(new Item("pizza"));
+        mListItem.add(new Item("bread"));
+        mListItem.add(new Item("fish"));
+        mListItem.add(new Item("apple"));
+        mListItem.add(new Item("ice_cream"));
+        mListItem.add(new Item("cake"));
+        mListItem.add(new Item("tea"));
+        mListItem.add(new Item("glass"));
+        mListItem.add(new Item("soda"));
         return mListItem;
     }
     private void showItems(RecyclerView recyclerItems, ArrayList<Item> mListItem){

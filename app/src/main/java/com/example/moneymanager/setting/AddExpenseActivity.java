@@ -1,11 +1,14 @@
 package com.example.moneymanager.setting;
 
+import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +27,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+
+import es.dmoral.toasty.Toasty;
 
 public class AddExpenseActivity extends AppCompatActivity {
     private ImageView btnBack;
@@ -46,11 +51,11 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
         bgIcon = findViewById(R.id.bgIcon);
         icon = findViewById(R.id.icon);
-        icon.setTag(R.string.key, "food");
+        icon.setColorFilter(Color.parseColor("#ffffff"));
         edName = findViewById(R.id.edName);
         btnSubmit = findViewById(R.id.btnSubmit);
 
@@ -70,25 +75,29 @@ public class AddExpenseActivity extends AppCompatActivity {
         mRecyclerView2 = findViewById(R.id.mRecycleView2);
         mRecyclerView3 = findViewById(R.id.mRecycleView3);
 
-        showItemsByTopic("Food", title1, mRecyclerView1, getListExpense());
-        showItemsByTopic("Health", title2, mRecyclerView2, getListExpense());
-        showItemsByTopic("Shopping", title3, mRecyclerView3, getListExpense());
+        showItemsByTopic("Food", title1, mRecyclerView1, getListFoodExpense());
+        showItemsByTopic("Transportation", title2, mRecyclerView2, getListTransportationExpense());
+        showItemsByTopic("Shopping", title3, mRecyclerView3, getListShoppingExpense());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                final String name = edName.getText().toString().trim();
+                String name = edName.getText().toString().trim();
                 if(!name.isEmpty()){
+                    String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
                     mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             edName.setText("");
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                if(snapshot.getKey().equals(name)){
+                                if(snapshot.getKey().equals(capName)){
+                                    Toasty.warning(AddExpenseActivity.this, "Category exists!!", Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }
-                            mDatabase.child("categories").child(uID).child("expense").child(name).setValue(icon.getTag(R.string.key));
+                            mDatabase.child("categories").child(uID).child("expense").child(capName).setValue(icon.getTag(R.string.key));
+                            Toasty.success(AddExpenseActivity.this, "Add success!!", Toast.LENGTH_SHORT).show();
+                            onBackPressed();
                         }
 
                         @Override
@@ -96,6 +105,8 @@ public class AddExpenseActivity extends AppCompatActivity {
 
                         }
                     });
+                } else {
+                    Toasty.error(AddExpenseActivity.this, "Please enter name!", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -104,27 +115,53 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     private void showItemsByTopic(String topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
         title.setText(topic);
-        showItems(recyclerView, getListExpense());
+        showItems(recyclerView, mListItem);
     }
-    private ArrayList<Item> getListExpense(){
+    private ArrayList<Item> getListFoodExpense(){
         ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
-        mListItem.add(new Item("home"));
+        mListItem.add(new Item("hamburger"));
+        mListItem.add(new Item("potato"));
+        mListItem.add(new Item("noodle"));
+        mListItem.add(new Item("pizza"));
+        mListItem.add(new Item("bread"));
+        mListItem.add(new Item("fish"));
+        mListItem.add(new Item("apple"));
+        mListItem.add(new Item("ice_cream"));
+        mListItem.add(new Item("cake"));
+        mListItem.add(new Item("tea"));
+        mListItem.add(new Item("glass"));
+        mListItem.add(new Item("soda"));
 
         return mListItem;
     }
+    private ArrayList<Item> getListTransportationExpense(){
+        ArrayList<Item>mListItem = new ArrayList<>();
+        mListItem.add(new Item("petrol"));
+        mListItem.add(new Item("gas_station"));
+        mListItem.add(new Item("car_wash"));
+        mListItem.add(new Item("electric_car"));
+        mListItem.add(new Item("highway"));
+        mListItem.add(new Item("truck"));
+        mListItem.add(new Item("bike"));
+        mListItem.add(new Item("motorbike"));
+        mListItem.add(new Item("plane"));
+        mListItem.add(new Item("boat"));
+        mListItem.add(new Item("train"));
+
+        return mListItem;
+    }
+    private ArrayList<Item> getListShoppingExpense(){
+        ArrayList<Item>mListItem = new ArrayList<>();
+        mListItem.add(new Item("cart"));
+        mListItem.add(new Item("dress"));
+        mListItem.add(new Item("underwear"));
+        mListItem.add(new Item("shoes_man"));
+        mListItem.add(new Item("shoes_woman"));
+        mListItem.add(new Item("glasses"));
+
+        return mListItem;
+    }
+
     private void showItems(RecyclerView recyclerItems, ArrayList<Item> mListItem){
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         recyclerItems.setLayoutManager(layoutManager);

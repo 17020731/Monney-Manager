@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -34,20 +35,15 @@ import com.google.firebase.database.ValueEventListener;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private Button btnFace, btnGoogle;
-
     private static final String TAG = "GoogleActivity";
     private static final int RC_SIGN_IN = 9001;
-
-    private DatabaseReference mDatabase;
-    private FirebaseAuth mAuth;
-
-
-    private GoogleSignInClient mGoogleSignInClient;
-
-
     @VisibleForTesting
     public ProgressDialog mProgressDialog;
+    private RelativeLayout btnGoogle;
+    private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private GoogleSignInClient mGoogleSignInClient;
+    private static String uID;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -55,7 +51,6 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 
-        btnFace = findViewById(R.id.btnFace);
         btnGoogle = findViewById(R.id.btnGoogle);
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
@@ -72,8 +67,9 @@ public class LoginActivity extends AppCompatActivity {
         // [START initialize_auth]
         // Initialize Firebase Auth
         mAuth = FirebaseAuth.getInstance();
+//        mAuth.signOut();
         // [END initialize_auth]
-        if(mAuth.getCurrentUser() != null){
+        if (mAuth.getCurrentUser() != null) {
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }
@@ -101,7 +97,6 @@ public class LoginActivity extends AppCompatActivity {
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w(TAG, "Google sign in failed", e);
-
             }
         }
     }
@@ -110,22 +105,45 @@ public class LoginActivity extends AppCompatActivity {
     // [START auth_with_google]
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.d(TAG, "firebaseAuthWithGoogle:" + acct.getId());
-        // [START_EXCLUDE silent]
-        showProgressDialog();
-        // [END_EXCLUDE]
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+                        showProgressDialog();
+
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             Log.d(TAG, "signInWithCredential:success");
                             FirebaseUser user = mAuth.getCurrentUser();
+                            uID = user.getUid();
 
+                            mDatabase.child("users").addListenerForSingleValueEvent(new ValueEventListener() {
+                                @Override
+                                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                    boolean check = false;
+                                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                                        if (snapshot.getKey().equals(uID)) {
+                                            check = true;
+                                            break;
+                                        }
+                                    }
+                                    if(!check){
+                                        mDatabase.child("users").child(uID).setValue(true);
+                                        setCategories();
+                                    }
+                                }
+
+                                @Override
+                                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                }
+                            });
                             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                             startActivity(intent);
+
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w(TAG, "signInWithCredential:failure", task.getException());
@@ -143,6 +161,8 @@ public class LoginActivity extends AppCompatActivity {
 
     // [START signin]
     private void signIn() {
+        // [START_EXCLUDE silent]
+        // [END_EXCLUDE]
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -177,5 +197,47 @@ public class LoginActivity extends AppCompatActivity {
         if (mProgressDialog != null && mProgressDialog.isShowing()) {
             mProgressDialog.dismiss();
         }
+    }
+    
+    private void setCategories(){
+        //--------------------------Expenses--------------------//
+        mDatabase.child("categories").child(uID).child("expense").child("Food").setValue("food");
+        mDatabase.child("categories").child(uID).child("expense").child("Bills").setValue("bills");
+        mDatabase.child("categories").child(uID).child("expense").child("Transportation").setValue("transportation");
+        mDatabase.child("categories").child(uID).child("expense").child("Home").setValue("home");
+        mDatabase.child("categories").child(uID).child("expense").child("Car").setValue("car");
+        mDatabase.child("categories").child(uID).child("expense").child("Entertainment").setValue("entertainment");
+        mDatabase.child("categories").child(uID).child("expense").child("Shopping").setValue("shopping");
+        mDatabase.child("categories").child(uID).child("expense").child("Clothing").setValue("clothing");
+        mDatabase.child("categories").child(uID).child("expense").child("Insurance").setValue("insurance");
+        mDatabase.child("categories").child(uID).child("expense").child("Tax").setValue("tax");
+        mDatabase.child("categories").child(uID).child("expense").child("Telephone").setValue("telephone");
+        mDatabase.child("categories").child(uID).child("expense").child("Cigarette").setValue("cigarette");
+        mDatabase.child("categories").child(uID).child("expense").child("Health").setValue("health");
+        mDatabase.child("categories").child(uID).child("expense").child("Sport").setValue("sport");
+        mDatabase.child("categories").child(uID).child("expense").child("Baby").setValue("baby");
+        mDatabase.child("categories").child(uID).child("expense").child("Pet").setValue("pet");
+        mDatabase.child("categories").child(uID).child("expense").child("Beauty").setValue("beauty");
+        mDatabase.child("categories").child(uID).child("expense").child("Hamburger").setValue("hamburger");
+        mDatabase.child("categories").child(uID).child("expense").child("Vegetables").setValue("vegetables");
+        mDatabase.child("categories").child(uID).child("expense").child("Snack").setValue("snacks");
+        mDatabase.child("categories").child(uID).child("expense").child("Gift").setValue("gift");
+        mDatabase.child("categories").child(uID).child("expense").child("Social").setValue("social");
+        mDatabase.child("categories").child(uID).child("expense").child("Travel").setValue("travel");
+        mDatabase.child("categories").child(uID).child("expense").child("Education").setValue("education");
+
+        //--------------------------Income--------------------//
+        mDatabase.child("categories").child(uID).child("income").child("Salary").setValue("salary");
+        mDatabase.child("categories").child(uID).child("income").child("Awards").setValue("awards");
+        mDatabase.child("categories").child(uID).child("income").child("Grants").setValue("grants");
+        mDatabase.child("categories").child(uID).child("income").child("Sale").setValue("sale");
+        mDatabase.child("categories").child(uID).child("income").child("Sale").setValue("sale");
+        mDatabase.child("categories").child(uID).child("income").child("Rental").setValue("rental");
+        mDatabase.child("categories").child(uID).child("income").child("Refunds").setValue("refunds");
+        mDatabase.child("categories").child(uID).child("income").child("Coupons").setValue("coupons");
+        mDatabase.child("categories").child(uID).child("income").child("Lottery").setValue("lottery");
+        mDatabase.child("categories").child(uID).child("income").child("Dividends").setValue("dividends");
+        mDatabase.child("categories").child(uID).child("income").child("Investments").setValue("investments");
+
     }
 }

@@ -45,7 +45,7 @@ public class CategorySettingActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
         mListFragment = new ArrayList<>();
         ExpenseFragment expenseFragment = new ExpenseFragment();

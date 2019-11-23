@@ -45,11 +45,11 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
         holder.icon.setImageResource(app.getICons(history.getType()).first);
         holder.icon.setColorFilter(Color.parseColor("#ffffff"));
         holder.bgIcon.setBackgroundResource(bgIcon);
-        if(!history.getName().isEmpty()){
-            holder.name.setText(history.getName());
+        if(history.getName()== null || history.getName().isEmpty() ){
+            holder.name.setText(history.getType());
         }
         else
-            holder.name.setText(history.getType());
+            holder.name.setText(history.getName());
 
         if(history.getCategory().equals("expense")){
             holder.amount.setText("-"+history.getAmount());
@@ -63,7 +63,11 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
                 intent.putExtra("timestamp", history.getTimestamp());
                 intent.putExtra("category", history.getCategory());
                 intent.putExtra("type", history.getType());
-                intent.putExtra("name", history.getName());
+                if(history.getName()== null || history.getName().isEmpty()){
+                    intent.putExtra("name", history.getType());
+                } else{
+                    intent.putExtra("name", history.getName());
+                }
                 intent.putExtra("amount", history.getAmount());
                 mContext.startActivity(intent);
             }

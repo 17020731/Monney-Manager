@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -19,11 +20,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.moneymanager.R;
-import com.example.moneymanager.chart.ChartActivity;
-import com.example.moneymanager.profile.ProfileActivity;
 import com.example.moneymanager.additem.ShowItemActivity;
+import com.example.moneymanager.chart.ChartActivity;
 import com.example.moneymanager.models.History;
 import com.example.moneymanager.models.HistoryChild;
+import com.example.moneymanager.profile.ProfileActivity;
 import com.example.moneymanager.setting.CategorySettingActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
@@ -38,6 +39,8 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
+import es.dmoral.toasty.Toasty;
+
 public class MainActivity extends AppCompatActivity {
 
     private TextView name;
@@ -47,7 +50,12 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawer;
     private NavigationView navigationView;
     private ImageView avatar;
+    private LinearLayout btnMonthPicker;
+    private TextView tvMonthPicker;
 
+    private TextView month1, month2, month3, month4, month5, month6, month7, month8, month9, month10, month11, month12;
+    private ImageButton btnBefore, btnAfter;
+    private TextView tvYear;
     private RecyclerView recyclerView;
     private ArrayList<History>mListHistory;
 
@@ -55,11 +63,15 @@ public class MainActivity extends AppCompatActivity {
     private HistoryChildAdapter mAdapterChild;
 
     private ScrollView scrollView;
-
+    private static String MONTH_YEAR = "";
+    private static String YEAR = "2019";
 
     private LinearLayout monthPicker;
     private LinearLayout emptyLinear;
 
+    private TextView sumIncome;
+    private TextView sumExpense;
+    private TextView balance;
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -70,15 +82,24 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         getSupportActionBar().hide();
 
+
+        MONTH_YEAR = convertMonthYear(System.currentTimeMillis());
+
         monthPicker = findViewById(R.id.monthPicker);
+        btnMonthPicker = findViewById(R.id.btnMonthPicker);
+        tvMonthPicker = findViewById(R.id.tvMonthPicker);
 
         emptyLinear = findViewById(R.id.emptyLinear);
         emptyLinear.setVisibility(View.VISIBLE);
         drawer = findViewById(R.id.drawer);
 
+        sumIncome = findViewById(R.id.sumIncome);
+        sumExpense = findViewById(R.id.sumExpense);
+        balance = findViewById(R.id.balance);
+
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
         navigationView = findViewById(R.id.navigationView);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
@@ -105,22 +126,124 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setNestedScrollingEnabled(false);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        mDatabase.child("histories").child(uID).child("11-2019").addListenerForSingleValueEvent(new ValueEventListener() {
+        getData(MONTH_YEAR);
+        initMonthPicker();
+
+        btnMonthPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (monthPicker.getVisibility() == View.VISIBLE)
+                    monthPicker.setVisibility(View.INVISIBLE);
+                else
+                    monthPicker.setVisibility(View.VISIBLE);
+            }
+        });
+
+        btnAdd= findViewById(R.id.btnAdd);
+        btnExpense = findViewById(R.id.btnExpense);
+        btnIncome = findViewById(R.id.btnIncome);
+        btnMenu = findViewById(R.id.btnMenu);
+        btnReload = findViewById(R.id.btnReload);
+
+        btnMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawer.openDrawer(Gravity.LEFT);
+            }
+        });
+        btnExpense.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+                intent.putExtra("category", "expense");
+                intent.putExtra("month_year", MONTH_YEAR);
+                intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+                intent.putExtra("content", "Expense\n"+sumExpense.getText());
+                startActivity(intent);
+            }
+        });
+        btnIncome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+                intent.putExtra("category", "income");
+                intent.putExtra("month_year", MONTH_YEAR);
+                intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+                intent.putExtra("content", "Income\n"+sumIncome.getText());
+                startActivity(intent);
+            }
+        });
+        btnAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(MainActivity.this, ShowItemActivity.class);
+                startActivity(intent);
+            }
+        });
+        btnReload.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toasty.normal(MainActivity.this, "Reload succcess!!", Toasty.LENGTH_SHORT).show();
+                finish();
+                overridePendingTransition(0, 0);
+                startActivity(getIntent());
+                overridePendingTransition(0, 0);
+            }
+        });
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                int id = menuItem.getItemId();
+                Intent intent;
+                switch (id){
+                    case R.id.chart:
+                        intent = new Intent(MainActivity.this, ChartActivity.class);
+                        intent.putExtra("category", "expense");
+                        intent.putExtra("month_year", MONTH_YEAR);
+                        intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+                        intent.putExtra("content", "Expense\n"+sumExpense.getText());
+                        startActivity(intent);
+                        break;
+
+                    case R.id.categories:
+                        intent = new Intent(MainActivity.this, CategorySettingActivity.class);
+                        startActivity(intent);
+                        break;
+                }
+                return false;
+            }
+        });
+    }
+
+    private void getData(String month_year){
+        mDatabase.child("histories").child(uID).child(month_year).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(!dataSnapshot.exists())
-                    return;
+                mListHistory.clear();
+
                 ArrayList<String>times = new ArrayList<>();
                 ArrayList<HistoryChild>mListHistoryChild = new ArrayList<>();
+                long sumIn = 0, sumEx = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     times.add(snapshot.getKey());
 
-                    HistoryChild child = new HistoryChild();
-                    child = snapshot.getValue(HistoryChild.class);
+                    HistoryChild child = snapshot.getValue(HistoryChild.class);
                     child.setTimestamp(snapshot.getKey());
 
+                    if(child.getCategory().trim().toLowerCase().equals("income")){
+                        sumIn += child.getAmount();
+                    }else if(child.getCategory().trim().toLowerCase().equals("expense")){
+                        sumEx += child.getAmount();
+                    }
                     mListHistoryChild.add(child);
                 }
+
+                sumIncome.setText(""+sumIn);
+                sumExpense.setText(""+sumEx);
+                System.out.println(""+(sumIn-sumEx));
+                balance.setText(""+(sumIn-sumEx));
+
 
                 for (int i = 0; i < times.size(); i++){
                     String date = convertDayMonth(Long.parseLong(times.get(i)));
@@ -139,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         }
                     }
-                    mListHistory.add(new History(date, list));
+                    mListHistory.add(new History(convertDayMonthDate(Long.parseLong(times.get(i))), list));
                 }
 
                 if(mListHistory.size() == 0){
@@ -159,81 +282,94 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void initMonthPicker(){
+        month1 = findViewById(R.id.month1);
+        setUpButton(month1);
+        month2 = findViewById(R.id.month2);
+        setUpButton(month2);
+        month3 = findViewById(R.id.month3);
+        setUpButton(month3);
+        month4 = findViewById(R.id.month4);
+        setUpButton(month4);
+        month5 = findViewById(R.id.month5);
+        setUpButton(month5);
+        month6 = findViewById(R.id.month6);
+        setUpButton(month6);
+        month7 = findViewById(R.id.month7);
+        setUpButton(month7);
+        month8 = findViewById(R.id.month8);
+        setUpButton(month8);
+        month9 = findViewById(R.id.month9);
+        setUpButton(month9);
+        month10 = findViewById(R.id.month10);
+        setUpButton(month10);
+        month11 = findViewById(R.id.month11);
+        setUpButton(month11);
+        month12 = findViewById(R.id.month12);
+        setUpButton(month12);
 
+        btnBefore = findViewById(R.id.btnBefore);
+        btnAfter = findViewById(R.id.btnAfter);
+        tvYear = findViewById(R.id.tvYear);
 
-        monthPicker.setOnClickListener(new View.OnClickListener() {
+        btnBefore.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) - 1));
+            }
+        });
+
+        btnAfter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) + 1));
+            }
+        });
+
+    }
+    private void setUpButton(TextView tv){
+        tv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!tvYear.getText().toString().equals(YEAR)){
+                    tvMonthPicker.setText(tv.getText() +"-"+ tvYear.getText());
+                } else {
+                    tvMonthPicker.setText(tv.getText());
+                }
+                MONTH_YEAR = covertMonthtoNumber(tv.getText().toString())+"-"+tvYear.getText().toString();
+                getData(MONTH_YEAR);
                 monthPicker.setVisibility(View.INVISIBLE);
             }
         });
-
-        btnAdd= findViewById(R.id.btnAdd);
-        btnExpense = findViewById(R.id.btnExpense);
-        btnIncome = findViewById(R.id.btnIncome);
-        btnMenu = findViewById(R.id.btnMenu);
-        btnReload = findViewById(R.id.btnReload);
-
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(Gravity.LEFT);
-            }
-        });
-        btnExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
-                intent.putExtra("category", "expense");
-                startActivity(intent);
-            }
-        });
-        btnIncome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
-                intent.putExtra("category", "income");
-                startActivity(intent);
-            }
-        });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ShowItemActivity.class);
-                startActivity(intent);
-            }
-        });
-        btnReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
-            }
-        });
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                Intent intent;
-                switch (id){
-                    case R.id.chart:
-                        intent = new Intent(MainActivity.this, ChartActivity.class);
-                        intent.putExtra("category", "expense");
-                        startActivity(intent);
-                        break;
-
-                    case R.id.categories:
-                        intent = new Intent(MainActivity.this, CategorySettingActivity.class);
-                        startActivity(intent);
-                        break;
-                }
-                return false;
-            }
-        });
     }
-
+    private String covertMonthtoNumber(String month){
+        if(month.equals("Jan")){
+            return "1";
+        } else if(month.equals("Feb")){
+            return "2";
+        } else if(month.equals("Mar")){
+            return "3";
+        } else if(month.equals("Apr")){
+            return "4";
+        } else if(month.equals("May")){
+            return "5";
+        } else if(month.equals("Jun")){
+            return "6";
+        } else if(month.equals("July")){
+            return "7";
+        } else if(month.equals("Aug")){
+            return "8";
+        } else if(month.equals("Sep")){
+            return "9";
+        } else if(month.equals("Oct")){
+            return "10";
+        } else if(month.equals("Nov")){
+            return "11";
+        } else {
+            return "12";
+        }
+    }
     private String convertMonthYear (long timestamp){
         Date date = new java.util.Date(timestamp);
 
@@ -249,7 +385,14 @@ public class MainActivity extends AppCompatActivity {
 
         SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM");
         String formattedDate = sdf.format(date);
+        return formattedDate;
+    }
 
+    private String convertDayMonthDate (long timestamp){
+        Date date = new java.util.Date(timestamp);
+
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM EEE");
+        String formattedDate = sdf.format(date);
         return formattedDate;
     }
 }

@@ -26,18 +26,29 @@
                 android:layout_width="25dp"
                 android:layout_height="25dp"
                 android:src="@mipmap/menu"/>
-            <TextView
-                android:id="@+id/spinner"
-                android:layout_toRightOf="@id/btnMenu"
-                android:layout_marginLeft="15dp"
+            <LinearLayout
+                android:id="@+id/btnMonthPicker"
                 android:layout_centerVertical="true"
+                android:layout_marginLeft="30dp"
+                android:layout_toRightOf="@id/btnMenu"
+                android:gravity="center"
+                android:orientation="horizontal"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAlignment="center"
-                android:text="Nov"
-                android:textSize="14dp"
-                android:background="#fff"/>
-
+                android:layout_height="match_parent">
+                <TextView
+                    android:id="@+id/tvMonthPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Nov"
+                    android:textSize="16dp"
+                    android:textColor="#000"/>
+                <ImageView
+                    android:layout_marginLeft="5dp"
+                    android:layout_toRightOf="@id/btnMonthPicker"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/down"/>
+            </LinearLayout>
             <ImageView
                 android:layout_marginRight="15dp"
                 android:layout_centerVertical="true"
@@ -78,9 +89,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Income"
-                            android:textSize="16dp"
+                            android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
+                            android:id="@+id/sumIncome"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -103,9 +115,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Expenses"
-                            android:textSize="16dp"
+                            android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
+                            android:id="@+id/sumExpense"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -127,9 +140,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Balance"
-                            android:textSize="16dp"
+                            android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
+                            android:id="@+id/balance"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="0"
@@ -161,12 +175,14 @@
                 android:layout_height="wrap_content"
                 android:weightSum="10">
                 <ImageButton
+                    android:id="@+id/btnBefore"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:backgroundTint="@android:color/transparent"
                     android:src="@mipmap/left"/>
                 <TextView
+                    android:id="@+id/tvYear"
                     android:layout_gravity="center"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
@@ -175,6 +191,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <ImageButton
+                    android:id="@+id/btnAfter"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
@@ -187,6 +204,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6">
                 <TextView
+                    android:id="@+id/month1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -194,6 +212,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month2"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -201,6 +220,8 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month3"
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -208,6 +229,8 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month4"
+
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -215,6 +238,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month5"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -222,6 +246,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month6"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -236,6 +261,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="6">
                 <TextView
+                    android:id="@+id/month7"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -243,6 +269,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month8"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -250,6 +277,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month9"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -257,6 +285,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month10"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -264,6 +293,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month11"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -271,6 +301,7 @@
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
+                    android:id="@+id/month12"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
@@ -295,7 +326,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="No Transactions\nTap + to add one"/>
+                android:textAlignment="center"
+                android:text="No Transactions or\nCheck your connection"/>
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -316,7 +348,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:background="@color/white"
-        app:itemTextColor="@color/darkgray"
+        app:itemTextColor="#000"
         app:itemIconTint="@color/darkgray"
         app:menu="@menu/drawer_menu">
     </com.google.android.material.navigation.NavigationView>

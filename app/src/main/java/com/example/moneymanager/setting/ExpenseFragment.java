@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moneymanager.R;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -39,7 +40,6 @@ public class ExpenseFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_expense, container, false);
-
         recyclerExpense = v.findViewById(R.id.recycleExpense);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(getActivity(), RecyclerView.VERTICAL, false);
         recyclerExpense.setLayoutManager(layoutManager1);
@@ -50,15 +50,18 @@ public class ExpenseFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
-        mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("categories").child(uID).child("expense").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                mListExpense.clear();
+                if(dataSnapshot.exists()) {
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 //                    System.out.println(snapshot.getKey());
-                    mListExpense.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
-                    mAdapter.notifyDataSetChanged();
+                        mListExpense.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
+                        mAdapter.notifyDataSetChanged();
+                    }
                 }
             }
 
@@ -67,6 +70,7 @@ public class ExpenseFragment extends Fragment {
 
             }
         });
+
 
         recyclerExpense.setAdapter(mAdapter);
         return v;

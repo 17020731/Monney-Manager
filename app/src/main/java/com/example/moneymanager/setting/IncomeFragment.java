@@ -45,11 +45,12 @@ public class IncomeFragment extends Fragment {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
-        mDatabase.child("categories").child(uID).child("income").addListenerForSingleValueEvent(new ValueEventListener() {
+        mDatabase.child("categories").child(uID).child("income").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mListIncome.clear();
                 for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                     mListIncome.add(new Item((String) snapshot.getValue(),snapshot.getKey()));
                     mAdapter.notifyDataSetChanged();

@@ -26,11 +26,12 @@
                 android:src="@mipmap/back"/>
             <org.angmarch.views.NiceSpinner
                 android:id="@+id/spinner"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="30dp"
                 android:layout_toRightOf="@id/btnBack"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="14dp"/>
+                android:textSize="16dp"
+                android:textColor="#000"/>
         </RelativeLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -46,7 +47,7 @@
     <!--  Keyboard  -->
     <LinearLayout
         android:id="@+id/keyboard"
-        android:visibility="visible"
+        android:visibility="invisible"
         android:orientation="vertical"
         android:layout_alignParentBottom="true"
         android:layout_width="match_parent"
@@ -178,6 +179,7 @@
                         android:textSize="20dp"/>
                     <Button
                         android:id="@+id/plus"
+                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -216,6 +218,7 @@
                         android:textSize="20dp"/>
                     <Button
                         android:id="@+id/minus"
+                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -230,6 +233,7 @@
                     android:weightSum="4">
                     <Button
                         android:id="@+id/dot"
+                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -39,12 +40,15 @@ public class ChartActivity extends AppCompatActivity {
     private ArrayList<HistoryChild>mListData;
 
     private ImageView btnBack;
+    private LinearLayout btnMonthPicker;
+    private TextView tvMonthPicker;
 
     private ImageView icon1, icon2, icon3, icon4, icon5;
     private TextView name1, name2, name3, name4, name5;
     private TextView percent1, percent2, percent3, percent4, percent5;
 
-    private String CATEGORY = "expense";
+    private String CATEGORY = "";
+    private String MONTH_YEAR = "";
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -56,6 +60,9 @@ public class ChartActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
         btnBack = findViewById(R.id.btnBack);
+        btnMonthPicker = findViewById(R.id.btnMonthPicker);
+        tvMonthPicker = findViewById(R.id.tvMonthPicker);
+        setUpButton();
 
         pieChart = findViewById(R.id.pieChart);
         recyclerView = findViewById(R.id.recycleView);
@@ -66,13 +73,16 @@ public class ChartActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-//        uID = mAuth.getCurrentUser().getUid();
+        uID = mAuth.getCurrentUser().getUid();
 
         mListData = new ArrayList<>();
 
 
         CATEGORY = getIntent().getExtras().getString("category", "expense");
-        getExpenseData(CATEGORY, "11-2019");
+        MONTH_YEAR = getIntent().getExtras().getString("month_year", "11-2019");
+        tvMonthPicker.setText(getIntent().getExtras().getString("month_picker", "Nov"));
+        System.out.println(MONTH_YEAR + "ngu");
+        getExpenseData(CATEGORY, MONTH_YEAR);
 
 
         mSendAdapter = new DataAdapter(this, mListData);
@@ -87,6 +97,7 @@ public class ChartActivity extends AppCompatActivity {
     }
 
     private void setUpButton(){
+
         icon1 = findViewById(R.id.icon1);
         icon2 = findViewById(R.id.icon2);
         icon3 = findViewById(R.id.icon3);
@@ -113,7 +124,7 @@ public class ChartActivity extends AppCompatActivity {
         pieChart.getDescription().setEnabled(false);
         pieChart.setDrawEntryLabels(false);
 
-        pieChart.setCenterText("Expenses\n62000");
+        pieChart.setCenterText(getIntent().getExtras().getString("content", "Ngu"));
 
         pieChart.setDragDecelerationFrictionCoef(0.95f);
         pieChart.setExtraOffsets(10f, 10f, 10f, 10f);
@@ -129,14 +140,40 @@ public class ChartActivity extends AppCompatActivity {
 
         for (int i = 0; i < mListData.size(); i++){
             if(i == 5){
-                return;
+                break;
             }
             String name = mListData.get(i).getName();
             if(name.isEmpty()) name = mListData.get(i).getType();
             int per = (int) Math.round(mListData.get(i).getPercent());
             System.out.println(per);
-
-            yValues.add(new PieEntry((float) per, name));
+            if(i == 0){
+                name1.setText(name);
+                icon1.setVisibility(View.VISIBLE);
+                percent1.setText(String.format("%.2f", mListData.get(0).getPercent())+"%");
+            } else if(i == 1){
+                name2.setText(name);
+                icon2.setVisibility(View.VISIBLE);
+                percent2.setText(String.format("%.2f", mListData.get(1).getPercent())+"%");
+            } else if(i == 2){
+                name3.setText(name);
+                icon3.setVisibility(View.VISIBLE);
+                percent3.setText(String.format("%.2f", mListData.get(2).getPercent())+"%");
+            } else if(i == 3){
+                name4.setText(name);
+                icon4.setVisibility(View.VISIBLE);
+                percent4.setText(String.format("%.2f", mListData.get(3).getPercent())+"%");
+            } else if(i == 4){
+                name5.setText("Other");
+                icon5.setVisibility(View.VISIBLE);
+                percent5.setText(String.format("%.2f", mListData.get(4).getPercent())+"%");
+                double percent = 100 - (Double.parseDouble(percent1.getText().toString().replace("%", ""))
+                +Double.parseDouble(percent2.getText().toString().replace("%", ""))
+                +Double.parseDouble(percent3.getText().toString().replace("%", ""))
+                +Double.parseDouble(percent4.getText().toString().replace("%", "")));
+                percent5.setText(String.format("%.2f", percent)+"%");
+                per = (int) Math.round(percent);
+            }
+            yValues.add(new PieEntry(1f*per, name));
         }
 
 
@@ -163,30 +200,28 @@ public class ChartActivity extends AppCompatActivity {
         data.setDrawValues(false);
 
         pieChart.setData(data);
-
-
     }
 
     private void getExpenseData(String category, String month){
-
-        mDatabase.child("histories").child(uID).child(month).addListenerForSingleValueEvent(new ValueEventListener() {
+        ArrayList<HistoryChild>mListChild = new ArrayList<>();
+        mDatabase.child("histories").child(uID).child(month).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mListChild.clear();
                 long sum = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if(snapshot.child("category").getValue().equals(category)){
+                    if(category.equals(snapshot.child("category").getValue())){
                         sum += (long) snapshot.child("amount").getValue();
-                        mListData.add(snapshot.getValue(HistoryChild.class));
+                        mListChild.add(snapshot.getValue(HistoryChild.class));
                     }
                 }
                 //Todo: Caculate percent
-                for (HistoryChild child : mListData){
+                for (HistoryChild child : mListChild){
                     child.setPercent(1f*(child.getAmount()*100)/sum);
                 }
-                System.out.println(mListData.size());
 
                 //Todo: Sort and Analyze
-                Collections.sort(mListData, new Comparator<HistoryChild>() {
+                Collections.sort(mListChild, new Comparator<HistoryChild>() {
                     @Override
                     public int compare(HistoryChild o1, HistoryChild o2) {
                         return (int) (o2.getAmount()-o1.getAmount());
@@ -194,9 +229,10 @@ public class ChartActivity extends AppCompatActivity {
                 });
 
                 //Todo: Draw the PieChart
-                setUpPieChart(pieChart, mListData);
+                System.out.println(mListChild.size());
+                setUpPieChart(pieChart, mListChild);
 
-                mSendAdapter = new DataAdapter(ChartActivity.this, mListData);
+                mSendAdapter = new DataAdapter(ChartActivity.this, mListChild);
                 recyclerView.setAdapter(mSendAdapter);
             }
 
@@ -205,5 +241,6 @@ public class ChartActivity extends AppCompatActivity {
 
             }
         });
+
     }
 }

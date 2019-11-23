@@ -66,7 +66,6 @@ public class AddItemsAdapter extends RecyclerView.Adapter<AddItemsAdapter.ViewHo
                 holder.icon.setColorFilter(Color.parseColor("#ffffff"));
                 preBgIcons = holder.bgIcon;
                 preIcons = holder.icon;
-
             }
         });
     }
@@ -78,9 +77,10 @@ public class AddItemsAdapter extends RecyclerView.Adapter<AddItemsAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView icon;
-        private LinearLayout item, bgIcon;
+        private LinearLayout header, item, bgIcon;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            header = itemView.findViewById(R.id.header);
             item = itemView.findViewById(R.id.item);
             bgIcon = itemView.findViewById(R.id.bgIcon);
             icon = itemView.findViewById(R.id.icon);

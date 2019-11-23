@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity"
+    android:background="#f9feff"
     android:weightSum="10">
     <LinearLayout
         android:orientation="vertical"
@@ -17,10 +18,12 @@
             android:layout_height="100dp"
             android:src="@mipmap/avatar"/>
         <TextView
+            android:layout_marginTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Money Manager"/>
+            android:text="Money Manager"
+            android:textColor="#000"/>
     </LinearLayout>
 
     <LinearLayout
@@ -29,18 +32,32 @@
         android:gravity="center_vertical"
         android:layout_height="0dp"
         android:layout_weight="3">
-        <Button
-            android:id="@+id/btnFace"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="Login with Facebook"/>
-        <Button
+
+        <RelativeLayout
             android:id="@+id/btnGoogle"
+            android:orientation="horizontal"
+            android:layout_marginHorizontal="30dp"
+            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginHorizontal="20dp"
-            android:text="Login with Google"/>
+            android:background="@drawable/corner_layout">
+            <ImageView
+                android:layout_marginHorizontal="20dp"
+                android:layout_toLeftOf="@id/tvLogin"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/google"/>
+            <TextView
+                android:id="@+id/tvLogin"
+                android:layout_centerInParent="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:backgroundTint="#e8e8e8"
+                android:text="Login with Google"
+                android:textColor="#000"
+                android:textSize="16dp"/>
+        </RelativeLayout>
     </LinearLayout>
 
 </LinearLayout>
