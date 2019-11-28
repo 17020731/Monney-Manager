@@ -29,7 +29,7 @@ public class IncomeFragment extends Fragment {
     private ArrayList<Item> mListIncome;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

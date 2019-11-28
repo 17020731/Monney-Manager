@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
+import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,6 +28,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
@@ -37,15 +40,17 @@ public class AddIncomeActivity extends AppCompatActivity {
     private LinearLayout bgIcon;
     private ImageView icon, btnSubmit;
     private EditText edName;
+    private App app;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_income);
         getSupportActionBar().hide();
 
+        app = new App();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         uID = mAuth.getCurrentUser().getUid();
@@ -66,17 +71,10 @@ public class AddIncomeActivity extends AppCompatActivity {
 
 
         title1 =findViewById(R.id.title1);
-        title2 =findViewById(R.id.title2);
-        title3 =findViewById(R.id.title3);
-
 
         mRecyclerView1 = findViewById(R.id.mRecycleView1);
-        mRecyclerView2 = findViewById(R.id.mRecycleView2);
-        mRecyclerView3 = findViewById(R.id.mRecycleView3);
+        showItemsByTopic("Categories", title1, mRecyclerView1, getListIncome());
 
-        showItemsByTopic("Food", title1, mRecyclerView1, getListIncome());
-        showItemsByTopic("Health", title2, mRecyclerView2, getListIncome());
-        showItemsByTopic("Shopping", title3, mRecyclerView3, getListIncome());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,18 +116,10 @@ public class AddIncomeActivity extends AppCompatActivity {
     }
     private ArrayList<Item> getListIncome(){
         ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("hamburger"));
-        mListItem.add(new Item("potato"));
-        mListItem.add(new Item("noodle"));
-        mListItem.add(new Item("pizza"));
-        mListItem.add(new Item("bread"));
-        mListItem.add(new Item("fish"));
-        mListItem.add(new Item("apple"));
-        mListItem.add(new Item("ice_cream"));
-        mListItem.add(new Item("cake"));
-        mListItem.add(new Item("tea"));
-        mListItem.add(new Item("glass"));
-        mListItem.add(new Item("soda"));
+        List<String> fullType = Arrays.asList(app.getArrType());
+        for (int i = 0; i < fullType.size(); i++){
+            mListItem.add(new Item(fullType.get(i)));
+        }
         return mListItem;
     }
     private void showItems(RecyclerView recyclerItems, ArrayList<Item> mListItem){

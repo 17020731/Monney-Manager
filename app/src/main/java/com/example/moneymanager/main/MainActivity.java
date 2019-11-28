@@ -53,7 +53,7 @@ import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
-public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
+public class MainActivity extends AppCompatActivity {
 
     private TextView name;
     private LinearLayout btnIncome, btnExpense;
@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
 
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -117,6 +117,7 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         uID = mAuth.getCurrentUser().getUid();
 
         navigationView = findViewById(R.id.navigationView);
+        navigationView.setItemIconTintList(null);
         name = navigationView.getHeaderView(0).findViewById(R.id.name);
         name.setText(mAuth.getCurrentUser().getDisplayName());
         email = navigationView.getHeaderView(0).findViewById(R.id.email);
@@ -124,16 +125,12 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         avatar = navigationView.getHeaderView(0).findViewById(R.id.avatar);
         Glide.with(avatar).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(avatar);
 
-        avatar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
-                startActivity(intent);
-            }
+        avatar.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+            startActivity(intent);
         });
 
         scrollView = findViewById(R.id.scrollView);
-
 
         recyclerView = findViewById(R.id.recycleView);
         mListHistory = new ArrayList<>();
@@ -146,14 +143,11 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         getData(MONTH_YEAR);
         initMonthPicker();
 
-        btnMonthPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (monthPicker.getVisibility() == View.VISIBLE)
-                    monthPicker.setVisibility(View.INVISIBLE);
-                else
-                    monthPicker.setVisibility(View.VISIBLE);
-            }
+        btnMonthPicker.setOnClickListener(v -> {
+            if (monthPicker.getVisibility() == View.VISIBLE)
+                monthPicker.setVisibility(View.INVISIBLE);
+            else
+                monthPicker.setVisibility(View.VISIBLE);
         });
 
         btnAdd= findViewById(R.id.btnAdd);
@@ -162,125 +156,108 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         btnMenu = findViewById(R.id.btnMenu);
         btnReload = findViewById(R.id.btnReload);
 
-        btnMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                drawer.openDrawer(Gravity.LEFT);
-            }
-        });
-        btnExpense.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        btnMenu.setOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
+        btnExpense.setOnClickListener(v -> {
 
-                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
-                intent.putExtra("category", "expense");
-                intent.putExtra("month_year", MONTH_YEAR);
-                intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-                intent.putExtra("content", "Expense\n"+sumExpense.getText());
-                startActivity(intent);
-            }
+            Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+            intent.putExtra("category", "expense");
+            intent.putExtra("month_year", MONTH_YEAR);
+            intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+            intent.putExtra("content", "Expense\n"+sumExpense.getText());
+            startActivity(intent);
         });
-        btnIncome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ChartActivity.class);
-                intent.putExtra("category", "income");
-                intent.putExtra("month_year", MONTH_YEAR);
-                intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-                intent.putExtra("content", "Income\n"+sumIncome.getText());
-                startActivity(intent);
-            }
+        btnIncome.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ChartActivity.class);
+            intent.putExtra("category", "income");
+            intent.putExtra("month_year", MONTH_YEAR);
+            intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+            intent.putExtra("content", "Income\n"+sumIncome.getText());
+            startActivity(intent);
         });
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.this, ShowItemActivity.class);
-                startActivity(intent);
-            }
+        btnAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(MainActivity.this, ShowItemActivity.class);
+            startActivity(intent);
         });
-        btnReload.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toasty.normal(MainActivity.this, "Reload succcess!!", Toasty.LENGTH_SHORT).show();
-                finish();
-                overridePendingTransition(0, 0);
-                startActivity(getIntent());
-                overridePendingTransition(0, 0);
-            }
+        btnReload.setOnClickListener(v -> {
+            Toasty.normal(MainActivity.this, "Reload succcess!!", Toasty.LENGTH_SHORT).show();
+            finish();
+            overridePendingTransition(0, 0);
+            startActivity(getIntent());
+            overridePendingTransition(0, 0);
         });
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                int id = menuItem.getItemId();
-                Intent intent;
-                switch (id){
-                    case R.id.chart:
-                        intent = new Intent(MainActivity.this, ChartActivity.class);
-                        intent.putExtra("category", "expense");
-                        intent.putExtra("month_year", MONTH_YEAR);
-                        intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-                        intent.putExtra("content", "Expense\n"+sumExpense.getText());
-                        startActivity(intent);
-                        break;
+        navigationView.setNavigationItemSelectedListener(menuItem -> {
+            int id = menuItem.getItemId();
+            Intent intent;
+            switch (id){
+                case R.id.chart:
+                    intent = new Intent(MainActivity.this, ChartActivity.class);
+                    intent.putExtra("category", "expense");
+                    intent.putExtra("month_year", MONTH_YEAR);
+                    intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
+                    intent.putExtra("content", "Expense\n"+sumExpense.getText());
+                    startActivity(intent);
+                    break;
 
-                    case R.id.categories:
-                        intent = new Intent(MainActivity.this, CategorySettingActivity.class);
-                        startActivity(intent);
-                        break;
-                    case R.id.export:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                        View viewInflated = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_export, navigationView, false);
-                        TextView tvStart = viewInflated.findViewById(R.id.tvStart);
-                        Calendar now = Calendar.getInstance();
-                        tvStart.setOnClickListener( v-> {
+                case R.id.categories:
+                    intent = new Intent(MainActivity.this, CategorySettingActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.export:
+                    drawer.closeDrawer(Gravity.LEFT);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                    View viewInflated = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_export, navigationView, false);
+                    TextView tvStart = viewInflated.findViewById(R.id.tvStart);
+                    Calendar now = Calendar.getInstance();
+                    tvStart.setOnClickListener( v-> {
 
-                            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                                    MainActivity.this,
-                                    now.get(Calendar.YEAR), // Initial year selection
-                                    now.get(Calendar.MONTH), // Initial month selection
-                                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
-                            );
-                            dpd.show(getSupportFragmentManager(), "DatePicker");
-                        });
-                        TextView tvEnd = viewInflated.findViewById(R.id.tvEnd);
-                        tvEnd.setOnClickListener( v -> {
-                            DatePickerDialog dpd = DatePickerDialog.newInstance(
-                                    MainActivity.this,
-                                    now.get(Calendar.YEAR), // Initial year selection
-                                    now.get(Calendar.MONTH), // Initial month selection
-                                    now.get(Calendar.DAY_OF_MONTH) // Inital day selection
-                            );
-                            dpd.show(getSupportFragmentManager(), "DatePicker");
-                        });
-                        NiceSpinner spinnerFormat = viewInflated.findViewById(R.id.spinnerFormat);
-                        List<String> dataset = new LinkedList<>(Arrays.asList("CSV", "Excel"));
-                        spinnerFormat.attachDataSource(dataset);
-                        builder.setView(viewInflated);
+                        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                        tvStart.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                                    }
+                                },
+                                now.get(Calendar.YEAR), // Initial year selection
+                                now.get(Calendar.MONTH), // Initial month selection
+                                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                        );
+                        dpd.show(getSupportFragmentManager(), "DateStart");
 
-                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.cancel();
-                            }
-                        });
-                        builder.show();
-                        break;
-                    case R.id.about:
-                        new AlertDialog.Builder(MainActivity.this)
-                                .setTitle("Money Manager")
-                                .setMessage("Version: 1.0.0\nVersion code: 9")
-                                .setPositiveButton("OK", null)
-                                .show();
-                        break;
-                }
-                return false;
+                    });
+                    TextView tvEnd = viewInflated.findViewById(R.id.tvEnd);
+                    tvEnd.setOnClickListener( v -> {
+                        DatePickerDialog dpd = DatePickerDialog.newInstance(
+                                new DatePickerDialog.OnDateSetListener() {
+                                    @Override
+                                    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+                                        tvEnd.setText(year+"-"+monthOfYear+"-"+dayOfMonth);
+                                    }
+                                },
+                                now.get(Calendar.YEAR), // Initial year selection
+                                now.get(Calendar.MONTH), // Initial month selection
+                                now.get(Calendar.DAY_OF_MONTH) // Inital day selection
+                        );
+                        dpd.show(getSupportFragmentManager(), "DateEnd");
+                    });
+
+                    NiceSpinner spinnerFormat = viewInflated.findViewById(R.id.spinnerFormat);
+                    List<String> dataset = new LinkedList<>(Arrays.asList("CSV", "Excel"));
+                    spinnerFormat.attachDataSource(dataset);
+                    builder.setView(viewInflated);
+
+                    builder.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss());
+                    builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
+                    builder.show();
+                    break;
+                case R.id.about:
+                    new AlertDialog.Builder(MainActivity.this)
+                            .setTitle("Money Manager")
+                            .setMessage("Version: 1.0.0\nVersion code: 9")
+                            .setPositiveButton("OK", null)
+                            .show();
+                    break;
             }
+            return false;
         });
     }
 
@@ -381,34 +358,21 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         btnAfter = findViewById(R.id.btnAfter);
         tvYear = findViewById(R.id.tvYear);
 
-        btnBefore.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) - 1));
-            }
-        });
+        btnBefore.setOnClickListener(v -> tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) - 1)));
 
-        btnAfter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) + 1));
-            }
-        });
+        btnAfter.setOnClickListener(v -> tvYear.setText(String.valueOf(Integer.parseInt(tvYear.getText().toString()) + 1)));
 
     }
     private void setUpButton(TextView tv){
-        tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(!tvYear.getText().toString().equals(YEAR)){
-                    tvMonthPicker.setText(tv.getText() +"-"+ tvYear.getText());
-                } else {
-                    tvMonthPicker.setText(tv.getText());
-                }
-                MONTH_YEAR = covertMonthtoNumber(tv.getText().toString())+"-"+tvYear.getText().toString();
-                getData(MONTH_YEAR);
-                monthPicker.setVisibility(View.INVISIBLE);
+        tv.setOnClickListener(v -> {
+            if(!tvYear.getText().toString().equals(YEAR)){
+                tvMonthPicker.setText(tv.getText() +"-"+ tvYear.getText());
+            } else {
+                tvMonthPicker.setText(tv.getText());
             }
+            MONTH_YEAR = covertMonthtoNumber(tv.getText().toString())+"-"+tvYear.getText().toString();
+            getData(MONTH_YEAR);
+            monthPicker.setVisibility(View.INVISIBLE);
         });
     }
     private String covertMonthtoNumber(String month){
@@ -464,8 +428,5 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         return formattedDate;
     }
 
-    @Override
-    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 
-    }
 }

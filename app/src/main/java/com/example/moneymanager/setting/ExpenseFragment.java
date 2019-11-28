@@ -31,11 +31,9 @@ public class ExpenseFragment extends Fragment {
     private ExpenseSettingAdapter mAdapter;
     private ArrayList<Item> mListExpense;
 
-    private NiceSpinner spinner;
-
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID;
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -58,7 +56,6 @@ public class ExpenseFragment extends Fragment {
                 mListExpense.clear();
                 if(dataSnapshot.exists()) {
                     for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                    System.out.println(snapshot.getKey());
                         mListExpense.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
                         mAdapter.notifyDataSetChanged();
                     }

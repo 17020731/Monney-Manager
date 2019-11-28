@@ -56,21 +56,18 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
         }else{
             holder.amount.setText(""+history.getAmount());
         }
-        holder.container.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, DetailItemActivity.class);
-                intent.putExtra("timestamp", history.getTimestamp());
-                intent.putExtra("category", history.getCategory());
-                intent.putExtra("type", history.getType());
-                if(history.getName()== null || history.getName().isEmpty()){
-                    intent.putExtra("name", history.getType());
-                } else{
-                    intent.putExtra("name", history.getName());
-                }
-                intent.putExtra("amount", history.getAmount());
-                mContext.startActivity(intent);
+        holder.container.setOnClickListener(v -> {
+            Intent intent = new Intent(mContext, DetailItemActivity.class);
+            intent.putExtra("timestamp", history.getTimestamp());
+            intent.putExtra("category", history.getCategory());
+            intent.putExtra("type", history.getType());
+            if(history.getName()== null || history.getName().isEmpty()){
+                intent.putExtra("name", history.getType());
+            } else{
+                intent.putExtra("name", history.getName());
             }
+            intent.putExtra("amount", history.getAmount());
+            mContext.startActivity(intent);
         });
     }
 

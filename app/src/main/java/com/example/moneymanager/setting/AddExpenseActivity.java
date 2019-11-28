@@ -1,6 +1,5 @@
 package com.example.moneymanager.setting;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +17,7 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
+import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -27,27 +27,33 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import es.dmoral.toasty.Toasty;
 
 public class AddExpenseActivity extends AppCompatActivity {
     private ImageView btnBack;
-    private TextView title1, title2, title3;
-    private RecyclerView mRecyclerView1, mRecyclerView2, mRecyclerView3;
+    private TextView title1;
+    private RecyclerView mRecyclerView1;
 
     private LinearLayout bgIcon;
     private ImageView icon, btnSubmit;
     private EditText edName;
 
+    private App app;
+
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
-    private static String uID = "0945455387test";
+    private static String uID ;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_expense);
         getSupportActionBar().hide();
+
+        app = new App();
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -68,16 +74,10 @@ public class AddExpenseActivity extends AppCompatActivity {
         });
 
         title1 = findViewById(R.id.title1);
-        title2 = findViewById(R.id.title2);
-        title3 = findViewById(R.id.title3);
 
         mRecyclerView1 = findViewById(R.id.mRecycleView1);
-        mRecyclerView2 = findViewById(R.id.mRecycleView2);
-        mRecyclerView3 = findViewById(R.id.mRecycleView3);
 
-        showItemsByTopic("Food", title1, mRecyclerView1, getListFoodExpense());
-        showItemsByTopic("Transportation", title2, mRecyclerView2, getListTransportationExpense());
-        showItemsByTopic("Shopping", title3, mRecyclerView3, getListShoppingExpense());
+        showItemsByTopic("Categories", title1, mRecyclerView1, getListExpense());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -117,51 +117,14 @@ public class AddExpenseActivity extends AppCompatActivity {
         title.setText(topic);
         showItems(recyclerView, mListItem);
     }
-    private ArrayList<Item> getListFoodExpense(){
+    private ArrayList<Item> getListExpense(){
         ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("hamburger"));
-        mListItem.add(new Item("potato"));
-        mListItem.add(new Item("noodle"));
-        mListItem.add(new Item("pizza"));
-        mListItem.add(new Item("bread"));
-        mListItem.add(new Item("fish"));
-        mListItem.add(new Item("apple"));
-        mListItem.add(new Item("ice_cream"));
-        mListItem.add(new Item("cake"));
-        mListItem.add(new Item("tea"));
-        mListItem.add(new Item("glass"));
-        mListItem.add(new Item("soda"));
-
+        List<String> fullType = Arrays.asList(app.getArrType());
+        for (int i = 0; i < fullType.size(); i++){
+            mListItem.add(new Item(fullType.get(i)));
+        }
         return mListItem;
     }
-    private ArrayList<Item> getListTransportationExpense(){
-        ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("petrol"));
-        mListItem.add(new Item("gas_station"));
-        mListItem.add(new Item("car_wash"));
-        mListItem.add(new Item("electric_car"));
-        mListItem.add(new Item("highway"));
-        mListItem.add(new Item("truck"));
-        mListItem.add(new Item("bike"));
-        mListItem.add(new Item("motorbike"));
-        mListItem.add(new Item("plane"));
-        mListItem.add(new Item("boat"));
-        mListItem.add(new Item("train"));
-
-        return mListItem;
-    }
-    private ArrayList<Item> getListShoppingExpense(){
-        ArrayList<Item>mListItem = new ArrayList<>();
-        mListItem.add(new Item("cart"));
-        mListItem.add(new Item("dress"));
-        mListItem.add(new Item("underwear"));
-        mListItem.add(new Item("shoes_man"));
-        mListItem.add(new Item("shoes_woman"));
-        mListItem.add(new Item("glasses"));
-
-        return mListItem;
-    }
-
     private void showItems(RecyclerView recyclerItems, ArrayList<Item> mListItem){
         RecyclerView.LayoutManager layoutManager = new GridLayoutManager(this, 4);
         recyclerItems.setLayoutManager(layoutManager);
@@ -170,5 +133,4 @@ public class AddExpenseActivity extends AppCompatActivity {
         AddItemsAdapter adapter = new AddItemsAdapter(AddExpenseActivity.this, mListItem, icon, bgIcon);
         recyclerItems.setAdapter(adapter);
     }
-
 }

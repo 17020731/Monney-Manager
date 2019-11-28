@@ -8,6 +8,13 @@ import java.util.HashMap;
 
 public class App {
     private HashMap<String, Pair<Integer, Integer>>icons;
+
+    private String arrType [] = {"food", "bills", "transportation", "home", "car", "entertainment", "shopping", "clothing", "insurance", "tax",
+    "telephone", "cigarette", "health", "sport", "baby", "pet", "beauty", "hamburger", "vegetables", "snacks", "gift", "social", "travel", "education",
+    "salary", "awards", "grants", "sale", "rental", "refunds", "coupons", "lottery", "dividends", "investments", "potato", "noodle", "pizza",
+    "bread", "fish", "apple", "ice_cream", "cake", "tea", "glass", "soda", "petrol", "gas_station", "car_wash", "electric_car", "highway", "truck",
+    "bike", "motorbike", "plane", "boat", "train", "cart", "dress", "underwear", "shoes_man", "shoes_woman", "glasses"};
+
     public App(){
         icons = new HashMap<>();
         initialize();
@@ -99,4 +106,13 @@ public class App {
     public Pair<Integer, Integer> getICons(String key){
         return icons.get(key);
     }
+
+    public String[] getArrType() {
+        return arrType;
+    }
+
+    public void setArrType(String[] arrType) {
+        this.arrType = arrType;
+    }
+
 }

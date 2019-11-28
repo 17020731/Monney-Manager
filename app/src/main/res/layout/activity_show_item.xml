@@ -79,14 +79,30 @@
                         android:src="@mipmap/food"/>
                 </LinearLayout>
             </LinearLayout>
-            <EditText
-                android:id="@+id/edName"
-                android:layout_gravity="top"
+            <LinearLayout
+                android:orientation="vertical"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="4"
-                android:hint="Note"
-                android:textSize="14dp"/>
+                android:layout_weight="4">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <ImageView
+                        android:layout_gravity="center_vertical"
+                        android:layout_width="10dp"
+                        android:layout_height="10dp"
+                        android:src="@mipmap/edit"/>
+                    <TextView
+                        android:id="@+id/tvName"
+                        android:gravity="center|left"
+                        android:layout_marginLeft="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:text="Note"
+                        android:textColor="#000"
+                        android:textSize="16dp"/>
+                </LinearLayout>
+            </LinearLayout>
             <TextView
                 android:id="@+id/amount"
                 android:paddingRight="5dp"
@@ -183,7 +199,6 @@
                         android:textSize="20dp"/>
                     <Button
                         android:id="@+id/plus"
-                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -223,7 +238,6 @@
                         android:textSize="20dp"/>
                     <Button
                         android:id="@+id/minus"
-                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
@@ -239,7 +253,6 @@
                     android:weightSum="4">
                     <Button
                         android:id="@+id/dot"
-                        android:enabled="false"
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"

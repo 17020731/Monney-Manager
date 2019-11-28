@@ -1,9 +1,14 @@
 package com.example.moneymanager.additem;
 
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Image;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -13,6 +18,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
@@ -35,8 +41,6 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.angmarch.views.NiceSpinner;
 import org.angmarch.views.OnSpinnerItemSelectedListener;
 
-import java.sql.Time;
-import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -61,7 +65,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     private LinearLayout keyboard, bgIcon;
     private LinearLayout numberKb;
     private TextView amount;
-    private EditText edName;
+    private TextView tvName;
     private ImageView icon;
     private Button num0, num1, num2, num3, num4, num5, num6, num7, num8, num9;
     private Button minus, plus, today, dot;
@@ -73,17 +77,18 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     //----------------Other--------------------//
     private Calendar now = Calendar.getInstance();
     private static String AMOUNT = "0";
-    private static String FULL_DATETIME;
     private static String DATE;
     private static String TIME;
 
+    @SuppressLint("ClickableViewAccessibility")
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_show_item);
         getSupportActionBar().hide();
 
-        DATE = convertTimestampToDate(System.currentTimeMillis(), "dd/MM");
+        DATE = convertTimestampToDate(System.currentTimeMillis(), "dd-MM-yyyy");
+        TIME = convertTimestampToDate(System.currentTimeMillis(), "hh:mm:ss");
 
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -101,8 +106,9 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         amount = findViewById(R.id.amount);
         amount.setOnClickListener(this);
-        edName = findViewById(R.id.edName);
-        edName.setOnClickListener(this);
+
+        tvName = findViewById(R.id.tvName);
+        tvName.setOnClickListener(this);
 
         setUpKeyboard();
 
@@ -141,7 +147,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
             keyboard.setVisibility(View.VISIBLE);
             today.setText("Today\n"+convertTimestampToDate(Long.parseLong(timestamp), "dd/MM"));
             amount.setText(String.valueOf(_amount));
-            edName.setText(name);
+            tvName.setText(name);
             icon.setImageResource(new App().getICons(type).first);
             icon.setColorFilter(Color.parseColor("#ffffff"));
             bgIcon.setBackgroundResource(new App().getICons(type).second);
@@ -216,7 +222,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         //Todo:
         today = findViewById(R.id.today);
-        today.setText("Today\n"+DATE);
+        today.setText("Today\n"+convertTimestampToDate(System.currentTimeMillis(), "dd/MM"));
         today.setOnClickListener(this);
         minus = findViewById(R.id.minus);
         minus.setOnClickListener(this);
@@ -234,7 +240,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
         String formattedDate = sdf.format(date);
-        System.out.println(formattedDate);
+//        System.out.println(formattedDate);
 
         return formattedDate;
     }
@@ -253,8 +259,22 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onClick(View v) {
         switch (v.getId()){
-            case R.id.edName:
-                numberKb.setVisibility(View.GONE);
+            case R.id.tvName:
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_name, keyboard, false);
+                EditText dialog_edName = viewInflated.findViewById(R.id.dialog_edName);
+                builder.setView(viewInflated);
+                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String name = dialog_edName.getText().toString().trim();
+                        if(!name.isEmpty()){
+                            tvName.setText(name);
+                            dialog_edName.setText("");
+                        }
+                    }
+                }).setNegativeButton("NO",null);
+                builder.show();
             case R.id.num0:
                 AMOUNT = amount.getText().toString();
                 if(AMOUNT.charAt(0) != '0'){
@@ -369,6 +389,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.plus:
                 AMOUNT = amount.getText().toString();
+                result.setImageResource(R.drawable.equal);
                 try {
                     if(!AMOUNT.contains("+") && !AMOUNT.contains("-")) {
                         AMOUNT += "+";
@@ -394,23 +415,25 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.minus:
                 AMOUNT = amount.getText().toString();
+                result.setImageResource(R.drawable.equal);
                 try {
                     if(!AMOUNT.contains("-") && !AMOUNT.contains("+")) {
                         AMOUNT += "-";
                         amount.setText(AMOUNT);
                     }
                     else if(AMOUNT.contains("-")){
+
                         String number1 = AMOUNT.substring(0, AMOUNT.indexOf("-"));
                         String number2 = AMOUNT.substring(AMOUNT.indexOf("-")+1);
                         Double num1 = Double.parseDouble(number1);
                         Double num2 = Double.parseDouble(number2);
-                        amount.setText(String.valueOf(num1-num2)+"-");
+                        amount.setText((num1 - num2) +"-");
                     } else if(AMOUNT.contains("+")){
                         String number1 = AMOUNT.substring(0, AMOUNT.indexOf("+"));
                         String number2 = AMOUNT.substring(AMOUNT.indexOf("+")+1);
                         Double num1 = Double.parseDouble(number1);
                         Double num2 = Double.parseDouble(number2);
-                        amount.setText(String.valueOf(num1+num2)+"-");
+                        amount.setText((num1 + num2) +"-");
                     }
 
                 }catch (Exception e){
@@ -439,13 +462,19 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                 break;
             case R.id.result:
                 try {
-                    if(Long.parseLong(amount.getText().toString().trim()) != 0) {
+                    if(amount.getText().toString().trim().contains("+") || amount.getText().toString().trim().contains("-")){
+                        System.out.println(caculateNumber(amount.getText().toString().trim()));
+                        amount.setText(caculateNumber(amount.getText().toString().trim()));
+                        result.setImageResource(R.drawable.result);
+                    }
+                    else if(Long.parseLong(amount.getText().toString().trim()) != 0) {
+
                     long timestamp = convertDateToTimestamp(DATE+" "+TIME);
                     String month_year = convertTimestampToDate(timestamp, "MM-yyyy");
                     String type = (String) icon.getTag(R.string.key);
                     String category = spinner.getText().toString().toLowerCase();
-                    
-                    String name = edName.getText().toString().trim();
+
+                    String name = tvName.getText().toString().trim();
                     String capName = null;
                     if(!name.isEmpty()) {
                         capName = name.substring(0, 1).toUpperCase() + name.substring(1);
@@ -463,17 +492,25 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     startActivity(intent);
                 }
                 } catch (NumberFormatException e){
-//                    Toast.makeText(this, "Error format!!", Toast.LENGTH_SHORT).show();
                     Toasty.error(this, "Error format!!", Toasty.LENGTH_SHORT, false).show();
-
                 }
-
                 break;
             default:
                 break;
         }
     }
 
+    private String caculateNumber(String expression){
+        if(expression.contains("+")){
+            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("+"))));
+            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("+")+1)));
+            return String.valueOf((long)(num_1+num_2));
+        } else{
+            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("-"))));
+            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("-")+1)));
+            return String.valueOf((long)(num_1-num_2));
+        }
+    }
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;

@@ -78,12 +78,7 @@ public class DetailItemActivity extends AppCompatActivity {
         tvTimes.setText(convertTimes(Long.parseLong(timestamp)));
         tvMemo.setText(type);
 
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        btnBack.setOnClickListener(v -> onBackPressed());
 
         btnEdit.setOnClickListener( v -> {
             Intent intent = new Intent(DetailItemActivity.this, ShowItemActivity.class);

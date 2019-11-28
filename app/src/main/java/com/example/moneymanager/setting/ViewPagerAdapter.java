@@ -13,7 +13,7 @@ public class ViewPagerAdapter  extends FragmentPagerAdapter {
     private ArrayList<Fragment>mListFragment;
     public ViewPagerAdapter (FragmentManager fm, ArrayList<Fragment>mListFragment){
         super(fm);
-        this.mListFragment =mListFragment;
+        this.mListFragment = mListFragment;
     }
     @NonNull
     @Override
