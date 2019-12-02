@@ -98,12 +98,12 @@ public class MainActivity extends AppCompatActivity {
         getSupportActionBar().hide();
 
 
-        MONTH_YEAR = convertMonthYear(System.currentTimeMillis());
+        MONTH_YEAR = convertTimestampToDate(System.currentTimeMillis(), "MM-yyyy");
 
         monthPicker = findViewById(R.id.monthPicker);
         btnMonthPicker = findViewById(R.id.btnMonthPicker);
         tvMonthPicker = findViewById(R.id.tvMonthPicker);
-
+        tvMonthPicker.setText(convertMonthEntoVi(convertTimestampToDate(System.currentTimeMillis(), "MMM")));
         emptyLinear = findViewById(R.id.emptyLinear);
         emptyLinear.setVisibility(View.VISIBLE);
         drawer = findViewById(R.id.drawer);
@@ -156,6 +156,7 @@ public class MainActivity extends AppCompatActivity {
         btnMenu = findViewById(R.id.btnMenu);
         btnReload = findViewById(R.id.btnReload);
 
+
         btnMenu.setOnClickListener(v -> drawer.openDrawer(Gravity.LEFT));
         btnExpense.setOnClickListener(v -> {
 
@@ -163,7 +164,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("category", "expense");
             intent.putExtra("month_year", MONTH_YEAR);
             intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-            intent.putExtra("content", "Expense\n"+sumExpense.getText());
+            intent.putExtra("content", getString(R.string.expenses)+"\n"+sumExpense.getText());
             startActivity(intent);
         });
         btnIncome.setOnClickListener(v -> {
@@ -171,7 +172,7 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("category", "income");
             intent.putExtra("month_year", MONTH_YEAR);
             intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-            intent.putExtra("content", "Income\n"+sumIncome.getText());
+            intent.putExtra("content", getString(R.string.income)+ "\n"+sumIncome.getText());
             startActivity(intent);
         });
         btnAdd.setOnClickListener(v -> {
@@ -252,7 +253,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.about:
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Money Manager")
-                            .setMessage("Version: 1.0.0\nVersion code: 9")
+                            .setMessage(getString(R.string.version)+": 1.0.0\n"+getString(R.string.version_code)+": 9")
                             .setPositiveButton("OK", null)
                             .show();
                     break;
@@ -286,28 +287,26 @@ public class MainActivity extends AppCompatActivity {
 
                 sumIncome.setText(""+sumIn);
                 sumExpense.setText(""+sumEx);
-                System.out.println(""+(sumIn-sumEx));
                 balance.setText(""+(sumIn-sumEx));
 
-
                 for (int i = 0; i < times.size(); i++){
-                    String date = convertDayMonth(Long.parseLong(times.get(i)));
+                    String date = convertTimestampToDate(Long.parseLong(times.get(i)), "dd-MM");
                     ArrayList<HistoryChild>list = new ArrayList<>();
                     list.add(mListHistoryChild.get(i));
                     for(int j = i+1; j < times.size(); j++){
-                        if(convertDayMonth(Long.parseLong(times.get(j))).equals(date)){
+                        if(convertTimestampToDate(Long.parseLong(times.get(j)), "dd-MM").equals(date)){
                             list.add(mListHistoryChild.get(j));
                             if(j == times.size()-1){
                                 i = j;
                                 break;
                             }
                             continue;
-                        }else if(!convertDayMonth(Long.parseLong(times.get(j))).equals(date)){
+                        }else if(!convertTimestampToDate(Long.parseLong(times.get(j)), "dd-MM").equals(date)){
                             i = j-1;
                             break;
                         }
                     }
-                    mListHistory.add(new History(convertDayMonthDate(Long.parseLong(times.get(i))), list));
+                    mListHistory.add(new History(convertTimestampToDate(Long.parseLong(times.get(i)), "dd-MM EEE"), list));
                 }
 
                 if(mListHistory.size() == 0){
@@ -370,63 +369,75 @@ public class MainActivity extends AppCompatActivity {
             } else {
                 tvMonthPicker.setText(tv.getText());
             }
-            MONTH_YEAR = covertMonthtoNumber(tv.getText().toString())+"-"+tvYear.getText().toString();
+            MONTH_YEAR = convertMonthtoNumber(tv.getText().toString())+"-"+tvYear.getText().toString();
             getData(MONTH_YEAR);
             monthPicker.setVisibility(View.INVISIBLE);
         });
     }
-    private String covertMonthtoNumber(String month){
-        if(month.equals("Jan")){
-            return "1";
-        } else if(month.equals("Feb")){
-            return "2";
-        } else if(month.equals("Mar")){
-            return "3";
-        } else if(month.equals("Apr")){
-            return "4";
-        } else if(month.equals("May")){
-            return "5";
-        } else if(month.equals("Jun")){
-            return "6";
-        } else if(month.equals("July")){
-            return "7";
-        } else if(month.equals("Aug")){
-            return "8";
-        } else if(month.equals("Sep")){
-            return "9";
-        } else if(month.equals("Oct")){
+    private String convertMonthtoNumber(String month){
+        if(month.equals(getString(R.string.jan))){
+            return "01";
+        } else if(month.equals(getString(R.string.feb))){
+            return "02";
+        } else if(month.equals(getString(R.string.mar))){
+            return "03";
+        } else if(month.equals(getString(R.string.apr))){
+            return "04";
+        } else if(month.equals(getString(R.string.may))){
+            return "05";
+        } else if(month.equals(getString(R.string.jun))){
+            return "06";
+        } else if(month.equals(getString(R.string.july))){
+            return "07";
+        } else if(month.equals(getString(R.string.aug))){
+            return "08";
+        } else if(month.equals(getString(R.string.sep))){
+            return "09";
+        } else if(month.equals(getString(R.string.oct))){
             return "10";
-        } else if(month.equals("Nov")){
+        } else if(month.equals(getString(R.string.nov))){
             return "11";
-        } else {
+        } else if(month.equals(getString(R.string.dec))){
             return "12";
-        }
+        } else
+            return "10";
     }
-    private String convertMonthYear (long timestamp){
+
+    private int convertMonthEntoVi(String month){
+        if(month.equals("Jan")){
+            return R.string.jan;
+        } else if(month.equals("Feb")){
+            return R.string.feb;
+        } else if(month.equals("Mar")){
+            return R.string.mar;
+        } else if(month.equals("Apr")){
+            return R.string.apr;
+        } else if(month.equals("May")){
+            return R.string.may;
+        } else if(month.equals("Jun")){
+            return R.string.jun;
+        } else if(month.equals("July")){
+            return R.string.july;
+        } else if(month.equals("Aug")){
+            return R.string.aug;
+        } else if(month.equals("Sep")){
+            return R.string.sep;
+        } else if(month.equals("Oct")){
+            return R.string.oct;
+        } else if(month.equals("Nov")){
+            return R.string.nov;
+        } else if(month.equals("Dec")){
+            return R.string.dec;
+        } else
+            return R.string.dec;
+    }
+    private String convertTimestampToDate(long timestamp, String format){
         Date date = new java.util.Date(timestamp);
 
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("MM-yyyy");
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
         String formattedDate = sdf.format(date);
-        System.out.println(formattedDate);
 
         return formattedDate;
     }
-
-    private String convertDayMonth (long timestamp){
-        Date date = new java.util.Date(timestamp);
-
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM");
-        String formattedDate = sdf.format(date);
-        return formattedDate;
-    }
-
-    private String convertDayMonthDate (long timestamp){
-        Date date = new java.util.Date(timestamp);
-
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd-MM EEE");
-        String formattedDate = sdf.format(date);
-        return formattedDate;
-    }
-
 
 }

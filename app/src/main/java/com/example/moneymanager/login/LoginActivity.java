@@ -2,7 +2,11 @@ package com.example.moneymanager.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -33,6 +37,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.Locale;
+
 public class LoginActivity extends AppCompatActivity {
 
     private static final String TAG = "GoogleActivity";
@@ -48,8 +54,10 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        loadLocal("vi");
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
+
 
         btnGoogle = findViewById(R.id.btnGoogle);
 
@@ -238,6 +246,14 @@ public class LoginActivity extends AppCompatActivity {
         mDatabase.child("categories").child(uID).child("income").child("Lottery").setValue("lottery");
         mDatabase.child("categories").child(uID).child("income").child("Dividends").setValue("dividends");
         mDatabase.child("categories").child(uID).child("income").child("Investments").setValue("investments");
-
     }
+
+    public void loadLocal(String lang){
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+            conf.setLocale(new Locale(lang)); // API 17+ only.
+        }
+        res.updateConfiguration(conf, dm);}
 }

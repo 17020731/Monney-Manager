@@ -75,7 +75,7 @@ public class DetailItemActivity extends AppCompatActivity {
         nameDetail.setText(name);
         tvCategory.setText(category);
         tvMoney.setText(String.valueOf(amount));
-        tvTimes.setText(convertTimes(Long.parseLong(timestamp)));
+        tvTimes.setText(convertTimestampToDate(Long.parseLong(timestamp), "dd.MM.yyyy EEE"));
         tvMemo.setText(type);
 
         btnBack.setOnClickListener(v -> onBackPressed());
@@ -107,13 +107,13 @@ public class DetailItemActivity extends AppCompatActivity {
             }
         });
     }
-    private String convertTimes (long timestamp){
+    private String convertTimestampToDate(long timestamp, String format){
         Date date = new java.util.Date(timestamp);
 
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat("dd.MM.yyyy EEE");
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
         String formattedDate = sdf.format(date);
-        System.out.println(formattedDate);
 
         return formattedDate;
     }
+
 }

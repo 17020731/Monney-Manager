@@ -77,7 +77,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         mRecyclerView1 = findViewById(R.id.mRecycleView1);
 
-        showItemsByTopic("Categories", title1, mRecyclerView1, getListExpense());
+        showItemsByTopic(R.string.categories, title1, mRecyclerView1, getListExpense());
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -113,7 +113,7 @@ public class AddExpenseActivity extends AppCompatActivity {
 
     }
 
-    private void showItemsByTopic(String topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
+    private void showItemsByTopic(int topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
         title.setText(topic);
         showItems(recyclerView, mListItem);
     }

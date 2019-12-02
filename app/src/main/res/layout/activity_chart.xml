@@ -32,7 +32,7 @@
                 android:id="@+id/tvMonthPicker"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Nov"
+                android:text="@string/nov"
                 android:textSize="16dp"
                 android:textColor="#000"/>
         </LinearLayout>
@@ -237,9 +237,10 @@
                     android:layout_height="wrap_content"
                     android:background="#fff">
                     <TextView
+                        android:id="@+id/list"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Expenses list"
+                        android:text="@string/expenses_list"
                         android:textSize="18dp"/>
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recycleView"

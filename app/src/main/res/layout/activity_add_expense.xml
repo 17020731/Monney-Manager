@@ -24,7 +24,7 @@
             android:layout_toRightOf="@id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add expense category"
+            android:text="@string/add_expense"
             android:textSize="16dp"
             android:textColor="#000"/>
         <ImageView
@@ -64,7 +64,7 @@
             android:layout_marginHorizontal="15dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Category Name"
+            android:hint="@string/category_name"
             android:textSize="14dp"
             android:inputType="text"/>
 
@@ -93,7 +93,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textAlignment="center"
-                    android:text="Categories"
+                    android:text="@string/categories"
                     android:textSize="16dp"
                     android:textColor="#000"/>
                 <androidx.recyclerview.widget.RecyclerView

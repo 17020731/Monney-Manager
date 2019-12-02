@@ -35,6 +35,7 @@ import java.util.Comparator;
 public class ChartActivity extends AppCompatActivity {
 
     private PieChart pieChart;
+    private TextView list;
     private RecyclerView recyclerView;
     private DataAdapter mSendAdapter;
     private ArrayList<HistoryChild>mListData;
@@ -65,6 +66,7 @@ public class ChartActivity extends AppCompatActivity {
         setUpButton();
 
         pieChart = findViewById(R.id.pieChart);
+        list = findViewById(R.id.list);
         recyclerView = findViewById(R.id.recycleView);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager1);
@@ -81,10 +83,14 @@ public class ChartActivity extends AppCompatActivity {
         CATEGORY = getIntent().getExtras().getString("category", "expense");
         MONTH_YEAR = getIntent().getExtras().getString("month_year", "11-2019");
         tvMonthPicker.setText(getIntent().getExtras().getString("month_picker", "Nov"));
-        System.out.println(MONTH_YEAR + "ngu");
         getExpenseData(CATEGORY, MONTH_YEAR);
 
 
+        if ((CATEGORY.equals("expense"))) {
+            list.setText(R.string.expenses_list);
+        } else {
+            list.setText(R.string.income_list);
+        }
         mSendAdapter = new DataAdapter(this, mListData);
         recyclerView.setAdapter(mSendAdapter);
 

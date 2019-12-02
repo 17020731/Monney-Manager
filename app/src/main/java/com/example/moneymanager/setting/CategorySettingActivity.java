@@ -53,7 +53,7 @@ public class CategorySettingActivity extends AppCompatActivity {
         mListFragment.add(expenseFragment);
         mListFragment.add(incomeFragment);
 
-        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), mListFragment);
+        mAdapter = new ViewPagerAdapter(getSupportFragmentManager(), this, mListFragment);
         mViewPager.setAdapter(mAdapter);
 
         mTabLayout.setupWithViewPager(mViewPager);

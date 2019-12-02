@@ -98,7 +98,7 @@
                         android:layout_marginLeft="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:text="Note"
+                        android:text="@string/note"
                         android:textColor="#000"
                         android:textSize="16dp"/>
                 </LinearLayout>
@@ -164,7 +164,6 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:backgroundTint="#fff"
-                        android:text="today"
                         android:textSize="12dp"/>
                 </LinearLayout>
                 <!--Button 4, 5, 6, + -->

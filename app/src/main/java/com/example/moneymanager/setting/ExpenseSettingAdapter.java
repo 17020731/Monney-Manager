@@ -54,9 +54,9 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(mContext)
-                        .setTitle("Delete")
-                        .setMessage("Are you sure to delete item?")
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        .setTitle(mContext.getString(R.string.delete))
+                        .setMessage(mContext.getString(R.string.message))
+                        .setPositiveButton(mContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mListItem.remove(position);
@@ -65,7 +65,7 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
                                 notifyDataSetChanged();
                             }
                         })
-                        .setNegativeButton("No", null)
+                        .setNegativeButton(mContext.getString(R.string.no), null)
                         .show();
 
             }

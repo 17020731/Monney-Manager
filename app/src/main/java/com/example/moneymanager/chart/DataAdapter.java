@@ -60,7 +60,6 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
             public void onGlobalLayout() {
                 holder.progress_bar.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 int width  = holder.progress_bar.getMeasuredWidth();
-                int height = holder.progress_bar.getMeasuredHeight();
 
                 params.width = (int) (data.getPercent()/100*width);
                 holder.progress_bar.setLayoutParams(params);

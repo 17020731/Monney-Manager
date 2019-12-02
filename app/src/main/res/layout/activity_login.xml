@@ -22,7 +22,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="20dp"
-            android:text="Money Manager"
+            android:text="@string/money_manager"
             android:textColor="#000"/>
     </LinearLayout>
 
@@ -42,7 +42,6 @@
             android:layout_height="wrap_content"
             android:background="@drawable/corner_layout">
             <ImageView
-                android:layout_marginHorizontal="20dp"
                 android:layout_toLeftOf="@id/tvLogin"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -54,7 +53,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:backgroundTint="#e8e8e8"
-                android:text="Login with Google"
+                android:text="@string/login_with_google"
                 android:textColor="#000"
                 android:textSize="16dp"/>
         </RelativeLayout>

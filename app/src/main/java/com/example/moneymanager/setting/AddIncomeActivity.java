@@ -73,7 +73,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         title1 =findViewById(R.id.title1);
 
         mRecyclerView1 = findViewById(R.id.mRecycleView1);
-        showItemsByTopic("Categories", title1, mRecyclerView1, getListIncome());
+        showItemsByTopic(R.string.categories, title1, mRecyclerView1, getListIncome());
 
 
         btnSubmit.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +110,7 @@ public class AddIncomeActivity extends AppCompatActivity {
         });
     }
 
-    private void showItemsByTopic(String topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
+    private void showItemsByTopic(int topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
         title.setText(topic);
         showItems(recyclerView, getListIncome());
     }

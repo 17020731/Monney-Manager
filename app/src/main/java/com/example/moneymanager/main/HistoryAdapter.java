@@ -46,7 +46,7 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.ViewHold
                 expense += child.getAmount();
             }
         }
-        holder.analyze.setText("Income: "+ income+"  Expense: "+ expense);
+        holder.analyze.setText(mContext.getString(R.string.income)+ ": "+income+"  "+ mContext.getString(R.string.expenses)+": "+ expense);
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(mContext, RecyclerView.VERTICAL, true);
         holder.recyclerView.setLayoutManager(layoutManager1);
         holder.recyclerView.setNestedScrollingEnabled(false);

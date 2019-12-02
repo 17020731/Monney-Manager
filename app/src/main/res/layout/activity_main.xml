@@ -39,7 +39,6 @@
                     android:id="@+id/tvMonthPicker"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Nov"
                     android:textSize="16dp"
                     android:textColor="#000"/>
                 <ImageView
@@ -88,7 +87,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Income"
+                            android:text="@string/income"
                             android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
@@ -114,7 +113,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Expenses"
+                            android:text="@string/expenses"
                             android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
@@ -139,7 +138,7 @@
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Balance"
+                            android:text="@string/balance"
                             android:textSize="12dp"
                             android:textColor="#000"/>
                         <TextView
@@ -208,7 +207,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Jan"
+                    android:text="@string/jan"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -216,7 +215,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Feb"
+                    android:text="@string/feb"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -225,7 +224,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Mar"
+                    android:text="@string/mar"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -234,7 +233,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Apr"
+                    android:text="@string/apr"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -242,7 +241,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="May"
+                    android:text="@string/may"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -250,7 +249,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Jun"
+                    android:text="@string/jun"
                     android:textAlignment="center"
                     android:textColor="#000"/>
 
@@ -265,7 +264,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="July"
+                    android:text="@string/july"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -273,7 +272,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Aug"
+                    android:text="@string/aug"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -281,7 +280,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Sep"
+                    android:text="@string/sep"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -289,7 +288,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Oct"
+                    android:text="@string/oct"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -297,7 +296,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Nov"
+                    android:text="@string/nov"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
@@ -305,7 +304,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="Dec"
+                    android:text="@string/dec"
                     android:textAlignment="center"
                     android:textColor="#000"/>
 
@@ -324,10 +323,10 @@
                 android:layout_height="wrap_content"
                 android:src="@mipmap/search"/>
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
-                android:text="No Transactions or\nCheck your connection"/>
+                android:text="@string/alert_empty"/>
         </LinearLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton

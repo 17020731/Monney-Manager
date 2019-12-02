@@ -115,7 +115,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         showItems(recyclerItems, "expense");
 
         editHistory();
-        List<String> dataset = new LinkedList<>(Arrays.asList("Expense", "Income"));
+        List<String> dataset = new LinkedList<>(Arrays.asList(getString(R.string.expenses), getString(R.string.income)));
         spinner.attachDataSource(dataset);
         spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
@@ -222,7 +222,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         //Todo:
         today = findViewById(R.id.today);
-        today.setText("Today\n"+convertTimestampToDate(System.currentTimeMillis(), "dd/MM"));
+        today.setText(getString(R.string.today)+"\n"+convertTimestampToDate(System.currentTimeMillis(), "dd/MM"));
         today.setOnClickListener(this);
         minus = findViewById(R.id.minus);
         minus.setOnClickListener(this);
@@ -240,17 +240,14 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
         String formattedDate = sdf.format(date);
-//        System.out.println(formattedDate);
 
         return formattedDate;
     }
     private long convertDateToTimestamp(String time){
         SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-//        String dateInString = "23-11-2019 10:15:55";
         Date date = null;
         try {
             date = formatter.parse(time);
-//            System.out.println(date.getTime());
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -264,7 +261,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                 View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_name, keyboard, false);
                 EditText dialog_edName = viewInflated.findViewById(R.id.dialog_edName);
                 builder.setView(viewInflated);
-                builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String name = dialog_edName.getText().toString().trim();
@@ -273,7 +270,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                             dialog_edName.setText("");
                         }
                     }
-                }).setNegativeButton("NO",null);
+                }).setNegativeButton(getString(R.string.no),null);
                 builder.show();
             case R.id.num0:
                 AMOUNT = amount.getText().toString();
@@ -514,7 +511,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;
-        today.setText("Today\n"+dayOfMonth+"/"+(monthOfYear+1));
+        today.setText(getString(R.string.today)+"\n"+dayOfMonth+"/"+(monthOfYear+1));
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 ShowItemActivity.this,
                 9, 0, true
