@@ -58,8 +58,29 @@
 
     <string name="alert_empty">Giao dịch rỗng hoặc vui lòng kiểm tra lại internet</string>
 
-    <string name="delete">Xóa danh mục</string>
-    <string name="message">Bạn chắc chắn xóa mục này chứ?</string>
+    <string name="delete_title">Xóa danh mục</string>
+    <string name="delete_mes">Bạn chắc chắn xóa mục này chứ?</string>
+
+    <string name="logout_mes">Bạn chắc chắn muốn đăng xuất chứ?</string>
+    <string name="logout_title">Đăng xuất</string>
+
+    <string name="reload_success">Tải lại thành công!!</string>
+    <string name="category_exist">Danh mục đã tồn tại</string>
+    <string name="add_success">Thêm thanh công</string>
+
+    <string name="please_enter">Vui lòng nhập tên danh mục!</string>
+    <string name="error_format">Lỗi định dạng!!</string>
+    <string name="settings">Cài đặt</string>
+    <string name="add">Thêm</string>
+    <string name="language">Ngôn ngữ</string>
+    <string name="vietnam">Việt Nam</string>
+    <string name="english">Tiếng Anh</string>
+    <string name="smart_reminder">Lời nhắc thông minh</string>
+    <string name="fire_notification">Thông báo vào 20:00</string>
+
+    <string name="language_title">Đổi ngôn ngữ</string>
+    <string name="language_mes">Bạn chắc chắn muốn đổi ngôn ngữ chứ?</string>
+    <string name="rate_mes">Đánh giá của bạn sẽ giúp phát triển ứng dụng của chúng tôi</string>
 
     <!--    -->
 </resources>

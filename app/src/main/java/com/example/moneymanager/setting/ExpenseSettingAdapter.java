@@ -2,6 +2,7 @@ package com.example.moneymanager.setting;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private static String uID;
+    private SharedPreferences sp;
+    private SharedPreferences.Editor editor;
     public ExpenseSettingAdapter (Context mContext, ArrayList<Item>mListItem){
         this.mContext = mContext;
         this.mListItem = mListItem;
@@ -54,8 +57,8 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(mContext)
-                        .setTitle(mContext.getString(R.string.delete))
-                        .setMessage(mContext.getString(R.string.message))
+                        .setTitle(mContext.getString(R.string.delete_title))
+                        .setMessage(mContext.getString(R.string.delete_mes))
                         .setPositiveButton(mContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -71,7 +74,11 @@ public class ExpenseSettingAdapter extends RecyclerView.Adapter<ExpenseSettingAd
             }
         });
         holder.icon.setImageResource(app.getICons(expenseSetting.getType()).first);
-        holder.name.setText(expenseSetting.getName());
+        sp = mContext.getSharedPreferences("language", Context.MODE_PRIVATE);
+        if(sp.getString("lang", "en").equals("vi")){
+            holder.name.setText(app.convertVI(expenseSetting.getName()));
+        } else
+            holder.name.setText(expenseSetting.getName());
 
     }
 

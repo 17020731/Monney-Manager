@@ -94,6 +94,120 @@ public class App {
         icons.put("shoes_woman", new Pair<Integer, Integer>(R.mipmap.shoes_woman, R.drawable.circle_image_pink));
         icons.put("glasses", new Pair<Integer, Integer>(R.mipmap.glasses, R.drawable.circle_image_blue_1));
     }
+    public String convertVI(String category){
+        String cate = "";
+        switch (category){
+            case "Food":
+                cate = "Thức ăn";
+                break;
+            case "Bills":
+                cate = "Hóa đơn";
+                break;
+            case "Transportation":
+                cate = "Vận chuyển";
+                break;
+            case "Home":
+                cate = "Gia đình";
+                break;
+            case "Car":
+                cate = "Xe hơi";
+                break;
+            case "Entertainment":
+                cate = "Giải trí";
+                break;
+            case "Shopping":
+                cate = "Mua sắm";
+                break;
+            case "Clothing":
+                cate = "Ăn mặc";
+                break;
+            case "Insurance":
+                cate = "Bảo hiểm";
+                break;
+            case "Tax":
+                cate = "Thuế";
+                break;
+            case "Telephone":
+                cate = "Cước thoại";
+                break;
+            case "Cigarette":
+                cate = "Thuốc lá";
+                break;
+            case "Health":
+                cate = "Sức khỏe";
+                break;
+            case "Sport":
+                cate = "Thể thao";
+                break;
+            case "Baby":
+                cate = "Trẻ nhỏ";
+                break;
+            case "Pet":
+                cate = "Thú cưng";
+                break;
+            case "Beauty":
+                cate = "Làm đẹp";
+                break;
+            case "Hamburger":
+                cate = "Mua sắm";
+                break;
+            case "Vegetables":
+                cate = "Rau củ";
+                break;
+            case "Snacks":
+                cate = "Đồ ăn nhanh";
+                break;
+            case "Gift":
+                cate = "Quà";
+                break;
+            case "Social":
+                cate = "Quan hệ";
+                break;
+            case "Travel":
+                cate = "Đi lại";
+                break;
+            case "Education":
+                cate = "Giao dục";
+                break;
+            case "Salary":
+                cate = "Lương";
+                break;
+            case "Awards":
+                cate = "Giải thưởng";
+                break;
+            case "Grants":
+                cate = "Tài trợ";
+                break;
+            case "Sale":
+                cate = "Bán hàng";
+                break;
+            case "Rental":
+                cate = "Cho thuê";
+                break;
+            case "Refunds":
+                cate = "Hoàn tiền";
+                break;
+            case "Coupons":
+                cate = "Phiếu giảm giá";
+                break;
+            case "Lottery":
+                cate = "Xổ số";
+                break;
+            case "Dividends":
+                cate = "Cổ tức";
+                break;
+            case "Investments":
+                cate = "Đầu tư";
+                break;
+            default:
+                cate = category;
+                break;
+        }
+        return cate;
+    }
+    public Pair<Integer, Integer> getICons(String key){
+        return icons.get(key);
+    }
 
 
     public HashMap<String, Pair<Integer, Integer>> geticons() {
@@ -102,9 +216,6 @@ public class App {
 
     public void setIcons(HashMap<String, Pair<Integer, Integer>> icons) {
         this.icons = icons;
-    }
-    public Pair<Integer, Integer> getICons(String key){
-        return icons.get(key);
     }
 
     public String[] getArrType() {

@@ -4,11 +4,9 @@ import android.annotation.SuppressLint;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -102,7 +100,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         numberKb = findViewById(R.id.numberKb);
 
         icon = findViewById(R.id.icon);
-        icon.setTag(R.string.key, "food");
 
         amount = findViewById(R.id.amount);
         amount.setOnClickListener(this);
@@ -176,9 +173,9 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     mListItem.add(new Item((String) snapshot.getValue(), snapshot.getKey()));
                 }
                 if(category.equals("expense")) {
-                    mListItem.add(new Item("add", "Add", true));
+                    mListItem.add(new Item("add", getString(R.string.add), true));
                 }else{
-                    mListItem.add(new Item("add", "Add", false));
+                    mListItem.add(new Item("add", getString(R.string.add), false));
                 }
                 mAdapter = new ShowItemsAdapter(ShowItemActivity.this, mListItem, icon, keyboard, bgIcon);
                 mAdapter.notifyDataSetChanged();
@@ -397,13 +394,13 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                         String number2 = AMOUNT.substring(AMOUNT.indexOf("+")+1);
                         Double num1 = Double.parseDouble(number1);
                         Double num2 = Double.parseDouble(number2);
-                        amount.setText(String.valueOf(num1+num2)+"+");
+                        amount.setText((num1 + num2) +"+");
                     }else if(AMOUNT.contains("-")){
                         String number1 = AMOUNT.substring(0, AMOUNT.indexOf("-"));
                         String number2 = AMOUNT.substring(AMOUNT.indexOf("-")+1);
                         Double num1 = Double.parseDouble(number1);
                         Double num2 = Double.parseDouble(number2);
-                        amount.setText(String.valueOf(num1-num2)+"+");
+                        amount.setText((num1 - num2) +"+");
                     }
                 }catch (Exception e){
                     System.out.println("Number Format");
@@ -469,7 +466,12 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     long timestamp = convertDateToTimestamp(DATE+" "+TIME);
                     String month_year = convertTimestampToDate(timestamp, "MM-yyyy");
                     String type = (String) icon.getTag(R.string.key);
-                    String category = spinner.getText().toString().toLowerCase();
+                    String category;
+                    if(spinner.getText().toString().toLowerCase().equals("chi")){
+                        category = "expense";
+                    } else
+                        category = "income";
+
 
                     String name = tvName.getText().toString().trim();
                     String capName = null;
@@ -483,19 +485,20 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     HistoryChild his = new HistoryChild(category, type, capName, _amount);
                     mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).setValue(his);
                     mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).child("percent").setValue(null);
-                    Toasty.success(this, "Add success!!", Toasty.LENGTH_SHORT, false).show();
+                    Toasty.success(this, getString(R.string.add_success), Toasty.LENGTH_SHORT, false).show();
 
                     Intent intent = new Intent(ShowItemActivity.this, MainActivity.class);
                     startActivity(intent);
                 }
                 } catch (NumberFormatException e){
-                    Toasty.error(this, "Error format!!", Toasty.LENGTH_SHORT, false).show();
+                    Toasty.error(this, getString(R.string.error_format), Toasty.LENGTH_SHORT, false).show();
                 }
                 break;
             default:
                 break;
         }
     }
+
 
     private String caculateNumber(String expression){
         if(expression.contains("+")){
@@ -511,7 +514,16 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;
-        today.setText(getString(R.string.today)+"\n"+dayOfMonth+"/"+(monthOfYear+1));
+        if(DATE.equals(convertTimestampToDate(System.currentTimeMillis(), "dd-MM-yyyy"))){
+            today.setText(getString(R.string.today)+"\n"+dayOfMonth+"/"+(monthOfYear+1));
+        } else if(DATE.equals(convertTimestampToDate(System.currentTimeMillis(), "d-MM-yyyy"))){
+            today.setText(getString(R.string.today)+"\n"+dayOfMonth+"/"+(monthOfYear+1));
+        } else if(DATE.equals(convertTimestampToDate(System.currentTimeMillis(), "dd-M-yyyy"))){
+            today.setText(getString(R.string.today)+"\n"+dayOfMonth+"/"+(monthOfYear+1));
+        }
+        else{
+            today.setText(dayOfMonth+"/"+(monthOfYear+1)+"\n"+year);
+        }
         TimePickerDialog tpd = TimePickerDialog.newInstance(
                 ShowItemActivity.this,
                 9, 0, true
@@ -523,4 +535,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         TIME = hourOfDay+":"+minute+":"+second;
     }
+
+
 }

@@ -2,6 +2,7 @@ package com.example.moneymanager.login;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.os.Build;
@@ -9,7 +10,6 @@ import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.RelativeLayout;
 
 import androidx.annotation.NonNull;
@@ -50,11 +50,15 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth mAuth;
     private GoogleSignInClient mGoogleSignInClient;
     private static String uID;
+    private SharedPreferences sp;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        loadLocal("vi");
+
+        sp = getSharedPreferences("language", MODE_PRIVATE);
+        String lang = sp.getString("lang", "en");
+        loadLocal(lang);
         setContentView(R.layout.activity_login);
         getSupportActionBar().hide();
 

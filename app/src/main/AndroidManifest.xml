@@ -17,6 +17,8 @@
         <activity android:name=".chart.ChartActivity"/>
         <activity android:name=".setting.CategorySettingActivity"/>
         <activity android:name=".main.MainActivity"/>
+        <activity android:name=".main.SettingActivity"/>
+        <activity android:name=".main.LanguageActivity"/>
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

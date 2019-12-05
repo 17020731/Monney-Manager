@@ -70,9 +70,9 @@ public class ProfileActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(ProfileActivity.this)
-                        .setTitle("Logout")
-                        .setMessage("Are you sure to logout?")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.logout_title))
+                        .setMessage(getString(R.string.logout_mes))
+                        .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 mAuth.signOut();
@@ -81,7 +81,7 @@ public class ProfileActivity extends AppCompatActivity {
                                 startActivity(intent);
                             }
                         })
-                        .setNegativeButton("NO", null)
+                        .setNegativeButton(R.string.no, null)
                         .show();
             }
         });

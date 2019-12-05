@@ -2,6 +2,7 @@ package com.example.moneymanager.additem;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +33,7 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
 
     private ImageView preIcon;
     private LinearLayout preBgIcon;
+    private SharedPreferences sp;
 
     public ShowItemsAdapter(Context mContext, ArrayList<Item>mListItem, ImageView icons, LinearLayout keyboard, LinearLayout bgIcons){
         this.mContext = mContext;
@@ -85,7 +87,12 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
             }
         });
         holder.icon.setImageResource(app.getICons(an_item.getType()).first);
-        holder.name.setText(an_item.getName());
+        sp = mContext.getSharedPreferences("language", Context.MODE_PRIVATE);
+        if(sp.getString("lang", "en").equals("vi")){
+            holder.name.setText(app.convertVI(an_item.getName()));
+        } else
+            holder.name.setText(an_item.getName());
+//        holder.name.setText(an_item.getName());
     }
 
     @Override

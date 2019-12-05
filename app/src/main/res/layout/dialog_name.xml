@@ -9,6 +9,7 @@
         android:layout_height="wrap_content"
         android:text="@string/enter_your_category"
         android:textSize="20dp"
+        android:textStyle="bold"
         android:textColor="#000"/>
     <LinearLayout
         android:layout_marginTop="20dp"

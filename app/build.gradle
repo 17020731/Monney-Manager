@@ -51,5 +51,4 @@ dependencies {
     implementation 'com.wdullaer:materialdatetimepicker:4.2.3'
     implementation 'com.google.android.gms:play-services-auth:17.0.0'
     implementation 'com.github.GrenderG:Toasty:1.4.2'
-
 }

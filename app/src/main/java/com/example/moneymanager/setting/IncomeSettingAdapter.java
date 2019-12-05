@@ -2,6 +2,7 @@ package com.example.moneymanager.setting;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,7 @@ public class IncomeSettingAdapter extends RecyclerView.Adapter<IncomeSettingAdap
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private static String uID;
+    private SharedPreferences sp;
 
     public IncomeSettingAdapter (Context mContext, ArrayList<Item>mListItem){
         this.mContext = mContext;
@@ -54,8 +56,8 @@ public class IncomeSettingAdapter extends RecyclerView.Adapter<IncomeSettingAdap
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(mContext)
-                        .setTitle(mContext.getString(R.string.delete))
-                        .setMessage(mContext.getString(R.string.message))
+                        .setTitle(mContext.getString(R.string.delete_title))
+                        .setMessage(mContext.getString(R.string.delete_mes))
                         .setPositiveButton(mContext.getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
@@ -71,7 +73,12 @@ public class IncomeSettingAdapter extends RecyclerView.Adapter<IncomeSettingAdap
             }
         });
         holder.icon.setImageResource(app.getICons(incomeSetting.getType()).first);
-        holder.name.setText(incomeSetting.getName());
+        sp = mContext.getSharedPreferences("language", Context.MODE_PRIVATE);
+
+        if(sp.getString("lang", "en").equals("vi")){
+            holder.name.setText(app.convertVI(incomeSetting.getName()));
+        } else
+            holder.name.setText(incomeSetting.getName());
     }
 
     @Override

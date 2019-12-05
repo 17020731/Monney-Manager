@@ -180,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         });
         btnReload.setOnClickListener(v -> {
-            Toasty.normal(MainActivity.this, "Reload succcess!!", Toasty.LENGTH_SHORT).show();
+            Toasty.normal(MainActivity.this, getString(R.string.reload_success), Toasty.LENGTH_SHORT).show();
             finish();
             overridePendingTransition(0, 0);
             startActivity(getIntent());
@@ -195,7 +195,7 @@ public class MainActivity extends AppCompatActivity {
                     intent.putExtra("category", "expense");
                     intent.putExtra("month_year", MONTH_YEAR);
                     intent.putExtra("month_picker", tvMonthPicker.getText().toString().trim());
-                    intent.putExtra("content", "Expense\n"+sumExpense.getText());
+                    intent.putExtra("content", getString(R.string.expenses)+"\n"+sumExpense.getText());
                     startActivity(intent);
                     break;
 
@@ -210,7 +210,6 @@ public class MainActivity extends AppCompatActivity {
                     TextView tvStart = viewInflated.findViewById(R.id.tvStart);
                     Calendar now = Calendar.getInstance();
                     tvStart.setOnClickListener( v-> {
-
                         DatePickerDialog dpd = DatePickerDialog.newInstance(
                                 new DatePickerDialog.OnDateSetListener() {
                                     @Override
@@ -249,6 +248,19 @@ public class MainActivity extends AppCompatActivity {
                     builder.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss());
                     builder.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
                     builder.show();
+                    break;
+                case R.id.setting:
+                    intent = new Intent(MainActivity.this, SettingActivity.class);
+                    startActivity(intent);
+                    break;
+                case R.id.rateus:
+                    AlertDialog.Builder builder2 = new AlertDialog.Builder(MainActivity.this);
+                    View viewInflated2 = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating, navigationView, false);
+                    builder2.setView(viewInflated2);
+
+                    builder2.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss());
+                    builder2.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
+                    builder2.show();
                     break;
                 case R.id.about:
                     new AlertDialog.Builder(MainActivity.this)

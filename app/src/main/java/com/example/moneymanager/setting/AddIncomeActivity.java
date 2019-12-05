@@ -35,8 +35,8 @@ import es.dmoral.toasty.Toasty;
 
 public class AddIncomeActivity extends AppCompatActivity {
     private ImageView btnBack;
-    private TextView title1, title2, title3;
-    private RecyclerView mRecyclerView1, mRecyclerView2, mRecyclerView3;
+    private TextView title1;
+    private RecyclerView mRecyclerView1;
     private LinearLayout bgIcon;
     private ImageView icon, btnSubmit;
     private EditText edName;
@@ -88,12 +88,12 @@ public class AddIncomeActivity extends AppCompatActivity {
                             edName.setText("");
                             for(DataSnapshot snapshot : dataSnapshot.getChildren()){
                                 if(snapshot.getKey().equals(capName)){
-                                    Toasty.warning(AddIncomeActivity.this, "Category exists!!", Toast.LENGTH_SHORT).show();
+                                    Toasty.warning(AddIncomeActivity.this, getString(R.string.category_exist), Toast.LENGTH_SHORT).show();
                                     return;
                                 }
                             }
                             mDatabase.child("categories").child(uID).child("income").child(capName).setValue(icon.getTag(R.string.key));
-                            Toasty.success(AddIncomeActivity.this, "Add success!!", Toast.LENGTH_SHORT).show();
+                            Toasty.success(AddIncomeActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
                             Intent intent = new Intent(AddIncomeActivity.this, CategorySettingActivity.class);
                             startActivity(intent);
                         }
@@ -104,7 +104,7 @@ public class AddIncomeActivity extends AppCompatActivity {
                         }
                     });
                 } else{
-                    Toasty.error(AddIncomeActivity.this, "Please enter name!", Toast.LENGTH_SHORT).show();
+                    Toasty.error(AddIncomeActivity.this, getString(R.string.please_enter), Toast.LENGTH_SHORT).show();
                 }
             }
         });

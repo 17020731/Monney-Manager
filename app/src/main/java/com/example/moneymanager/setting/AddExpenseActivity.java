@@ -79,38 +79,34 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         showItemsByTopic(R.string.categories, title1, mRecyclerView1, getListExpense());
 
-        btnSubmit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String name = edName.getText().toString().trim();
-                if(!name.isEmpty()){
-                    String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
-                    mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            edName.setText("");
-                            for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                                if(snapshot.getKey().equals(capName)){
-                                    Toasty.warning(AddExpenseActivity.this, "Category exists!!", Toast.LENGTH_SHORT).show();
-                                    return;
-                                }
+        btnSubmit.setOnClickListener(v -> {
+            String name = edName.getText().toString().trim();
+            if(!name.isEmpty()){
+                String capName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                mDatabase.child("categories").child(uID).child("expense").addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        edName.setText("");
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            if(snapshot.getKey().equals(capName)){
+                                Toasty.warning(AddExpenseActivity.this, getString(R.string.category_exist), Toast.LENGTH_SHORT).show();
+                                return;
                             }
-                            mDatabase.child("categories").child(uID).child("expense").child(capName).setValue(icon.getTag(R.string.key));
-                            Toasty.success(AddExpenseActivity.this, "Add success!!", Toast.LENGTH_SHORT).show();
-                            onBackPressed();
                         }
+                        mDatabase.child("categories").child(uID).child("expense").child(capName).setValue(icon.getTag(R.string.key));
+                        Toasty.success(AddExpenseActivity.this, getString(R.string.add_success), Toast.LENGTH_SHORT).show();
+                        onBackPressed();
+                    }
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError databaseError) {
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
 
-                        }
-                    });
-                } else {
-                    Toasty.error(AddExpenseActivity.this, "Please enter name!", Toast.LENGTH_SHORT).show();
-                }
+                    }
+                });
+            } else {
+                Toasty.error(AddExpenseActivity.this, getString(R.string.please_enter), Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
     private void showItemsByTopic(int topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){

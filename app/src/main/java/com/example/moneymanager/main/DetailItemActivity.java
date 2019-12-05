@@ -2,6 +2,7 @@ package com.example.moneymanager.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
@@ -38,6 +39,7 @@ public class DetailItemActivity extends AppCompatActivity {
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
     private static String uID;
+    private SharedPreferences sp;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +51,9 @@ public class DetailItemActivity extends AppCompatActivity {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         uID = mAuth.getCurrentUser().getUid();
+
+        sp = getSharedPreferences("language", MODE_PRIVATE);
+        String lang = sp.getString("lang", "en");
 
         btnBack = findViewById(R.id.btnBack);
         btnDel = findViewById(R.id.btnDel);
@@ -72,11 +77,26 @@ public class DetailItemActivity extends AppCompatActivity {
         icon.setImageResource(app.getICons(type).first);
         icon.setColorFilter(Color.parseColor("#ffffff"));
         bgIcon.setBackgroundResource(app.getICons(type).second);
-        nameDetail.setText(name);
-        tvCategory.setText(category);
+
+        if(sp.getString("lang", "en").equals("vi")){
+            nameDetail.setText(app.convertVI(name));
+            tvMemo.setText(app.convertVI(type.substring(0,1).toUpperCase()+ type.substring(1)));
+        } else {
+            nameDetail.setText(name);
+            tvMemo.setText(type.substring(0, 1).toUpperCase() + type.substring(1));
+        }
+
+//        nameDetail.setText(name);
+
+        if(category.equals("expense")){
+            tvCategory.setText(getString(R.string.expenses));
+        } else
+            tvCategory.setText(getString(R.string.income));
+
+//        tvCategory.setText(category);
         tvMoney.setText(String.valueOf(amount));
         tvTimes.setText(convertTimestampToDate(Long.parseLong(timestamp), "dd.MM.yyyy EEE"));
-        tvMemo.setText(type);
+//        tvMemo.setText(type);
 
         btnBack.setOnClickListener(v -> onBackPressed());
 
@@ -93,16 +113,17 @@ public class DetailItemActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(DetailItemActivity.this)
-                        .setTitle("Delete")
-                        .setMessage("Are you sure you want to delete this one?")
-                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+                        .setTitle(getString(R.string.delete_title))
+                        .setMessage(getString(R.string.delete_mes))
+                        .setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                mDatabase.child("histories").child(uID).child("11-2019").child(timestamp).setValue(null);
+                                String month_year = convertTimestampToDate(Long.parseLong(timestamp), "MM-yyyy");
+                                mDatabase.child("histories").child(uID).child(month_year).child(timestamp).setValue(null);
                                 onBackPressed();
                             }
                         })
-                        .setNegativeButton("NO", null)
+                        .setNegativeButton(getString(R.string.no), null)
                         .show();
             }
         });

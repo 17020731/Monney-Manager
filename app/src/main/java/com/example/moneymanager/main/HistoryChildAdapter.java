@@ -2,6 +2,7 @@ package com.example.moneymanager.main;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,7 +26,7 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
     Context mContext;
     private ArrayList<HistoryChild> mListHistory;
     private App app;
-
+    private SharedPreferences sp;
     public HistoryChildAdapter(Context mContext, ArrayList<HistoryChild>mListHistory){
         this.mContext = mContext;
         this.mListHistory = mListHistory;
@@ -48,9 +49,13 @@ public class HistoryChildAdapter extends RecyclerView.Adapter<HistoryChildAdapte
         if(history.getName()== null || history.getName().isEmpty() ){
             holder.name.setText(history.getType());
         }
-        else
-            holder.name.setText(history.getName());
-
+        else {
+            sp = mContext.getSharedPreferences("language", Context.MODE_PRIVATE);
+            if (sp.getString("lang", "en").equals("vi")) {
+                holder.name.setText(app.convertVI(history.getName()));
+            } else
+                holder.name.setText(history.getName());
+        }
         if(history.getCategory().equals("expense")){
             holder.amount.setText("-"+history.getAmount());
         }else{
