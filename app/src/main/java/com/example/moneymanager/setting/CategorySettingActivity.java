@@ -64,6 +64,7 @@ public class CategorySettingActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
         footer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

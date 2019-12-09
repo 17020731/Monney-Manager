@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -27,6 +26,7 @@ import com.bumptech.glide.Glide;
 import com.example.moneymanager.R;
 import com.example.moneymanager.additem.ShowItemActivity;
 import com.example.moneymanager.chart.ChartActivity;
+import com.example.moneymanager.main.setting.SettingActivity;
 import com.example.moneymanager.models.History;
 import com.example.moneymanager.models.HistoryChild;
 import com.example.moneymanager.profile.ProfileActivity;
@@ -40,8 +40,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-
-import org.angmarch.views.NiceSpinner;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -240,9 +238,10 @@ public class MainActivity extends AppCompatActivity {
                         dpd.show(getSupportFragmentManager(), "DateEnd");
                     });
 
-                    NiceSpinner spinnerFormat = viewInflated.findViewById(R.id.spinnerFormat);
+                    Spinner spinnerFormat = viewInflated.findViewById(R.id.spinnerFormat);
                     List<String> dataset = new LinkedList<>(Arrays.asList("CSV", "Excel"));
-                    spinnerFormat.attachDataSource(dataset);
+                    ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, R.layout.item_spinner, R.id.textview, dataset);
+                    spinnerFormat.setAdapter(dataAdapter);
                     builder.setView(viewInflated);
 
                     builder.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss());
@@ -258,8 +257,19 @@ public class MainActivity extends AppCompatActivity {
                     View viewInflated2 = LayoutInflater.from(MainActivity.this).inflate(R.layout.dialog_rating, navigationView, false);
                     builder2.setView(viewInflated2);
 
-                    builder2.setPositiveButton(android.R.string.ok, (dialog, which) -> dialog.dismiss());
-                    builder2.setNegativeButton(android.R.string.cancel, (dialog, which) -> dialog.cancel());
+                    builder2.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            Toasty.success(getApplication(), getString(R.string.thanks_feedback), Toasty.LENGTH_SHORT, false).show();
+                        }
+                    });
+                    builder2.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
                     builder2.show();
                     break;
                 case R.id.about:
@@ -327,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     emptyLinear.setVisibility(View.INVISIBLE);
                 }
                 mAdapter = new HistoryAdapter(MainActivity.this, mListHistory);
-                recyclerView = findViewById(R.id.recycleView);
+//                recyclerView = findViewById(R.id.recycleView);
 
                 recyclerView.setAdapter(mAdapter);
             }

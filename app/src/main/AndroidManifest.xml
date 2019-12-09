@@ -9,16 +9,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".main.DetailItemActivity"/>
-        <activity android:name=".profile.ProfileActivity"/>
-        <activity android:name=".setting.AddExpenseActivity"/>
-        <activity android:name=".setting.AddIncomeActivity"/>
+
+
+        <activity android:name=".main.DetailItemActivity" />
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".setting.AddExpenseActivity" />
+        <activity android:name=".setting.AddIncomeActivity" />
         <activity android:name=".additem.ShowItemActivity" />
-        <activity android:name=".chart.ChartActivity"/>
-        <activity android:name=".setting.CategorySettingActivity"/>
-        <activity android:name=".main.MainActivity"/>
-        <activity android:name=".main.SettingActivity"/>
-        <activity android:name=".main.LanguageActivity"/>
+        <activity android:name=".chart.ChartActivity" />
+        <activity android:name=".setting.CategorySettingActivity" />
+        <activity android:name=".main.MainActivity" />
+        <activity android:name=".main.setting.SettingActivity" />
+        <activity android:name=".main.setting.LanguageActivity" />
+        <activity android:name=".main.setting.SmartReminderActivity" />
         <activity android:name=".login.LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

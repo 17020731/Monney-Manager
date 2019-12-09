@@ -15,14 +15,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.moneymanager.R;
 import com.example.moneymanager.models.Item;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-
-import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 
@@ -50,6 +47,13 @@ public class ExpenseFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         uID = mAuth.getCurrentUser().getUid();
 
+        getData();
+
+        recyclerExpense.setAdapter(mAdapter);
+        return v;
+    }
+
+    private void getData() {
         mDatabase.child("categories").child(uID).child("expense").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -68,8 +72,5 @@ public class ExpenseFragment extends Fragment {
             }
         });
 
-
-        recyclerExpense.setAdapter(mAdapter);
-        return v;
     }
 }

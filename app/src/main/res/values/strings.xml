@@ -72,10 +72,16 @@
     <string name="vietnam">Vietnamese</string>
     <string name="english">English</string>
     <string name="smart_reminder">Smart reminder</string>
-    <string name="fire_notification">Fire notification at 20:00</string>
+    <string name="fire_notification">Fire notification at</string>
+    <string name="no_reminder">No reminder</string>
     <string name="language_title">Change language</string>
     <string name="language_mes">Do you want to change your language?</string>
     <string name="rate_mes">You support will help us improve the app</string>
+    <string name="language_selected">Language was selected!!</string>
+    <string name="create_reminder">Create reminder</string>
+    <string name="select_category_error">Please select type category!</string>
+    <string name="infor_error">Please enter information!!</string>
+    <string name="thanks_feedback">Thanks for your feedback!!</string>
 
 
     <!--Chart Module-->

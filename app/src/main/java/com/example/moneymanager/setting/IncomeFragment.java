@@ -47,6 +47,13 @@ public class IncomeFragment extends Fragment {
         mAuth = FirebaseAuth.getInstance();
         uID = mAuth.getCurrentUser().getUid();
 
+        getData();
+
+        recyclerIncome.setAdapter(mAdapter);
+        return v;
+    }
+
+    private void getData() {
         mDatabase.child("categories").child(uID).child("income").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -63,7 +70,5 @@ public class IncomeFragment extends Fragment {
             }
         });
 
-        recyclerIncome.setAdapter(mAdapter);
-        return v;
     }
 }

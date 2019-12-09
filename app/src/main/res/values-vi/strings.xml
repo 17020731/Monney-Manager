@@ -77,10 +77,16 @@
     <string name="english">Tiếng Anh</string>
     <string name="smart_reminder">Lời nhắc thông minh</string>
     <string name="fire_notification">Thông báo vào 20:00</string>
+    <string name="no_reminder">Không có lời nhắc nào</string>
 
     <string name="language_title">Đổi ngôn ngữ</string>
     <string name="language_mes">Bạn chắc chắn muốn đổi ngôn ngữ chứ?</string>
     <string name="rate_mes">Đánh giá của bạn sẽ giúp phát triển ứng dụng của chúng tôi</string>
+    <string name="language_selected">Ngôn ngữ đã được chọn!!</string>
+    <string name="create_reminder">Tạo lời nhắc</string>
+    <string name="select_category_error">Vui lòng chọn loại danh mục!</string>
+    <string name="infor_error">Vui lòng nhập đầy đủ thông tin!!</string>
+    <string name="thanks_feedback">Cảm ơn về phản hồi của bạn!!</string>
 
     <!--    -->
 </resources>

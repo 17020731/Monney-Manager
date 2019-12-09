@@ -96,7 +96,7 @@
                     android:text="@string/categories"
                     android:textSize="18dp"/>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mRecycleView1"
+                    android:id="@+id/mRecycleView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>

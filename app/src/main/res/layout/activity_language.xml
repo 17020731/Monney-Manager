@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#f9feff">
     <RelativeLayout
         android:id="@+id/header"
         android:padding="10dp"
@@ -33,6 +34,7 @@
         android:paddingHorizontal="60dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
         android:background="@drawable/border_setting">
         <TextView
             android:layout_width="wrap_content"
@@ -48,32 +50,30 @@
             android:layout_height="wrap_content"
             android:src="@mipmap/check"/>
     </RelativeLayout>
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-        <RelativeLayout
-            android:id="@+id/btnVi"
-            android:paddingVertical="20dp"
-            android:paddingHorizontal="60dp"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/border_setting">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:text="@string/vietnam"
-                android:textSize="16dp"
-                android:textStyle="bold"/>
-            <ImageView
-                android:id="@+id/checkVi"
-                android:visibility="invisible"
-                android:layout_alignParentRight="true"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@mipmap/check"/>
-        </RelativeLayout>
 
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/btnVi"
+        android:paddingVertical="20dp"
+        android:paddingHorizontal="60dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:background="@drawable/border_setting">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="@string/vietnam"
+            android:textSize="16dp"
+            android:textStyle="bold" />
+
+        <ImageView
+            android:id="@+id/checkVi"
+            android:visibility="invisible"
+            android:layout_alignParentRight="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/check" />
+    </RelativeLayout>
 </LinearLayout>

@@ -4,8 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#fff"
-    tools:context=".main.SettingActivity">
+    android:background="#f9feff"
+    tools:context=".main.setting.SettingActivity">
 
     <RelativeLayout
         android:id="@+id/header"
@@ -38,11 +38,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <LinearLayout
+            android:id="@+id/btnSmart"
+            android:clickable="true"
             android:orientation="vertical"
             android:paddingVertical="30dp"
             android:paddingHorizontal="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/border_setting">
             <TextView
                 android:layout_width="match_parent"
@@ -51,6 +54,7 @@
                 android:textSize="16dp"
                 android:textStyle="bold"/>
             <TextView
+                android:id="@+id/tvRemind"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fire_notification"/>
@@ -63,6 +67,7 @@
             android:paddingHorizontal="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/border_setting">
             <TextView
                 android:layout_width="match_parent"

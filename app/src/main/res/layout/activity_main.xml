@@ -181,6 +181,7 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
                     android:backgroundTint="@android:color/transparent"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:src="@mipmap/left"/>
                 <TextView
                     android:id="@+id/tvYear"
@@ -196,6 +197,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:backgroundTint="@android:color/transparent"
                     android:src="@mipmap/right"/>
             </LinearLayout>
@@ -209,6 +211,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/jan"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -217,15 +220,16 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/feb"
                     android:textAlignment="center"
                     android:textColor="#000"/>
                 <TextView
                     android:id="@+id/month3"
-
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/mar"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -235,6 +239,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/apr"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -243,6 +248,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/may"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -251,6 +257,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/jun"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -266,6 +273,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/july"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -274,6 +282,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/aug"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -282,6 +291,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/sep"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -290,6 +300,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/oct"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -298,6 +309,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/nov"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -306,6 +318,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:foreground="?android:attr/selectableItemBackground"
                     android:text="@string/dec"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -319,7 +332,8 @@
             android:orientation="vertical"
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:foreground="?android:attr/selectableItemBackground">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

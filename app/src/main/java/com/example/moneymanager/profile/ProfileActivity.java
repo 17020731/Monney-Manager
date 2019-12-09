@@ -2,11 +2,9 @@ package com.example.moneymanager.profile;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -52,20 +50,26 @@ public class ProfileActivity extends AppCompatActivity {
         btnBack = findViewById(R.id.btnBack);
         btnLogout = findViewById(R.id.btnLogout);
 
-        Glide.with(avatar).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(avatar);
-        email.setText(mAuth.getCurrentUser().getEmail());
-        name.setText(mAuth.getCurrentUser().getDisplayName());
-        lastSignIn.setText(convertTimes(mAuth.getCurrentUser().getMetadata().getLastSignInTimestamp()));
 
+        getData();
+        logout();
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 onBackPressed();
             }
         });
+    }
 
+    private void getData() {
+        Glide.with(avatar).load(mAuth.getCurrentUser().getPhotoUrl().toString()).into(avatar);
+        email.setText(mAuth.getCurrentUser().getEmail());
+        name.setText(mAuth.getCurrentUser().getDisplayName());
+        lastSignIn.setText(convertTimes(mAuth.getCurrentUser().getMetadata().getLastSignInTimestamp()));
 
+    }
 
+    private void logout() {
         btnLogout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -85,9 +89,7 @@ public class ProfileActivity extends AppCompatActivity {
                         .show();
             }
         });
-
     }
-
     private String convertTimes (long timestamp){
         Date date = new java.util.Date(timestamp);
 

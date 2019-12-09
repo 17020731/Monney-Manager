@@ -11,6 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:background="@drawable/corner_layout">
+
         <ImageView
             android:id="@+id/btnBack"
             android:layout_centerVertical="true"
@@ -98,22 +99,11 @@
                     android:textSize="16dp"
                     android:textColor="#000"/>
                 <androidx.recyclerview.widget.RecyclerView
-                    android:id="@+id/mRecycleView1"
+                    android:id="@+id/mRecycleView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" />
             </LinearLayout>
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#fff"/>
-            <LinearLayout
-                android:layout_marginTop="20dp"
-                android:orientation="vertical"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="#fff"/>
+
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

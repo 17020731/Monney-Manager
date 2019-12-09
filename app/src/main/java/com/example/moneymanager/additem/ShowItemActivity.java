@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -65,8 +64,8 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     private TextView amount;
     private TextView tvName;
     private ImageView icon;
-    private Button num0, num1, num2, num3, num4, num5, num6, num7, num8, num9;
-    private Button minus, plus, today, dot;
+    private TextView num0, num1, num2, num3, num4, num5, num6, num7, num8, num9;
+    private TextView minus, plus, today, dot;
     private ImageButton backspace, result;
     //-------------Database---------------------//
     private DatabaseReference mDatabase;
@@ -111,7 +110,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
 
         showItems(recyclerItems, "expense");
 
-        editHistory();
+        //---------------Chọn mục thu hoặc chi----------------//
         List<String> dataset = new LinkedList<>(Arrays.asList(getString(R.string.expenses), getString(R.string.income)));
         spinner.attachDataSource(dataset);
         spinner.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
@@ -125,6 +124,9 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
             }
         });
 
+        //----------- Chỉnh sửa lịch sử ----------------//
+        editHistory();
+
         btnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -133,23 +135,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         });
     }
 
-    private void editHistory(){
-        if(getIntent().getExtras() != null) {
-            String timestamp = getIntent().getExtras().getString("timestamp");
-            String category = getIntent().getExtras().getString("category");
-            String type = getIntent().getExtras().getString("type");
-            String name = getIntent().getExtras().getString("name");
-            long _amount = getIntent().getExtras().getLong("amount");
-
-            keyboard.setVisibility(View.VISIBLE);
-            today.setText("Today\n"+convertTimestampToDate(Long.parseLong(timestamp), "dd/MM"));
-            amount.setText(String.valueOf(_amount));
-            tvName.setText(name);
-            icon.setImageResource(new App().getICons(type).first);
-            icon.setColorFilter(Color.parseColor("#ffffff"));
-            bgIcon.setBackgroundResource(new App().getICons(type).second);
-        }
-    }
     @Override
     public void onBackPressed() {
         if(keyboard.getVisibility() == View.VISIBLE){
@@ -232,31 +217,14 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         result = findViewById(R.id.result);
         result.setOnClickListener(this);
     }
-    private String convertTimestampToDate(long timestamp, String format){
-        Date date = new java.util.Date(timestamp);
 
-        SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
-        String formattedDate = sdf.format(date);
-
-        return formattedDate;
-    }
-    private long convertDateToTimestamp(String time){
-        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
-        Date date = null;
-        try {
-            date = formatter.parse(time);
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        return date.getTime();
-    }
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.tvName:
                 final AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 View viewInflated = LayoutInflater.from(this).inflate(R.layout.dialog_name, keyboard, false);
-                EditText dialog_edName = viewInflated.findViewById(R.id.dialog_edName);
+                final EditText dialog_edName = viewInflated.findViewById(R.id.dialog_edName);
                 builder.setView(viewInflated);
                 builder.setPositiveButton(getString(R.string.yes), new DialogInterface.OnClickListener() {
                     @Override
@@ -463,33 +431,39 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
                     }
                     else if(Long.parseLong(amount.getText().toString().trim()) != 0) {
 
-                    long timestamp = convertDateToTimestamp(DATE+" "+TIME);
-                    String month_year = convertTimestampToDate(timestamp, "MM-yyyy");
-                    String type = (String) icon.getTag(R.string.key);
-                    String category;
-                    if(spinner.getText().toString().toLowerCase().equals("chi")){
-                        category = "expense";
-                    } else
-                        category = "income";
+                        long timestamp = convertDateToTimestamp(DATE + " " + TIME);
+                        String month_year = convertTimestampToDate(timestamp, "MM-yyyy");
+                        String type = (String) icon.getTag(R.string.key);
+                        String category;
+                        if (spinner.getText().toString().toLowerCase().equals("chi") || spinner.getText().toString().toLowerCase().equals("expenses")) {
+                            category = "expense";
+                        } else
+                            category = "income";
 
+                        if (type == null) {
+                            Toasty.error(this, getString(R.string.select_category_error), Toasty.LENGTH_SHORT, false).show();
+                            break;
+                        }
+                        String name = tvName.getText().toString().trim();
+                        String capName = null;
+                        if (!name.isEmpty()) {
+                            capName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                        } else {
+                            capName = type.substring(0, 1).toUpperCase() + type.substring(1);
+                        }
 
-                    String name = tvName.getText().toString().trim();
-                    String capName = null;
-                    if(!name.isEmpty()) {
-                        capName = name.substring(0, 1).toUpperCase() + name.substring(1);
+                        long _amount = Long.parseLong(amount.getText().toString().trim());
+                        HistoryChild his = new HistoryChild(category, type, capName, _amount);
+                        mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).setValue(his);
+                        mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).child("percent").setValue(null);
+                        Toasty.success(this, getString(R.string.add_success), Toasty.LENGTH_SHORT, false).show();
+
+                        Intent intent = new Intent(ShowItemActivity.this, MainActivity.class);
+                        startActivity(intent);
                     } else {
-                        capName = type.substring(0, 1).toUpperCase() + type.substring(1);
+                        Toasty.error(this, getString(R.string.infor_error), Toasty.LENGTH_SHORT, false).show();
+                        break;
                     }
-
-                    long _amount = Long.parseLong(amount.getText().toString().trim());
-                    HistoryChild his = new HistoryChild(category, type, capName, _amount);
-                    mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).setValue(his);
-                    mDatabase.child("histories").child(uID).child(month_year).child(String.valueOf(timestamp)).child("percent").setValue(null);
-                    Toasty.success(this, getString(R.string.add_success), Toasty.LENGTH_SHORT, false).show();
-
-                    Intent intent = new Intent(ShowItemActivity.this, MainActivity.class);
-                    startActivity(intent);
-                }
                 } catch (NumberFormatException e){
                     Toasty.error(this, getString(R.string.error_format), Toasty.LENGTH_SHORT, false).show();
                 }
@@ -511,6 +485,56 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
             return String.valueOf((long)(num_1-num_2));
         }
     }
+
+    //-------------------------------------------------//
+    private void editHistory() {
+        if (getIntent().getExtras() != null) {
+            String timestamp = getIntent().getExtras().getString("timestamp");
+            String category = getIntent().getExtras().getString("category");
+            String type = getIntent().getExtras().getString("type");
+            String name = getIntent().getExtras().getString("name");
+            long _amount = getIntent().getExtras().getLong("amount");
+
+            DATE = convertTimestampToDate(Long.parseLong(timestamp), "dd-MM-yyyy");
+            TIME = convertTimestampToDate(Long.parseLong(timestamp), "hh:mm:ss");
+
+            if (category.toLowerCase().equals("chi") || category.toLowerCase().equals("expense")) {
+                spinner.setSelectedIndex(0);
+            } else {
+                spinner.setSelectedIndex(1);
+            }
+            keyboard.setVisibility(View.VISIBLE);
+            today.setText("Today\n" + convertTimestampToDate(Long.parseLong(timestamp), "dd/MM"));
+            amount.setText(String.valueOf(_amount));
+            tvName.setText(name);
+            icon.setTag(R.string.key, type);
+            icon.setImageResource(new App().getICons(type).first);
+            icon.setColorFilter(Color.parseColor("#ffffff"));
+            bgIcon.setBackgroundResource(new App().getICons(type).second);
+        }
+    }
+
+    //-----------------------------------------------//
+    private String convertTimestampToDate(long timestamp, String format) {
+        Date date = new java.util.Date(timestamp);
+
+        SimpleDateFormat sdf = new java.text.SimpleDateFormat(format);
+        String formattedDate = sdf.format(date);
+
+        return formattedDate;
+    }
+
+    private long convertDateToTimestamp(String time) {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy hh:mm:ss");
+        Date date = null;
+        try {
+            date = formatter.parse(time);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return date.getTime();
+    }
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;

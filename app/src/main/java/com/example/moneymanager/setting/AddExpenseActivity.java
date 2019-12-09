@@ -35,7 +35,7 @@ import es.dmoral.toasty.Toasty;
 public class AddExpenseActivity extends AppCompatActivity {
     private ImageView btnBack;
     private TextView title1;
-    private RecyclerView mRecyclerView1;
+    private RecyclerView mRecyclerView;
 
     private LinearLayout bgIcon;
     private ImageView icon, btnSubmit;
@@ -75,10 +75,13 @@ public class AddExpenseActivity extends AppCompatActivity {
 
         title1 = findViewById(R.id.title1);
 
-        mRecyclerView1 = findViewById(R.id.mRecycleView1);
+        mRecyclerView = findViewById(R.id.mRecycleView);
 
-        showItemsByTopic(R.string.categories, title1, mRecyclerView1, getListExpense());
+        showItemsByTopic(R.string.categories, title1, mRecyclerView, getListExpense());
+        setUpSubmitButton();
+    }
 
+    private void setUpSubmitButton() {
         btnSubmit.setOnClickListener(v -> {
             String name = edName.getText().toString().trim();
             if(!name.isEmpty()){
@@ -108,7 +111,6 @@ public class AddExpenseActivity extends AppCompatActivity {
             }
         });
     }
-
     private void showItemsByTopic(int topic, TextView title, RecyclerView recyclerView, ArrayList<Item> mListItem){
         title.setText(topic);
         showItems(recyclerView, mListItem);

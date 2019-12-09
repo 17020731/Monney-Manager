@@ -1,4 +1,4 @@
-package com.example.moneymanager.main;
+package com.example.moneymanager.main.setting;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,9 +17,11 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.login.LoginActivity;
+import com.example.moneymanager.main.MainActivity;
 
 import java.util.Locale;
+
+import es.dmoral.toasty.Toasty;
 
 public class LanguageActivity  extends AppCompatActivity {
 
@@ -52,9 +54,18 @@ public class LanguageActivity  extends AppCompatActivity {
             checkEn.setVisibility(View.VISIBLE);
             checkVi.setVisibility(View.INVISIBLE);
         }
-        btnBack.setOnClickListener(e -> onBackPressed());
+        btnBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onBackPressed();
+            }
+        });
 
         btnVi.setOnClickListener(e -> {
+            if (checkVi.getVisibility() == View.VISIBLE) {
+                Toasty.normal(this, getString(R.string.language_selected), Toasty.LENGTH_SHORT).show();
+                return;
+            }
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.language_title))
                     .setMessage(getString(R.string.language_mes))
@@ -78,6 +89,10 @@ public class LanguageActivity  extends AppCompatActivity {
         });
 
         btnEn.setOnClickListener( e -> {
+            if (checkEn.getVisibility() == View.VISIBLE) {
+                Toasty.normal(this, getString(R.string.language_selected), Toasty.LENGTH_SHORT).show();
+                return;
+            }
             new AlertDialog.Builder(this)
                     .setTitle(getString(R.string.language_title))
                     .setMessage(getString(R.string.language_mes))

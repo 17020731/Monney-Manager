@@ -11,9 +11,9 @@ public class App {
 
     private String arrType [] = {"food", "bills", "transportation", "home", "car", "entertainment", "shopping", "clothing", "insurance", "tax",
     "telephone", "cigarette", "health", "sport", "baby", "pet", "beauty", "hamburger", "vegetables", "snacks", "gift", "social", "travel", "education",
-    "salary", "awards", "grants", "sale", "rental", "refunds", "coupons", "lottery", "dividends", "investments", "potato", "noodle", "pizza",
-    "bread", "fish", "apple", "ice_cream", "cake", "tea", "glass", "soda", "petrol", "gas_station", "car_wash", "electric_car", "highway", "truck",
-    "bike", "motorbike", "plane", "boat", "train", "cart", "dress", "underwear", "shoes_man", "shoes_woman", "glasses"};
+            "salary", "awards", "grants", "sale", "rental", "refunds", "coupons", "lottery", "dividends", "investments", "french fries", "noodle", "pizza",
+            "bread", "fish", "fruit", "ice-cream", "cake", "tea", "wine", "soda", "petrol", "gas station", "car wash", "electric car", "highway", "truck",
+            "bike", "motorbike", "plane", "boat", "train", "cart", "dress", "underwear", "man's shoes", "woman's shoes", "glasses"};
 
     public App(){
         icons = new HashMap<>();
@@ -63,22 +63,22 @@ public class App {
 
         //---------------Other-----------------//
         //---------------------Food------------//
-        icons.put("potato", new Pair<Integer, Integer>(R.mipmap.potato, R.drawable.circle_image_pink));
+        icons.put("french fries", new Pair<Integer, Integer>(R.mipmap.potato, R.drawable.circle_image_pink));
         icons.put("noodle", new Pair<Integer, Integer>(R.mipmap.noodle, R.drawable.circle_image_blue_1));
         icons.put("pizza", new Pair<Integer, Integer>(R.mipmap.pizza, R.drawable.circle_image_green_2));
         icons.put("bread", new Pair<Integer, Integer>(R.mipmap.bread, R.drawable.circle_image_orange_2));
         icons.put("fish", new Pair<Integer, Integer>(R.mipmap.fish, R.drawable.circle_image_blue_1));
-        icons.put("apple", new Pair<Integer, Integer>(R.mipmap.apple, R.drawable.circle_image_green_1));
-        icons.put("ice_cream", new Pair<Integer, Integer>(R.mipmap.ice_cream, R.drawable.circle_image_purple));
+        icons.put("fruit", new Pair<Integer, Integer>(R.mipmap.apple, R.drawable.circle_image_green_1));
+        icons.put("ice-cream", new Pair<Integer, Integer>(R.mipmap.ice_cream, R.drawable.circle_image_purple));
         icons.put("cake", new Pair<Integer, Integer>(R.mipmap.cake, R.drawable.circle_image_orange_1));
         icons.put("tea", new Pair<Integer, Integer>(R.mipmap.tea, R.drawable.circle_image_blue_2));
-        icons.put("glass", new Pair<Integer, Integer>(R.mipmap.glass, R.drawable.circle_image_purple));
+        icons.put("wine", new Pair<Integer, Integer>(R.mipmap.glass, R.drawable.circle_image_purple));
         icons.put("soda", new Pair<Integer, Integer>(R.mipmap.soda, R.drawable.circle_image_blue_2));
         //----------------Transportation-------------//
         icons.put("petrol", new Pair<Integer, Integer>(R.mipmap.petrol, R.drawable.circle_image_orange_1));
-        icons.put("gas_station", new Pair<Integer, Integer>(R.mipmap.gas_station, R.drawable.circle_image_green_1));
-        icons.put("car_wash", new Pair<Integer, Integer>(R.mipmap.car_wash, R.drawable.circle_image_orange_2));
-        icons.put("electric_car", new Pair<Integer, Integer>(R.mipmap.electric_car, R.drawable.circle_image_blue_2));
+        icons.put("gas station", new Pair<Integer, Integer>(R.mipmap.gas_station, R.drawable.circle_image_green_1));
+        icons.put("car wash", new Pair<Integer, Integer>(R.mipmap.car_wash, R.drawable.circle_image_orange_2));
+        icons.put("electric car", new Pair<Integer, Integer>(R.mipmap.electric_car, R.drawable.circle_image_blue_2));
         icons.put("highway", new Pair<Integer, Integer>(R.mipmap.highway, R.drawable.circle_image_green_1));
         icons.put("truck", new Pair<Integer, Integer>(R.mipmap.truck, R.drawable.circle_image_orange_1));
         icons.put("bike", new Pair<Integer, Integer>(R.mipmap.bike, R.drawable.circle_image_green_2));
@@ -90,8 +90,8 @@ public class App {
         icons.put("cart", new Pair<Integer, Integer>(R.mipmap.cart, R.drawable.circle_image_orange_1));
         icons.put("dress", new Pair<Integer, Integer>(R.mipmap.dress, R.drawable.circle_image_pink));
         icons.put("underwear", new Pair<Integer, Integer>(R.mipmap.underwear, R.drawable.circle_image_blue_2));
-        icons.put("shoes_man", new Pair<Integer, Integer>(R.mipmap.shoes_man, R.drawable.circle_image_green_1));
-        icons.put("shoes_woman", new Pair<Integer, Integer>(R.mipmap.shoes_woman, R.drawable.circle_image_pink));
+        icons.put("man's shoes", new Pair<Integer, Integer>(R.mipmap.shoes_man, R.drawable.circle_image_green_1));
+        icons.put("woman's shoes", new Pair<Integer, Integer>(R.mipmap.shoes_woman, R.drawable.circle_image_pink));
         icons.put("glasses", new Pair<Integer, Integer>(R.mipmap.glasses, R.drawable.circle_image_blue_1));
     }
     public String convertVI(String category){
@@ -167,7 +167,7 @@ public class App {
                 cate = "Đi lại";
                 break;
             case "Education":
-                cate = "Giao dục";
+                cate = "Giáo dục";
                 break;
             case "Salary":
                 cate = "Lương";
@@ -198,6 +198,94 @@ public class App {
                 break;
             case "Investments":
                 cate = "Đầu tư";
+                break;
+            case "French fries":
+                cate = "Khoai tây chiên";
+                break;
+            case "Noodle":
+                cate = "Hủ tíu";
+                break;
+            case "Pizza":
+                cate = "Bánh pizza";
+                break;
+            case "Fruit":
+                cate = "Hoa quả";
+                break;
+            case "Ice-cream":
+                cate = "Kem";
+                break;
+            case "Cake":
+                cate = "Bánh kem";
+                break;
+            case "Tea":
+                cate = "Trà";
+                break;
+            case "Wine":
+                cate = "Rượu";
+                break;
+            case "Soda":
+                cate = "Nước soda";
+                break;
+            case "Petrol":
+                cate = "Xăng dầu";
+                break;
+            case "Gas station":
+                cate = "Gas";
+                break;
+            case "Car wash":
+                cate = "Rửa xe";
+                break;
+
+            case "Electric car":
+                cate = "Sạc xe";
+                break;
+
+            case "Highway":
+                cate = "Phí cao tốc";
+                break;
+
+            case "Truck":
+                cate = "Vận tải";
+                break;
+
+            case "Bike":
+                cate = "Xe đạp";
+                break;
+
+            case "Motorbike":
+                cate = "Xe máy";
+                break;
+
+            case "Boat":
+                cate = "Máy bay";
+                break;
+
+            case "Train":
+                cate = "Tàu";
+                break;
+
+            case "Cart":
+                cate = "Giỏ hàng";
+                break;
+
+            case "Dress":
+                cate = "Váy";
+                break;
+
+            case "Underwear":
+                cate = "Nội y";
+                break;
+
+            case "Man's shoes":
+                cate = "Giày nam";
+                break;
+
+            case "Woman's shoes":
+                cate = "Giày nữ";
+                break;
+
+            case "Glasses":
+                cate = "Kính thời trang";
                 break;
             default:
                 cate = category;

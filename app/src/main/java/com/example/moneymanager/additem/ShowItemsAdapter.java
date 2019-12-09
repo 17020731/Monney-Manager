@@ -15,10 +15,10 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.moneymanager.R;
-import com.example.moneymanager.setting.AddExpenseActivity;
-import com.example.moneymanager.setting.AddIncomeActivity;
 import com.example.moneymanager.models.App;
 import com.example.moneymanager.models.Item;
+import com.example.moneymanager.setting.AddExpenseActivity;
+import com.example.moneymanager.setting.AddIncomeActivity;
 
 import java.util.ArrayList;
 
@@ -92,7 +92,6 @@ public class ShowItemsAdapter extends RecyclerView.Adapter<ShowItemsAdapter.View
             holder.name.setText(app.convertVI(an_item.getName()));
         } else
             holder.name.setText(an_item.getName());
-//        holder.name.setText(an_item.getName());
     }
 
     @Override

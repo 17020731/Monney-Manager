@@ -38,9 +38,9 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(@NonNull DataAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final DataAdapter.ViewHolder holder, int position) {
         app = new App();
-        HistoryChild data = mListData.get(position);
+        final HistoryChild data = mListData.get(position);
         if(!data.getName().isEmpty()) {
             holder.name.setText(data.getName());
         }else {
@@ -52,7 +52,7 @@ public class DataAdapter extends RecyclerView.Adapter<DataAdapter.ViewHolder> {
         holder.icon.setImageResource(app.getICons(data.getType()).first);
         holder.icon.setColorFilter(Color.parseColor("#ffffff"));
 
-        ViewGroup.LayoutParams params = holder.progress_bar.getLayoutParams();
+        final ViewGroup.LayoutParams params = holder.progress_bar.getLayoutParams();
 
         ViewTreeObserver vto = holder.progress_bar.getViewTreeObserver();
         vto.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {

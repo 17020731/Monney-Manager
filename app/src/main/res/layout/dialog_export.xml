@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -72,13 +71,13 @@
             android:layout_height="wrap_content"
             android:text="@string/format"
             android:textSize="12dp"/>
-        <org.angmarch.views.NiceSpinner
+
+        <Spinner
             android:id="@+id/spinnerFormat"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:popupTextAlignment="start"
-            android:text="CSV"
             android:textColor="#000"
+            android:gravity="left"
             android:backgroundTint="@android:color/transparent"/>
         <View
             android:layout_width="match_parent"
