@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,7 +26,7 @@ public class CategorySettingActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private ArrayList<Fragment>mListFragment;
 
-    private ImageView btnBack;
+    private RelativeLayout btnBack;
     private LinearLayout footer;
 
     private DatabaseReference mDatabase;

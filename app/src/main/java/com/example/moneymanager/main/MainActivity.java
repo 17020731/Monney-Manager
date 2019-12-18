@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -56,7 +57,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView name;
     private LinearLayout btnIncome, btnExpense;
     private FloatingActionButton btnAdd;
-    private ImageView btnMenu, btnReload;
+    private RelativeLayout btnMenu, btnReload;
 
     private DrawerLayout drawer;
     private NavigationView navigationView;
@@ -275,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.about:
                     new AlertDialog.Builder(MainActivity.this)
                             .setTitle("Money Manager")
-                            .setMessage(getString(R.string.version)+": 1.0.0\n"+getString(R.string.version_code)+": 9")
+                            .setMessage(getString(R.string.version)+": 1.1.3\n"+getString(R.string.version_code)+": 10")
                             .setPositiveButton("OK", null)
                             .show();
                     break;

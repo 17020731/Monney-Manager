@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,7 +20,7 @@ import java.util.ArrayList;
 
 public class SmartReminderActivity extends AppCompatActivity {
 
-    private ImageView btnBack;
+    private RelativeLayout btnBack;
     private RecyclerView recycleSmart;
     private LinearLayout btnAddSmart;
     private ArrayList<SmartReminder> mListSmart;

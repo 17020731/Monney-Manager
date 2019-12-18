@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -23,7 +24,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 public class SettingActivity extends AppCompatActivity {
-    private ImageView btnBack;
+    private RelativeLayout btnBack;
     private LinearLayout btnSmart, btnLang;
     private TextView tvRemind, tvLang;
     private SharedPreferences sp;

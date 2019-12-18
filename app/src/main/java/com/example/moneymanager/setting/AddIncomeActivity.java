@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,11 +35,11 @@ import java.util.List;
 import es.dmoral.toasty.Toasty;
 
 public class AddIncomeActivity extends AppCompatActivity {
-    private ImageView btnBack;
+    private RelativeLayout btnBack, btnSubmit;
     private TextView title1;
     private RecyclerView mRecyclerView;
     private LinearLayout bgIcon;
-    private ImageView icon, btnSubmit;
+    private ImageView icon;
     private EditText edName;
     private App app;
     private DatabaseReference mDatabase;

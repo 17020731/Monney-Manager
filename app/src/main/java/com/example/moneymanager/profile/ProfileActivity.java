@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -31,7 +32,7 @@ public class ProfileActivity extends AppCompatActivity {
 
     private CircleImageView avatar;
     private TextView email, name, lastSignIn;
-    private ImageView btnBack, btnLogout;
+    private RelativeLayout btnBack, btnLogout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

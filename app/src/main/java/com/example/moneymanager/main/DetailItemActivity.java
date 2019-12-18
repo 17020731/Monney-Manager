@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
@@ -27,7 +28,7 @@ import java.util.Date;
 
 public class DetailItemActivity extends AppCompatActivity {
 
-    private ImageView btnBack, btnDel;
+    private RelativeLayout btnBack, btnDel;
     private FloatingActionButton btnEdit;
 
     private LinearLayout bgIcon;

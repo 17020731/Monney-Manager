@@ -16,20 +16,25 @@
         <!-- Header-->
         <RelativeLayout
             android:id="@+id/header"
-            android:padding="10dp"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:background="@drawable/corner_layout">
-            <ImageView
+            android:background="#fff">
+            <RelativeLayout
                 android:id="@+id/btnMenu"
-                android:layout_centerVertical="true"
-                android:layout_width="25dp"
-                android:layout_height="25dp"
-                android:src="@mipmap/menu"/>
+                android:padding="10dp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ripple">
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/menu"/>
+            </RelativeLayout>
             <LinearLayout
                 android:id="@+id/btnMonthPicker"
                 android:layout_centerVertical="true"
-                android:layout_marginLeft="30dp"
+                android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/btnMenu"
                 android:gravity="center"
                 android:orientation="horizontal"
@@ -49,14 +54,25 @@
                     android:layout_height="wrap_content"
                     android:src="@mipmap/down"/>
             </LinearLayout>
-            <ImageView
-                android:layout_marginRight="15dp"
-                android:layout_centerVertical="true"
-                android:layout_alignParentRight="true"
+
+            <RelativeLayout
                 android:id="@+id/btnReload"
-                android:layout_width="20dp"
-                android:layout_height="20dp"
-                android:src="@mipmap/reload"/>
+                android:padding="10dp"
+                android:layout_alignParentRight="true"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@drawable/ripple">
+                <ImageView
+                    android:layout_centerInParent="true"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
+                    android:src="@mipmap/reload"/>
+            </RelativeLayout>
+            <View
+                android:layout_alignParentBottom="true"
+                android:layout_width="match_parent"
+                android:layout_height="1.5dp"
+                android:background="#ccc"/>
         </RelativeLayout>
 
         <ScrollView
@@ -177,11 +193,11 @@
                 android:weightSum="10">
                 <ImageButton
                     android:id="@+id/btnBefore"
+                    android:padding="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:backgroundTint="@android:color/transparent"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:src="@mipmap/left"/>
                 <TextView
                     android:id="@+id/tvYear"
@@ -194,11 +210,11 @@
                     android:textColor="#000"/>
                 <ImageButton
                     android:id="@+id/btnAfter"
+                    android:padding="10dp"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="4"
-                    android:foreground="?android:attr/selectableItemBackground"
-                    android:backgroundTint="@android:color/transparent"
+                    android:background="@drawable/ripple"
                     android:src="@mipmap/right"/>
             </LinearLayout>
             <LinearLayout
@@ -211,7 +227,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/jan"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -220,7 +236,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/feb"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -229,7 +245,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/mar"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -239,7 +255,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/apr"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -248,7 +264,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/may"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -257,7 +273,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/jun"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -273,7 +289,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/july"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -282,7 +298,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/aug"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -291,7 +307,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/sep"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -300,7 +316,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/oct"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -309,7 +325,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/nov"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -318,7 +334,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:foreground="?android:attr/selectableItemBackground"
+                    android:background="@drawable/ripple"
                     android:text="@string/dec"
                     android:textAlignment="center"
                     android:textColor="#000"/>
@@ -333,7 +349,7 @@
             android:layout_centerInParent="true"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground">
+            android:background="@drawable/ripple">
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

@@ -25,8 +25,8 @@ import es.dmoral.toasty.Toasty;
 
 public class LanguageActivity  extends AppCompatActivity {
 
-    private RelativeLayout btnVi, btnEn;
-    private ImageView btnBack, checkVi, checkEn;
+    private RelativeLayout btnBack, btnVi, btnEn;
+    private ImageView checkVi, checkEn;
 
     private SharedPreferences sp;
     private SharedPreferences.Editor editor;

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -53,7 +54,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         DatePickerDialog.OnDateSetListener, TimePickerDialog.OnTimeSetListener{
 
     //------------Variable Header----------//
-    private ImageView btnBack;
+    private RelativeLayout btnBack;
     private NiceSpinner spinner;
     //------------Variable Body----------//
     private RecyclerView recyclerItems;

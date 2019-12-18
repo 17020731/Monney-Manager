@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -40,7 +41,7 @@ public class ChartActivity extends AppCompatActivity {
     private DataAdapter mSendAdapter;
     private ArrayList<HistoryChild>mListData;
 
-    private ImageView btnBack;
+    private RelativeLayout btnBack;
     private LinearLayout btnMonthPicker;
     private TextView tvMonthPicker;
 

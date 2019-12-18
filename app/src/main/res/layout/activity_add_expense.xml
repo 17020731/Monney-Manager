@@ -7,20 +7,24 @@
 
     <RelativeLayout
         android:id="@+id/header"
-        android:padding="10dp"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:background="@drawable/corner_layout">
+        android:layout_height="50dp">
 
-        <ImageView
+        <RelativeLayout
             android:id="@+id/btnBack"
-            android:layout_centerVertical="true"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:src="@mipmap/back"/>
+            android:padding="10dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ripple">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@mipmap/back"/>
+        </RelativeLayout>
+
         <TextView
-            android:id="@+id/btnMonPicker"
-            android:layout_marginLeft="30dp"
+            android:layout_marginLeft="10dp"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@id/btnBack"
             android:layout_width="wrap_content"
@@ -29,15 +33,26 @@
             android:textSize="16dp"
             android:textStyle="bold"
             android:textColor="#000"/>
-        <ImageView
+        <RelativeLayout
             android:id="@+id/btnSubmit"
-            android:layout_centerVertical="true"
+            android:padding="10dp"
             android:layout_alignParentRight="true"
-            android:layout_marginRight="10dp"
-            android:layout_width="25dp"
-            android:layout_height="25dp"
-            android:src="@mipmap/check"/>
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:background="@drawable/ripple">
+            <ImageView
+                android:layout_centerInParent="true"
+                android:layout_width="25dp"
+                android:layout_height="25dp"
+                android:src="@mipmap/check"/>
+        </RelativeLayout>
+        <View
+            android:layout_alignParentBottom="true"
+            android:layout_width="match_parent"
+            android:layout_height="1.5dp"
+            android:background="#ccc"/>
     </RelativeLayout>
+
     <LinearLayout
         android:paddingHorizontal="15dp"
         android:paddingVertical="5dp"
@@ -47,7 +62,8 @@
         android:clickable="true"
         android:focusable="true"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:background="#fff">
         <LinearLayout
             android:id="@+id/bgIcon"
             android:padding="5dp"
