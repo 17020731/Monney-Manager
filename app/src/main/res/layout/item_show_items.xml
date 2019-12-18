@@ -4,8 +4,7 @@
     android:layout_width="100dp"
     android:layout_height="100dp"
     android:gravity="center"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:background="#fff">
+    android:background="@drawable/ripple">
     <LinearLayout
         android:id="@+id/item"
         android:orientation="vertical"

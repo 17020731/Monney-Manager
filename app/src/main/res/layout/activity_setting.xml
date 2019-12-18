@@ -37,6 +37,7 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <LinearLayout
             android:id="@+id/btnSmart"
             android:clickable="true"
@@ -45,7 +46,6 @@
             android:paddingHorizontal="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/border_setting">
             <TextView
                 android:layout_width="match_parent"
@@ -58,7 +58,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/fire_notification"/>
-        </LinearLayout>
+            </LinearLayout>
         <LinearLayout
             android:id="@+id/btnLang"
             android:layout_marginTop="2dp"
@@ -67,7 +67,6 @@
             android:paddingHorizontal="60dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:foreground="?android:attr/selectableItemBackground"
             android:background="@drawable/border_setting">
             <TextView
                 android:layout_width="match_parent"

@@ -53,7 +53,6 @@ public class DetailItemActivity extends AppCompatActivity {
         uID = mAuth.getCurrentUser().getUid();
 
         sp = getSharedPreferences("language", MODE_PRIVATE);
-        String lang = sp.getString("lang", "en");
 
         btnBack = findViewById(R.id.btnBack);
         btnDel = findViewById(R.id.btnDel);

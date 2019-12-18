@@ -424,7 +424,6 @@ public class MainActivity extends AppCompatActivity {
         } else
             return "10";
     }
-
     private int convertMonthEntoVi(String month){
         if(month.equals("Jan")){
             return R.string.jan;

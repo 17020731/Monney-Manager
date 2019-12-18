@@ -473,19 +473,6 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
-
-    private String caculateNumber(String expression){
-        if(expression.contains("+")){
-            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("+"))));
-            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("+")+1)));
-            return String.valueOf((long)(num_1+num_2));
-        } else{
-            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("-"))));
-            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("-")+1)));
-            return String.valueOf((long)(num_1-num_2));
-        }
-    }
-
     //-------------------------------------------------//
     private void editHistory() {
         if (getIntent().getExtras() != null) {
@@ -515,6 +502,18 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     }
 
     //-----------------------------------------------//
+    private String caculateNumber(String expression){
+        if(expression.contains("+")){
+            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("+"))));
+            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("+")+1)));
+            return String.valueOf((long)(num_1+num_2));
+        } else{
+            double num_1 = Double.parseDouble((expression.substring(0, expression.indexOf("-"))));
+            double num_2 = Double.parseDouble((expression.substring(expression.indexOf("-")+1)));
+            return String.valueOf((long)(num_1-num_2));
+        }
+    }
+
     private String convertTimestampToDate(long timestamp, String format) {
         Date date = new java.util.Date(timestamp);
 
@@ -535,6 +534,7 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
         return date.getTime();
     }
 
+    //---------------------------------------------//
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         DATE = dayOfMonth+"-"+(monthOfYear+1)+"-"+year;
@@ -559,6 +559,5 @@ public class ShowItemActivity extends AppCompatActivity implements View.OnClickL
     public void onTimeSet(TimePickerDialog view, int hourOfDay, int minute, int second) {
         TIME = hourOfDay+":"+minute+":"+second;
     }
-
 
 }

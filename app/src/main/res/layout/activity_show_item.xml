@@ -198,7 +198,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="4"
                         android:textSize="20dp" />
@@ -210,7 +209,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="5"
                         android:textSize="20dp"/>
@@ -222,7 +220,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="6"
                         android:textSize="20dp"/>
@@ -234,7 +231,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="+"
                         android:textSize="20dp"/>
@@ -253,7 +249,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="1"
                         android:textSize="20dp" />
@@ -265,7 +260,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="2"
                         android:textSize="20dp"/>
@@ -277,7 +271,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="3"
                         android:textSize="20dp"/>
@@ -289,7 +282,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="-"
                         android:textSize="20dp"/>
@@ -308,7 +300,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="."
                         android:textSize="20dp" />
@@ -320,7 +311,6 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:textColor="#000"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:text="0"
                         android:textSize="20dp"/>
@@ -329,7 +319,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="@drawable/border_keyboard"
                         android:src="@drawable/backspace" />
                     <ImageButton
@@ -337,7 +326,6 @@
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
                         android:layout_weight="1"
-                        android:foreground="?android:attr/selectableItemBackground"
                         android:background="#F1DA06"
                         android:src="@drawable/result"/>
                 </LinearLayout>

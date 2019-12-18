@@ -34,4 +34,5 @@
         android:text="Awards"
         android:textSize="14dp"
         android:textColor="#000"/>
+
 </RelativeLayout>
